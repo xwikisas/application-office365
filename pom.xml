@@ -24,20 +24,32 @@
   <parent>
     <groupId>org.xwiki.commons</groupId>
     <artifactId>xwiki-commons-pom</artifactId>
-    <version>5.4.4</version>
+    <version>9.2</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
-  <artifactId>application-office365-application</artifactId>
+  <artifactId>application-office365</artifactId>
   <version>1.0</version>
   <packaging>xar</packaging>
-  <name>XWiki Application - Office365 Application</name>
+  <name>Office365 Application</name>
   <description>Integration of Office365 in XWiki</description>
   <developers>
     <developer>
       <id>ldubost</id>
-      <name>ldubost</name>
+      <name>Ludovic Dubost</name>
     </developer>
   </developers>
+  <properties>
+   <!-- Don't run CLIRR here since there's no Java code. -->
+   <xwiki.clirr.skip>true</xwiki.clirr.skip>
+   <xwiki.extension.category>application</xwiki.extension.category>
+  </properties>
+ <dependencies>
+   <dependency>
+     <groupId>com.microsoft.azure</groupId>
+     <artifactId>adal4j</artifactId>
+     <version>1.2.0</version>
+   </dependency>
+ </dependencies>
  <build>
     <!-- Needed to add support for the XAR packaging -->
     <extensions>
