@@ -41,6 +41,8 @@
   <properties>
    <!-- Don't run CLIRR here since there's no Java code. -->
    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+   <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
+   <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
    <xwiki.extension.category>application</xwiki.extension.category>
   </properties>
  <dependencies>
