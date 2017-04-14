@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc version="1.3" reference="Office365.Groovy" locale="">
+  <web>Office365</web>
+  <name>Groovy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1483225200000</creationDate>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1483225200000</date>
+  <contentUpdateDate>1483225200000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Office 365 Groovy Code</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>import com.microsoft.aad.adal4j.*;
+import java.util.concurrent.*
+import com.nimbusds.openid.connect.sdk.*;
+import org.apache.http.*;
+import org.apache.http.auth.*;
+import org.apache.http.client.*;
+import org.apache.http.client.methods.*;
+import org.apache.http.client.params.*;
+import org.apache.http.impl.client.*;
+import org.apache.http.util.*;
+import org.apache.http.params.*;
+import org.apache.http.message.*;
+import org.apache.http.client.entity.*;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.client.utils.*;
+import com.google.gson.Gson;
+
+public class AzureAuth {
+
+ def authDomain = "login.windows.net"
+ def apiVersion = "1.0"
+
+ def tenant;
+ def azureClientID;
+ def azureSecret;
+
+ def authority = "https://${authDomain}"
+
+ def CONFIG_PAGE = "Office365.Office365Config";
+ def CONFIG_CLASS = "Office365.Office365ConfigClass";
+
+ def AZURE_DATA_FIELD = "azuredata"
+ def AZURE_PARAM_ERROR = "error";
+ def AZURE_PARAM_ERROR_DESCRIPTION = "error_description";
+ def AZURE_PARAM_ERROR_URI = "error_uri";
+ def AZURE_PARAM_ID_TOKEN = "id_token";
+ def AZURE_PARAM_CODE = "code";
+ def AUTH_PAGE = "Office365.OAuth";
+ def REDIRECT_URI = "";
+
+
+ public static storedStates = new HashMap();
+
+ def debugStr = ""
+
+ def xwiki;
+ def xcontext;
+ def doc;
+ def request;
+ def response;
+
+ def getConfig(name) {
+  def config = "";
+  def configdoc = xwiki.getDocument(CONFIG_PAGE);
+  configdoc.use(CONFIG_CLASS);
+  def obj = configdoc.getDocument().getObject(CONFIG_CLASS);
+  if (obj!=null) {
+   config = (obj.get(name)!=null) ? obj.get(name).getValue() : "";
+  }
+  if (config=="") {
+   configdoc = xwiki.getDocument("xwiki:" + CONFIG_PAGE);
+   configdoc.use(CONFIG_CLASS);
+   obj = configdoc.getDocument().getObject(CONFIG_CLASS);
+   if (obj!=null) {
+     config = (obj.get(name)!=null) ? obj.get(name).getValue() : "";
+   }
+  }
+  debug("Found config: ${name} -&gt; ${config}");
+  return config;
+ }
+
+ def debug(msg) {
+  debugStr += msg + "\n";
+ }
+
+ def showDebug() {
+  if (request.debug)
+    return "== DEBUG ==\n\n {{{ ${debugStr} }}}"
+  else
+    return "";
+ }
+
+ def setXWiki(xwiki, xcontext, doc) {
+   this.xwiki = xwiki;
+   this.xcontext = xcontext;
+   this.request = xcontext.request;
+   this.response = xcontext.response;
+   this.doc = doc;
+
+   this.tenant = getConfig("tenant");
+   this.azureClientID = getConfig("clientid");
+   this.azureSecret = getConfig("secret");
+
+   this.REDIRECT_URI = xwiki.getDocument(AUTH_PAGE).getExternalURL("view");
+ }
+
+ def isAuthenticated(request) {
+  def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
+  if (azureData==null || azureData.authResult==null) 
+    return false
+  else 
+    return true;
+ }
+
+ def getAuthentication(request) {
+  def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
+  if (azureData==null || azureData.authResult==null) 
+    return null
+  else
+    return azureData.authResult;
+ }
+
+ def clearAuthentication(request) {
+  def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
+  if (azureData!=null &amp;&amp; azureData.authResult!=null)
+    azureData.authResult = null;
+}
+
+ def storeAuthentication(request, authResult) {
+  def azureData = [ "user": "", "authResult" : authResult]
+  request.getSession().setAttribute(AZURE_DATA_FIELD, azureData);
+ }
+
+ def containsAuthenticationData(request) {
+   def map = request.getParameterMap();
+   return request.getMethod().equalsIgnoreCase("POST") &amp;&amp; (request.getParameterMap().containsKey(AZURE_PARAM_ERROR)
+           || request.getParameterMap().containsKey(AZURE_PARAM_ID_TOKEN) 
+           || request.getParameterMap().containsKey(AZURE_PARAM_CODE));
+ }
+
+ def isAuthenticationSuccessful(AuthenticationResponse authResponse) {
+    return authResponse instanceof AuthenticationSuccessResponse;
+ }
+
+ def getRedirectURL() {
+   def state = "";
+   if (doc.fullName!="Office365.OAuth") {
+     def finalRedirect = request.getRequestURL().toString();
+     def qs = request.getQueryString();
+     if (qs!=null &amp; qs!="")
+      finalRedirect += "?" + qs;
+     state = finalRedirect.hashCode().toString();
+     storedStates.put(state, finalRedirect.replaceAll("clearAuth=1",""));
+   }
+
+   def currentURL = URLEncoder.encode(REDIRECT_URI + "?state=${state}", "UTF-8")
+   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token&amp;scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;redirect_uri=${currentURL}&amp;state=${state}&amp;client_id=${azureClientID}&amp;nonce=${UUID.randomUUID()}";
+  return redirectUrl;
+ }
+
+ def getAccessToken(authorizationCode, currentUri) {
+  def authCode = authorizationCode.getValue();
+  def credential = new ClientCredential(azureClientID, azureSecret);
+  def authContext = null;
+  def result = null;
+  def service = null;
+  try {
+      service = Executors.newFixedThreadPool(1);
+      authContext = new AuthenticationContext(authority + "/" + tenant, true, service);
+      def future = authContext.acquireTokenByAuthorizationCode(authCode, new URI(currentUri), credential, "https://graph.microsoft.com", null);
+      result = future.get();
+  } catch (ExecutionException e) {
+      println "Exception: " + e; 
+      return null;
+  } finally {
+            service.shutdown();
+  }
+
+  return result;
+ }
+
+
+ def Map getHTTPData(url, accessToken) {
+  def json = ""
+  debug("HTTP start");
+  try {
+    // Set up an HTTP client that makes a connection to REST API.
+    DefaultHttpClient client = new DefaultHttpClient();
+
+    HttpGet httpRequest = new HttpGet(url);
+    httpRequest.setHeader("Authorization", accessToken);
+    httpRequest.setHeader("api-version", apiVersion);
+    httpRequest.setHeader("Accept", "application/json");
+    debug("HTTP running query");
+    HttpResponse httpResponse = client.execute(httpRequest);
+    debug("HTTP reading data");
+    json = EntityUtils.toString(httpResponse.getEntity());
+
+    debug("HTTP reading json");
+    def gson = new Gson();
+    def data = gson.fromJson(json, Map.class);
+    debug("HTTP done reading json");
+    if (data.error &amp;&amp; data.error.code=='InvalidAuthenticationToken') {
+      debug("Error result. Trying again");
+      clearAuthentication(request);
+      authenticate();
+    }
+    return data;
+   } catch (e) {
+      debug("Exception executing query: ${e.getMessage()}");
+      debug("JSON: ${json}")
+      e.printStackTrace();
+      return null;
+   }
+   debug("HTTP end");
+  }
+
+
+ def getGraphApiData(url) {
+   def authResult = getAuthentication(request)
+   if (authResult==null)
+     return null
+   return getHTTPData(url, "Bearer " + authResult.getAccessToken())
+ }
+
+ def authenticate() {
+  // this allows to clear auth before retrying
+  if (request.clearAuth) {
+    clearAuthentication(request);
+  }
+
+  def requestURL = xwiki.getRequestURL()
+  if (isAuthenticated(request)) {
+   debug("Step 3: We are authenticated");
+  } else if (containsAuthenticationData(request)) {
+   debug("Step 2: We received auth data");
+   for (paramName in request.getParameterNames()) {
+     debug("DEBUG: * ${paramName}: {{{ ${request.getParameter(paramName)} }}}")
+   }
+
+   def paramMap = request.getParameterMap()
+   def params = new HashMap();
+   for (key in paramMap.keySet()) {
+    params.put(key, paramMap.get(key)[0])
+   }
+   def  authResponse = AuthenticationResponseParser.parse(new URI(requestURL), params);
+   if (isAuthenticationSuccessful(authResponse)) {
+     debug("Step 2a: Auth was successful")
+
+     def oidcResponse = (AuthenticationSuccessResponse) authResponse;
+     def authResult = getAccessToken(authResponse.getAuthorizationCode(), requestURL)
+     storeAuthentication(request, authResult);
+     debug("AuthResult: ${authResult}");   
+     if (request.state &amp;&amp; request.state!="") {
+        def url = storedStates.get(request.state);
+        if (url!=null) {
+            debug("Redirecting to final destination after authorization: ${url}")
+            response.sendRedirect(url)
+        }
+     }
+     return true;                  
+   } else {
+     debug("Step 2b: Auth failed");
+     return false;
+   }
+  } else {
+     def redirUrl = getRedirectURL()
+     debug("STEP 1: Redirect: ${redirUrl}");
+     if (!request.noredirect)
+       response.sendRedirect(redirUrl)
+     return false;
+  }
+ }
+}
+</content>
+</xwikidoc>
