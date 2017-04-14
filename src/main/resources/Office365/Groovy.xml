@@ -184,7 +184,6 @@ public class AzureAuth {
      debug("Too many fails: ${azureData.nbfails}")
      return true;
   } else { 
-     debug("Not too many fails: ${azureData.nbfails}")
      return false;
   }
  }

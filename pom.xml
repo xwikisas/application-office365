@@ -51,6 +51,12 @@
      <artifactId>adal4j</artifactId>
      <version>1.2.0</version>
    </dependency>
+   <dependency>
+     <groupId>org.xwiki.contrib.showhide</groupId>
+     <artifactId>showhide-macro</artifactId>
+     <type>xar</type>
+     <version>2.0</version>
+   </dependency>
  </dependencies>
  <build>
     <!-- Needed to add support for the XAR packaging -->

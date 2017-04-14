@@ -51,7 +51,7 @@ To configure the extension to be able to use the other features, you will need t
 
 == Create Office 365 OAuth Credentials
 
-You will need to create credentials on Office 365/Azure AD. This can be done either in Azure AD or on this [[microsoft app registration web site&gt;&gt;url://apps.dev.microsoft.com/]]. It might be necessary to be an admin in the organization
+You will need to create credentials on Office 365/Azure AD. This can be done either in Azure AD or on this [[microsoft app registration web site&gt;&gt;url:https://apps.dev.microsoft.com/]]. It might be necessary to be an admin in the organization
 
 It is necessary to get an Application ID (clientid), create a password (secret) 
 and set the redirect URI ({{{ http://[your domain]]/xwiki/bin/view/Office365/OAuth (or https) }}})
