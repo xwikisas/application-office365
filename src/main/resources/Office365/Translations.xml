@@ -32,9 +32,9 @@ office365.documentlist.title=Office365 - document list
 office365.documentlist.description=This sample shows a search result on Office365 drive:
 office365.documentlist.searchterm=Search Term
 office365.documentlist.search=Search
-office365.cannotauthenticate=Could not authenticate on Office 365
+office365.cannotauthenticate=Could not authenticate on Office 365 - [[Clear authentication&gt;&gt;||queryString="clearAuth=1"]]
 office365.macro.cannotdisplaypdf=This macro cannot display a pdf document
-office365.macro.search.description=To insert or change the current Office365 document being embedded, you need to search for it and choose which format to embed the document in. Use the following form to find your document.
+office365.macro.search.description=To insert or change the current Office365 document being embedded, you need to search for it and choose which document to embed. Use the following form to find your document.
 office365.macro.search.insert=Insert an Office365 Document: 
 office365.macro.search.search=Search
 office365.macro.search.embed=embed this document

@@ -40,12 +40,14 @@ public class AzureAuth {
  def authDomain = "login.windows.net"
  def apiVersion = "1.0"
 
+ def forceDebug = false;
+
  def tenant;
  def azureClientID;
  def azureSecret;
 
  def authority = "https://${authDomain}"
-
+ 
  def CONFIG_PAGE = "Office365.Office365Config";
  def CONFIG_CLASS = "Office365.Office365ConfigClass";
 
@@ -68,6 +70,8 @@ public class AzureAuth {
  def doc;
  def request;
  def response;
+
+ def authFailed = false;
 
  def getConfig(name) {
   def config = "";
@@ -94,8 +98,8 @@ public class AzureAuth {
  }
 
  def showDebug() {
-  if (request.debug)
-    return "== DEBUG ==\n\n {{{ ${debugStr} }}}"
+  if (request.debug || forceDebug)
+    return "== DEBUG ==\n\n {{{ ${debugStr} }}}"
   else
     return "";
  }
@@ -116,7 +120,7 @@ public class AzureAuth {
 
  def isAuthenticated(request) {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
-  if (azureData==null || azureData.authResult==null) 
+  if (azureData==null || azureData.authResult==null || azureData.nbfails&gt;3) 
     return false
   else 
     return true;
@@ -132,14 +136,38 @@ public class AzureAuth {
 
  def clearAuthentication(request) {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
-  if (azureData!=null &amp;&amp; azureData.authResult!=null)
+  if (azureData!=null) {
     azureData.authResult = null;
+    azureData.nbfails = 0;
+    azureData.user = "";
+  }
 }
 
  def storeAuthentication(request, authResult) {
-  def azureData = [ "user": "", "authResult" : authResult]
+  def azureData = [ "user": "", "authResult" : authResult, "nbfails" : 0]
   request.getSession().setAttribute(AZURE_DATA_FIELD, azureData);
  }
+
+ def storeFailedAuthentication(request) {
+  def currentAuthResult = request.getSession().getAttribute(AZURE_DATA_FIELD);
+  debug("Read auth data: {{{ ${currentAuthResult} }}}")
+  def azureData = [ "user": "", "authResult" : (currentAuthResult==null) ? null : currentAuthResult.authResult, "nbfails" : (currentAuthResult==null) ? 1 : currentAuthResult.nbfails+1]
+  debug("Storing failed auth: {{{ ${azureData} }}}")
+  request.getSession().setAttribute(AZURE_DATA_FIELD, azureData);
+ }
+
+ def hasTooManyFailedAuthentication(request) {
+  def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
+  debug("Azure data: ${azureData}")
+  if (azureData!=null &amp;&amp; azureData.nbfails&gt;3) {
+     debug("Too many fails: ${azureData.nbfails}")
+     return true;
+  } else { 
+     debug("Not too many fails: ${azureData.nbfails}")
+     return false;
+  }
+ }
+
 
  def containsAuthenticationData(request) {
    def map = request.getParameterMap();
@@ -149,6 +177,7 @@ public class AzureAuth {
  }
 
  def isAuthenticationSuccessful(AuthenticationResponse authResponse) {
+    debug("Result: ${authResponse}");
     return authResponse instanceof AuthenticationSuccessResponse;
  }
 
@@ -180,7 +209,7 @@ public class AzureAuth {
       def future = authContext.acquireTokenByAuthorizationCode(authCode, new URI(currentUri), credential, "https://graph.microsoft.com", null);
       result = future.get();
   } catch (ExecutionException e) {
-      println "Exception: " + e; 
+      debug "Exception: " + e; 
       return null;
   } finally {
             service.shutdown();
@@ -239,6 +268,11 @@ public class AzureAuth {
     clearAuthentication(request);
   }
 
+  if (hasTooManyFailedAuthentication(request)) {
+     debug("Too many auth failures. Stopping"); 
+     return false;
+  }
+  
   def requestURL = xwiki.getRequestURL()
   if (isAuthenticated(request)) {
    debug("Step 3: We are authenticated");
@@ -255,27 +289,36 @@ public class AzureAuth {
    }
    def  authResponse = AuthenticationResponseParser.parse(new URI(requestURL), params);
    if (isAuthenticationSuccessful(authResponse)) {
-     debug("Step 2a: Auth was successful")
+     debug("Step 2a: Auth came back")
 
      def oidcResponse = (AuthenticationSuccessResponse) authResponse;
      def authResult = getAccessToken(authResponse.getAuthorizationCode(), requestURL)
-     storeAuthentication(request, authResult);
-     debug("AuthResult: ${authResult}");   
-     if (request.state &amp;&amp; request.state!="") {
-        def url = storedStates.get(request.state);
-        if (url!=null) {
+     if (authResult==null) {
+       debug("Step 2b: Failed to get access token")
+       storeFailedAuthentication(request);
+       return false;
+     } else {
+       debug("Step 2b: Got access token succesfully")
+       storeAuthentication(request, authResult);
+       if (request.state &amp;&amp; request.state!="") {
+         def url = storedStates.get(request.state);
+         if (url!=null) {
             debug("Redirecting to final destination after authorization: ${url}")
             response.sendRedirect(url)
-        }
+            return true;
+         }
+       }
      }
      return true;                  
    } else {
      debug("Step 2b: Auth failed");
+     storeFailedAuthentication(request);
      return false;
    }
   } else {
      def redirUrl = getRedirectURL()
      debug("STEP 1: Redirect: ${redirUrl}");
+     storeFailedAuthentication(request);
      if (!request.noredirect)
        response.sendRedirect(redirUrl)
      return false;

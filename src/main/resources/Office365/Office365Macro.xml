@@ -45,7 +45,7 @@ This is the syntax to embed by URL. You just need to copy paste the URL that is 
 = Examples =
 
 {{velocity}}
-#if($request.showexamples)
+#if($request.showexamples||$request.update||$request.nb)
 == Embed via Search Example ==
 
 {{office365 /}}
@@ -312,6 +312,7 @@ xwiki.ssx.use("Office365.Office365Macro");
 if (url!=null &amp;&amp; url!="") {
  if (url.contains(".pdf")) {
   println services.localization.render('office365.macro.cannotdisplaypdf');
+  println url
  } else { 
   def officeUrl = url.replaceAll("action=default", "action=embedview")
   
@@ -375,7 +376,11 @@ if (url!=null &amp;&amp; url!="") {
    if (editLink &amp;&amp; editLink.startsWith("http"))
      print """ - [[${services.localization.render('office365.macro.view')}&gt;&gt;url:${editLink}||target="_blank"]]"""
    println ")))"
-   println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""   
+   if (embedLink.contains(".pdf")) {
+    println services.localization.render('office365.macro.cannotdisplaypdf');
+   } else {
+    println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""   
+   }
  } else {
     def tquery = ""
     if (query)

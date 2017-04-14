@@ -65,6 +65,7 @@ println """
  }
 } 
 
+println azureAuth.getAuthentication(request)
 println azureAuth.showDebug()
 
 {{/groovy}}</content>
