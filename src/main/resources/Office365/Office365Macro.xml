@@ -1,90 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
-
-<xwikidoc version="1.3" reference="Office365.Office365Macro" locale="">
+<xwikidoc reference="Office365.Office365Macro" locale="">
   <web>Office365</web>
   <name>Office365Macro</name>
-  <parent>Office365.WebHome</parent>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
+  <parent>Office365.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1483225200000</creationDate>
   <author>xwiki:XWiki.Admin</author>
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1483225200000</creationDate>
   <date>1483225200000</date>
   <contentUpdateDate>1483225200000</contentUpdateDate>
   <version>1.1</version>
   <title>Office 365 Macro</title>
+  <defaultTemplate/>
+  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>= Table of Content =
-
-{{toc /}}
-
-= Introduction =
-
-This macro displays an Office 365 document using the Office 365 platform. To use this macro you need to configure the Office365 accesses in the administration.
-
-This macro can be used either to embed by URL or by searching the document in Office 365 and storing the associated data in the document.
-
-The viewer using is the Office 365 viewer for office documents. For PDFs we cannot use the Office 365 viewer because of a limitation on Office 365 which does not allow to embed their viewer for PDFs. We use the XWiki PDF Viewer if it is installed in XWiki, otherwise we do not display anything.
-
-= Macro Syntax =
-
-{{code}}
-This is the syntax to search document in Office 365. You will be shown a search box to search for a document. You can select which document to embed. 
-
-{{office365 /}}
-
-This is the syntax to embed by URL. You just need to copy paste the URL that is in your browser bar when you are viewing or editing an Office 365 document:
-
-{{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
-{{/code}}
-
-= Examples =
-
-{{velocity}}
-#if($request.showexamples||$request.update||$request.nb)
-== Embed via Search Example ==
-
-{{office365 /}}
-
-== Embed via URL Example ==
-
-This examples uses an XWiki URL. The document might not be allowed to view without an Office 365 account.
-
-{{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
-#else
-[[Show examples&gt;&gt;||queryString="showexamples=1"]]
-#end
-{{/velocity}}</content>
   <object>
+    <class>
+      <name>Office365.SynchronizedDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <editLink>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>editLink</name>
+        <number>5</number>
+        <picker>0</picker>
+        <prettyName>editLink</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </editLink>
+      <embedLink>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>embedLink</name>
+        <number>6</number>
+        <picker>0</picker>
+        <prettyName>embedLink</prettyName>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </embedLink>
+      <exportLink>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>exportLink</name>
+        <number>2</number>
+        <picker>0</picker>
+        <prettyName>exportLink</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </exportLink>
+      <fileName>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>fileName</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>fileName</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </fileName>
+      <id>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>id</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>id</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </id>
+      <site>
+        <disabled>0</disabled>
+        <name>site</name>
+        <number>9</number>
+        <prettyName>site</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </site>
+      <sync>
+        <customDisplay/>
+        <defaultValue>0</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>radio</displayFormType>
+        <displayType/>
+        <name>sync</name>
+        <number>7</number>
+        <prettyName>sync</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </sync>
+      <user>
+        <disabled>0</disabled>
+        <name>user</name>
+        <number>8</number>
+        <prettyName>user</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </user>
+      <version>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>version</name>
+        <number>4</number>
+        <picker>0</picker>
+        <prettyName>version</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </version>
+    </class>
     <name>Office365.Office365Macro</name>
     <number>0</number>
-    <className>XWiki.StyleSheetExtension</className>
-    <guid>53803597-c470-4422-aacd-44b898d67f19</guid>
+    <className>Office365.SynchronizedDocumentClass</className>
+    <guid>6b2a5146-84dd-4d7d-bc78-84294f40fc6a</guid>
+    <property>
+      <editLink>https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/WopiFrame.aspx?sourcedoc=%7B52095730-ECCE-4CDE-9CAF-ACFE718D0C82%7D&amp;file=ModeleLettreXWikiVide.docx&amp;action=default&amp;DefaultItemOpen=1</editLink>
+    </property>
+    <property>
+      <embedLink>https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/WopiFrame.aspx?sourcedoc=%7B52095730-ECCE-4CDE-9CAF-ACFE718D0C82%7D&amp;file=ModeleLettreXWikiVide.docx&amp;action=embedview&amp;DefaultItemOpen=1</embedLink>
+    </property>
+    <property>
+      <exportLink/>
+    </property>
+    <property>
+      <fileName>ModeleLettreXWikiVide.docx</fileName>
+    </property>
+    <property>
+      <id>01RP7UZYZQK4EVFTXM3ZGJZL5M7ZYY2DEC</id>
+    </property>
+    <property>
+      <sync>0</sync>
+    </property>
+    <property>
+      <user>XWiki.Admin</user>
+    </property>
+    <property>
+      <version/>
+    </property>
+  </object>
+  <object>
     <class>
       <name>XWiki.StyleSheetExtension</name>
       <customClass/>
@@ -100,7 +188,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayType>select</displayType>
         <multiSelect>0</multiSelect>
         <name>cache</name>
-        <number>5</number>
+        <number>6</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
@@ -115,7 +203,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <disabled>0</disabled>
         <editor>PureText</editor>
         <name>code</name>
-        <number>2</number>
+        <number>3</number>
         <prettyName>Code</prettyName>
         <rows>20</rows>
         <size>50</size>
@@ -128,7 +216,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayType>select</displayType>
         <multiSelect>0</multiSelect>
         <name>contentType</name>
-        <number>6</number>
+        <number>1</number>
         <prettyName>Content Type</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
@@ -141,7 +229,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
       <name>
         <disabled>0</disabled>
         <name>name</name>
-        <number>1</number>
+        <number>2</number>
         <prettyName>Name</prettyName>
         <size>30</size>
         <unmodifiable>0</unmodifiable>
@@ -152,7 +240,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayFormType>select</displayFormType>
         <displayType>yesno</displayType>
         <name>parse</name>
-        <number>4</number>
+        <number>5</number>
         <prettyName>Parse content</prettyName>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
@@ -163,7 +251,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayType>select</displayType>
         <multiSelect>0</multiSelect>
         <name>use</name>
-        <number>3</number>
+        <number>4</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
@@ -174,6 +262,10 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>53803597-c470-4422-aacd-44b898d67f19</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -203,10 +295,6 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>0</number>
-    <className>XWiki.WikiMacroClass</className>
-    <guid>24591824-26c3-44c0-b416-23768195639e</guid>
     <class>
       <name>XWiki.WikiMacroClass</name>
       <customClass/>
@@ -321,17 +409,53 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </visibility>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroClass</className>
+    <guid>24591824-26c3-44c0-b416-23768195639e</guid>
     <property>
       <code>{{groovy}}
+ escapetool = new org.xwiki.velocity.tools.EscapeTool();
+ azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
+ azureAuth.setXWiki(xwiki, xcontext, doc)
+
 def width = xcontext.macro.params.width;
 def height = xcontext.macro.params.height;
 def url = xcontext.macro.params.url
+
+def getDriveURL(site) {
+   def baseURL = "https://graph.microsoft.com/v1.0/me/drive/";
+   if (site!="") {
+     def siteId = azureAuth.sites.get(site);
+     baseURL = "https://graph.microsoft.com/v1.0/sites/${siteId}/drive/"
+   }
+   return baseURL;
+}
+
+def showDriveItems(site, query) {
+   def driveURL = getDriveURL(site) + "search(q='${escapetool.url(query)}')" 
+   def res = azureAuth.getGraphApiData(driveURL)
+   azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
+   if (res!=null) {
+    for (item in res.value) {
+     def docName = item.name;
+     def editLink = item.webUrl;
+     def embedLink = item.webUrl.replaceAll("action=default", "action=embedview");
+     def docId = item.id
+     def queryString = "embed=1&amp;nb=${nb}&amp;id=${escapetool.url(docId)}&amp;filename=${escapetool.url(docName)}&amp;embedLink=${escapetool.url(embedLink)}&amp;editLink=${escapetool.url(editLink)}&amp;site=${site}"
+     println """** ${docName}: [[${services.localization.render('office365.macro.search.embed')}&gt;&gt;||queryString="${queryString}"]]"""
+    }
+   } else {
+     println "${services.localization.render('office365.macro.search.error')} {{{ ${driveURL} }}}";
+   }
+}
+
 
 // adding stylesheet
 xwiki.ssx.use("Office365.Office365Macro");
 
 if (url!=null &amp;&amp; url!="") {
- if (url.contains(".pdf")) {
+ if (url.contains(".pdf")&amp;&amp;!request.force) {
   println services.localization.render('office365.macro.cannotdisplaypdf');
   println url
  } else { 
@@ -345,15 +469,12 @@ if (url!=null &amp;&amp; url!="") {
 """
  }
 } else {
- def snb = xcontext.macro.params.nb;
+ snb = xcontext.macro.params.nb;
  if (snb==null || snb=="")
   snb = "0";
- def nb = Integer.parseInt(snb);
+ nb = Integer.parseInt(snb);
  def obj = doc.getObject("Office365.SynchronizedDocumentClass", nb)
- def escapetool = new org.xwiki.velocity.tools.EscapeTool();
  def force = false;
- def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
- azureAuth.setXWiki(xwiki, xcontext, doc)
   
  if (xcontext.macro.params.authentication) {
   if (azureAuth.authenticate()==null) {
@@ -380,6 +501,7 @@ if (url!=null &amp;&amp; url!="") {
    if (embedLink!=null)
     doc.set("embedLink", embedLink)
    doc.set("editLink", request.editLink)
+   doc.set("site", request.site)
    doc.set("version", request.version)
    doc.set("fileName", request.filename)
    doc.set("user", xcontext.user)
@@ -391,14 +513,22 @@ if (url!=null &amp;&amp; url!="") {
    doc.use(obj);
    def embedLink = doc.getValue("embedLink")
    def editLink = doc.getValue("editLink")
+   def exportLink = doc.getValue("exportLink")
    def swidth = (width.endsWith("%")) ? width : width + "px";
    print """(% class="drive-links" style="width: ${swidth};" %)((("""
    print """[[${services.localization.render('office365.macro.change')}&gt;&gt;||queryString="update=1&amp;nb=${nb}"]]"""
    if (editLink &amp;&amp; editLink.startsWith("http"))
      print """ - [[${services.localization.render('office365.macro.view')}&gt;&gt;url:${editLink}||target="_blank"]]"""
    println ")))"
-   if (embedLink.contains(".pdf")) {
-    println services.localization.render('office365.macro.cannotdisplaypdf');
+   // in case of a PDF we need to proxy retrieving the document and use PDF Viewer instead
+   if (embedLink.contains(".pdf")&amp;&amp;!request.force) {
+    def driveURL = getDriveURL(doc.getValue("site"));
+    def docURL = """${driveURL}items/${doc.getValue("id")}"""
+    azureAuth.authenticate()
+    def res = azureAuth.getGraphApiData(docURL)
+    embedLink = res.get("@microsoft.graph.downloadUrl")
+    println """\n{{pdfviewer file="${embedLink}" width="${width}" height="${height}" /}}\n"""
+    // println services.localization.render('office365.macro.cannotdisplaypdf');
    } else {
     println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""   
    }
@@ -424,22 +554,14 @@ ${services.localization.render('office365.macro.search.insert')}
 """    
 
   if (query &amp;&amp; embednb==nb) {
-   def driveURL = "https://graph.microsoft.com/v1.0/me/drive/search(q='${escapetool.url(query)}')"
    azureAuth.authenticate()
-   def res = azureAuth.getGraphApiData(driveURL)
-   azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
-   if (res!=null) {
-    for (item in res.value) {
-     def docName = item.name;
-     def editLink = item.webUrl;
-     def embedLink = item.webUrl.replaceAll("action=default", "action=embedview");
-     def docId = item.id
-     def queryString = "embed=1&amp;nb=${nb}&amp;id=${escapetool.url(docId)}&amp;filename=${escapetool.url(docName)}&amp;embedLink=${escapetool.url(embedLink)}&amp;editLink=${escapetool.url(editLink)}"
-     println """* ${docName}: [[${services.localization.render('office365.macro.search.embed')}&gt;&gt;||queryString="${queryString}"]]"""
-    }
-   } else {
-     println "${services.localization.render('office365.macro.search.error')} {{{ ${driveURL} }}}";
+   println "* ${services.localization.render('office365.macro.personaldrive')}"
+   showDriveItems("", query);
+   for (site in azureAuth.sites.keySet()) {
+     println "* ${services.localization.render('office365.macro.sharepointsite')}: ${site}"
+     showDriveItems(site, query);
    }
+
   }
  }
  println azureAuth.showDebug()
@@ -473,10 +595,6 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>0</number>
-    <className>XWiki.WikiMacroParameterClass</className>
-    <guid>eb7806ed-b297-4ca4-81db-aee393586a3c</guid>
     <class>
       <name>XWiki.WikiMacroParameterClass</name>
       <customClass/>
@@ -525,6 +643,10 @@ ${services.localization.render('office365.macro.search.insert')}
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>0</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>eb7806ed-b297-4ca4-81db-aee393586a3c</guid>
     <property>
       <defaultValue/>
     </property>
@@ -539,10 +661,6 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>1</number>
-    <className>XWiki.WikiMacroParameterClass</className>
-    <guid>639249b1-dd9a-4c13-94e6-ae36078085b6</guid>
     <class>
       <name>XWiki.WikiMacroParameterClass</name>
       <customClass/>
@@ -591,6 +709,10 @@ ${services.localization.render('office365.macro.search.insert')}
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>1</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>639249b1-dd9a-4c13-94e6-ae36078085b6</guid>
     <property>
       <defaultValue/>
     </property>
@@ -605,10 +727,6 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>2</number>
-    <className>XWiki.WikiMacroParameterClass</className>
-    <guid>b3cc8924-0f39-47d0-aa1b-be4982212251</guid>
     <class>
       <name>XWiki.WikiMacroParameterClass</name>
       <customClass/>
@@ -657,6 +775,10 @@ ${services.localization.render('office365.macro.search.insert')}
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>2</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>b3cc8924-0f39-47d0-aa1b-be4982212251</guid>
     <property>
       <defaultValue>100%</defaultValue>
     </property>
@@ -671,10 +793,6 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>3</number>
-    <className>XWiki.WikiMacroParameterClass</className>
-    <guid>b26bd031-3acb-4ff4-bb50-63ab162dc524</guid>
     <class>
       <name>XWiki.WikiMacroParameterClass</name>
       <customClass/>
@@ -723,6 +841,10 @@ ${services.localization.render('office365.macro.search.insert')}
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>3</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>b26bd031-3acb-4ff4-bb50-63ab162dc524</guid>
     <property>
       <defaultValue>800</defaultValue>
     </property>
@@ -737,10 +859,6 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
   </object>
   <object>
-    <name>Office365.Office365Macro</name>
-    <number>4</number>
-    <className>XWiki.WikiMacroParameterClass</className>
-    <guid>be20080a-6a7a-4731-a08a-2e5aeb889f66</guid>
     <class>
       <name>XWiki.WikiMacroParameterClass</name>
       <customClass/>
@@ -789,6 +907,10 @@ ${services.localization.render('office365.macro.search.insert')}
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
     </class>
+    <name>Office365.Office365Macro</name>
+    <number>4</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>be20080a-6a7a-4731-a08a-2e5aeb889f66</guid>
     <property>
       <defaultValue>0</defaultValue>
     </property>
@@ -802,4 +924,49 @@ ${services.localization.render('office365.macro.search.insert')}
       <name>authentication</name>
     </property>
   </object>
+  <content>= Table of Content =
+
+{{toc /}}
+
+= Introduction =
+
+This macro displays an Office 365 document using the Office 365 platform. To use this macro you need to configure the Office365 accesses in the administration.
+
+This macro can be used either to embed by URL or by searching the document in Office 365 and storing the associated data in the document.
+
+The viewer using is the Office 365 viewer for office documents. For PDFs we cannot use the Office 365 viewer because of a limitation on Office 365 which does not allow to embed their viewer for PDFs. We use the XWiki PDF Viewer if it is installed in XWiki, otherwise we do not display anything.
+
+= Macro Syntax =
+
+{{code}}
+This is the syntax to search document in Office 365. You will be shown a search box to search for a document. You can select which document to embed. 
+
+{{office365 /}}
+
+This is the syntax to embed by URL. You just need to copy paste the URL that is in your browser bar when you are viewing or editing an Office 365 document:
+
+{{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
+{{/code}}
+
+= Limitations =
+
+Embedding by URL cannot work for PDF documents. However PDF documents can be embedded by searching them and requires the PDF Viewer macro installed in the Wiki.
+
+= Examples =
+
+{{velocity}}
+#if($request.showexamples||$request.update||$request.nb)
+== Embed via Search Example ==
+
+{{office365 /}}
+
+== Embed via URL Example ==
+
+This examples uses an XWiki URL. The document might not be allowed to view without an Office 365 account.
+
+{{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
+#else
+[[Show examples&gt;&gt;||queryString="showexamples=1"]]
+#end
+{{/velocity}}</content>
 </xwikidoc>
