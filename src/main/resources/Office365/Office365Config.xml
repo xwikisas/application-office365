@@ -339,6 +339,7 @@
         <value>secret</value>
         <value>tenant</value>
         <value>activateSearchExtension</value>
+        <value>sites</value>
       </propertiesToShow>
     </property>
     <property>
