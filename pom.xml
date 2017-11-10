@@ -1,5 +1,4 @@
 <!--
- *
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -17,82 +16,80 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.commons</groupId>
-    <artifactId>xwiki-commons-pom</artifactId>
-    <version>7.0</version>
+    <groupId>com.xwiki.parent</groupId>
+    <artifactId>xwikisas-parent-platform</artifactId>
+    <version>8.5</version>
   </parent>
-  <groupId>org.xwiki.contrib</groupId>
+  <groupId>com.xwiki.office365</groupId>
   <artifactId>application-office365</artifactId>
   <version>1.2-SNAPSHOT</version>
   <packaging>xar</packaging>
   <name>Office365 Application</name>
   <description>Integration of Office365 in XWiki</description>
-  <developers>
-    <developer>
-      <id>ldubost</id>
-      <name>Ludovic Dubost</name>
-    </developer>
-  </developers>
   <properties>
-   <!-- Don't run CLIRR here since there's no Java code. -->
-   <xwiki.clirr.skip>true</xwiki.clirr.skip>
-   <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
-   <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
-   <xwiki.extension.category>application</xwiki.extension.category>
+    <licensing.version>1.6</licensing.version>
+    <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
+      buying a license or getting a trial license, but they cannot edit or delete them. -->
+    <!-- <xwiki.extension.licensing.publicDocuments> -->
+    <xwiki.extension.licensing.publicDocuments>
+      Office365.WebHome
+    </xwiki.extension.licensing.publicDocuments>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>Office365 Application (Pro)</xwiki.extension.name>
+    <!-- Don't run CLIRR here since there's no Java code. -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
+    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
   </properties>
- <dependencies>
-   <dependency>
-     <groupId>com.microsoft.azure</groupId>
-     <artifactId>adal4j</artifactId>
-     <version>1.2.0</version>
-   </dependency>
-   <dependency>
-     <groupId>org.xwiki.contrib.showhide</groupId>
-     <artifactId>showhide-macro</artifactId>
-     <type>xar</type>
-     <version>2.0</version>
-   </dependency>
-   <dependency>
-     <groupId>org.xwiki.contrib</groupId>
-     <artifactId>xwiki-macro-pdfviewer</artifactId>
-     <type>xar</type>
-     <version>1.6.2</version>
-   </dependency>
- </dependencies>
- <build>
-    <!-- Needed to add support for the XAR packaging -->
-    <extensions>
-      <extension>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-handlers</artifactId>
-        <version>${commons.version}</version>
-      </extension>
-    </extensions>
-    <plugins>
-      <!-- The XAR packaging uses the XAR plugin and thus we need to define what version to use -->
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <version>${commons.version}</version>
-      </plugin>
-    </plugins>
-  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.xwiki.licensing</groupId>
+      <artifactId>application-licensing-licensor-api</artifactId>
+      <version>${licensing.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>adal4j</artifactId>
+      <version>1.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.contrib.showhide</groupId>
+      <artifactId>showhide-macro</artifactId>
+      <type>xar</type>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xwiki.pdfviewer</groupId>
+      <artifactId>macro-pdfviewer-ui</artifactId>
+      <type>xar</type>
+      <version>1.7-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
   <scm>
-    <connection>scm:git:git://github.com/xwiki-contrib/application-office365.git</connection>
-    <developerConnection>scm:git:git@github.com:xwiki-contrib/application-office365.git</developerConnection>
-    <url>https://github.com/xwiki-contrib/application-office365</url>
+    <connection>scm:git:git://github.com/xwikisas/application-office365.git</connection>
+    <developerConnection>scm:git:git://github.com/xwikisas/application-office365.git</developerConnection>
+    <url>https://github.com/xwikisas/application-office365</url>
     <tag>HEAD</tag>
   </scm>
-  <distributionManagement>
+  <!-- Even though this repository is already declared in the parent POM, we still explicitly redeclare it for
+       convenience. This makes it simpler to build this project without having to declare this repository in one's own
+       Maven settings.xml file. In the future We may decide to remove this in the future and make it a rule to have the
+       XWiki SAS Nexus repository in one's settings.xml -->
+  <repositories>
     <repository>
-      <id>xwiki-staging</id>
-      <name>XWiki Staging Repository</name>
-      <url>http://nexus.xwiki.org/nexus/service/local/staging/deploy/maven2/</url>
+      <id>public-store-releases</id>
+      <name>XWiki SAS Public Store Repository for Releases</name>
+      <url>https://nexus.xwiki.com/nexus/content/repositories/public-store-releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots> 
     </repository>
-  </distributionManagement>
+  </repositories>
 </project>
