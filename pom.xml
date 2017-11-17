@@ -65,7 +65,7 @@
       <groupId>com.xwiki.pdfviewer</groupId>
       <artifactId>macro-pdfviewer-ui</artifactId>
       <type>xar</type>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.7</version>
     </dependency>
   </dependencies>
   <scm>
