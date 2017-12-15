@@ -39,15 +39,15 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}
+  <content>{{include reference="Licenses.Code.VelocityMacros"/}}
+
+{{velocity}}
 ## We need to check if there is a valid license because the macro is registered even if the user doesn't have view right
 ## on the macro definition page. See XWIKI-14828: Rendering macros defined in wiki pages are available to users that
 ## don't have view right on those pages.
 #set ($office365MacroReference = $services.model.createDocumentReference('', 'Office365', 'Office365Macro'))
 #if (!$services.licensing.licensor.hasLicensureForEntity($office365MacroReference))
-  {{error}}
-    {{translation key="office365.app.noValidLicense" /}}
-  {{/error}}
+  {{error}}#getMissingLicenseMessage('office365.extension.name'){{/error}}
 #else
 This space contains the code for the Office 365 Integration of XWiki. This extensions currently allows to:
 

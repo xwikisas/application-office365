@@ -102,5 +102,7 @@ office365.macro.requireauth=This macro might require authentication on Office365
 office365.macro.change=Change
 office365.macro.view=View
 office365.macro.personaldrive=Personal Drive
-office365.macro.sharepointsite=Sharepoint Site</content>
+office365.macro.sharepointsite=Sharepoint Site
+office365.extension.name=Office365 Application (Pro)
+</content>
 </xwikidoc>
