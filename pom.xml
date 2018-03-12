@@ -68,6 +68,10 @@
       <version>1.8</version>
     </dependency>
   </dependencies>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/xwikisas/application-office365/issues</url>
+  </issueManagement>
   <scm>
     <connection>scm:git:git://github.com/xwikisas/application-office365.git</connection>
     <developerConnection>scm:git:git://github.com/xwikisas/application-office365.git</developerConnection>
