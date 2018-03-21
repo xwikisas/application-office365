@@ -28,7 +28,7 @@
   <artifactId>application-office365</artifactId>
   <version>1.4-SNAPSHOT</version>
   <packaging>xar</packaging>
-  <name>Office365 Application</name>
+  <name>Office365 Integration</name>
   <description>Integration of Office365 in XWiki</description>
   <properties>
     <licensing.version>1.8</licensing.version>
@@ -41,7 +41,7 @@
       Office365.Office365Config
     </xwiki.extension.licensing.excludedDocuments>
     <!-- Name to display by the Extension Manager -->
-    <xwiki.extension.name>Office365 Application (Pro)</xwiki.extension.name>
+    <xwiki.extension.name>Office365 Integration (Pro)</xwiki.extension.name>
     <!-- Don't run CLIRR here since there's no Java code. -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
     <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
