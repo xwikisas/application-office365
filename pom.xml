@@ -37,6 +37,9 @@
     <xwiki.extension.licensing.publicDocuments>
       Office365.WebHome
     </xwiki.extension.licensing.publicDocuments>
+    <xwiki.extension.licensing.excludedDocuments>
+      Office365.Office365Config
+    </xwiki.extension.licensing.excludedDocuments>
     <!-- Name to display by the Extension Manager -->
     <xwiki.extension.name>Office365 Application (Pro)</xwiki.extension.name>
     <!-- Don't run CLIRR here since there's no Java code. -->
