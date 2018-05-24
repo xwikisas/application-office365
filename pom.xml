@@ -26,7 +26,7 @@
   </parent>
   <groupId>com.xwiki.office365</groupId>
   <artifactId>application-office365</artifactId>
-  <version>1.3.2</version>
+  <version>1.4-SNAPSHOT</version>
   <packaging>xar</packaging>
   <name>Office365 Integration</name>
   <description>Integration of Office365 in XWiki</description>
@@ -80,7 +80,7 @@
     <connection>scm:git:git://github.com/xwikisas/application-office365.git</connection>
     <developerConnection>scm:git:git://github.com/xwikisas/application-office365.git</developerConnection>
     <url>https://github.com/xwikisas/application-office365</url>
-    <tag>application-office365-1.3.2</tag>
+    <tag>HEAD</tag>
   </scm>
   <!-- Even though this repository is already declared in the parent POM, we still explicitly redeclare it for
        convenience. This makes it simpler to build this project without having to declare this repository in one's own
