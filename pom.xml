@@ -77,8 +77,8 @@
     <url>https://github.com/xwikisas/application-office365/issues</url>
   </issueManagement>
   <scm>
-    <connection>scm:git:https://github.com/xwikisas/application-office365.git</connection>
-    <developerConnection>scm:git:https://github.com/xwikisas/application-office365.git</developerConnection>
+    <connection>scm:git:git://github.com/xwikisas/application-office365.git</connection>
+    <developerConnection>scm:git:git@github.com:xwikisas/application-office365.git</developerConnection>
     <url>https://github.com/xwikisas/application-office365</url>
     <tag>HEAD</tag>
   </scm>
