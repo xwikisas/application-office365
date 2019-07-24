@@ -79,7 +79,7 @@
   <scm>
     <connection>scm:git:git://github.com/xwikisas/application-office365.git</connection>
     <developerConnection>scm:git:git@github.com:xwikisas/application-office365.git</developerConnection>
-    <url>https://github.com/xwikisas/application-office365</url>
+    <url>https://github.com/xwikisas/application-office365/tree/master</url>
     <tag>HEAD</tag>
   </scm>
   <!-- Even though this repository is already declared in the parent POM, we still explicitly redeclare it for
