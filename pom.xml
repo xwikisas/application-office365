@@ -31,7 +31,7 @@
   <name>Office365 Integration</name>
   <description>Integration of Office365 in XWiki</description>
   <properties>
-    <licensing.version>1.14.1</licensing.version>
+    <licensing.version>1.14.3</licensing.version>
     <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
       buying a license or getting a trial license, but they cannot edit or delete them. -->
     <xwiki.extension.licensing.publicDocuments>
