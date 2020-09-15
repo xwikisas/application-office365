@@ -61,7 +61,7 @@ public class AzureAuth {
  def authDomain = "login.windows.net"
  def apiVersion = "1.0"
 
- def forceDebug = true;
+ def forceDebug = false;
 
  def tenant;
  def azureClientID;
@@ -80,10 +80,9 @@ public class AzureAuth {
  def AZURE_PARAM_ID_TOKEN = "id_token";
  def AZURE_PARAM_CODE = "code";
  def AUTH_PAGE = "Office365.OAuth";
+ def AZURE_SESSION_REDIRECT = "azure_redirect";
  def REDIRECT_URI = "";
 
-
- public static storedStates = new HashMap();
 
  def debugStr = ""
 
@@ -223,12 +222,12 @@ public class AzureAuth {
      def qs = request.getQueryString();
      if (qs!=null &amp; qs!="")
       finalRedirect += "?" + qs;
-     state = finalRedirect.hashCode().toString();
-     storedStates.put(state, finalRedirect.replaceAll("clearAuth=1",""));
+     finalRedirect = finalRedirect.replaceAll("clearAuth=1","");
+     request.getSession().setAttribute(AZURE_SESSION_REDIRECT, finalRedirect);
    }
 
-   def currentURL = URLEncoder.encode(REDIRECT_URI + "?state=${state}", "UTF-8")
-   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token&amp;scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;redirect_uri=${currentURL}&amp;state=${state}&amp;client_id=${azureClientID}&amp;nonce=${UUID.randomUUID()}";
+   def currentURL = URLEncoder.encode(REDIRECT_URI, "UTF-8")
+   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token&amp;scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;redirect_uri=${currentURL}&amp;client_id=${azureClientID}&amp;nonce=${UUID.randomUUID()}";
   return redirectUrl;
  }
 
@@ -335,13 +334,13 @@ public class AzureAuth {
      } else {
        debug("Step 2b: Got access token succesfully")
        storeAuthentication(request, authResult);
-       if (request.state &amp;&amp; request.state!="") {
-         def url = storedStates.get(request.state);
-         if (url!=null) {
-            debug("Redirecting to final destination after authorization: ${url}")
-            response.sendRedirect(url)
-            return true;
-         }
+       def session = request.getSession();
+       def url = session.getAttribute(AZURE_SESSION_REDIRECT);
+       if(url &amp;&amp; url.length()&gt;=0) {
+					debug("Redirecting to final destination after authorization: ${url}")
+					response.sendRedirect(url)
+					session.remove(AZURE_SESSION_REDIRECT)
+					return true;
        }
      }
      return true;                  

@@ -549,7 +549,7 @@ if (url!=null &amp;&amp; url!="") {
   
  if (request.update=="1" &amp;&amp; nb==embednb)
   force = true;
-  
+
  if (request.embed=="1") {
   if (embednb==nb) {
    def embedLink = request.embedLink;
@@ -568,6 +568,13 @@ if (url!=null &amp;&amp; url!="") {
    doc.set("fileName", request.filename)
    doc.set("user", xcontext.user)
    doc.save("Inserting Office365 Document")
+   def path = request.getPathInfo();
+   if(path!=null &amp;&amp; path.length()>0) {
+        path = path.substring(path.lastIndexOf('/'));
+   } else {
+        path = ".";
+   }
+   response.sendRedirect(path);
   }
  }  
   
