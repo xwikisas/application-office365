@@ -227,7 +227,13 @@ public class AzureAuth {
    }
 
    def currentURL = URLEncoder.encode(REDIRECT_URI, "UTF-8")
-   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token&amp;scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;redirect_uri=${currentURL}&amp;client_id=${azureClientID}&amp;nonce=${UUID.randomUUID()}";
+   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?" +
+               "response_type=code%20id_token&amp;" +
+               "scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All" +
+               "%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder" +
+               "%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;" +
+               "redirect_uri=${currentURL}&amp;client_id=${azureClientID}&amp;" +
+               "nonce=${UUID.randomUUID()}";
   return redirectUrl;
  }
 
@@ -240,7 +246,8 @@ public class AzureAuth {
   try {
       service = Executors.newFixedThreadPool(1);
       authContext = new AuthenticationContext(authority + "/" + tenant, true, service);
-      def future = authContext.acquireTokenByAuthorizationCode(authCode, new URI(currentUri), credential, "https://graph.microsoft.com", null);
+      def future = authContext.acquireTokenByAuthorizationCode(authCode, 
+        new URI(currentUri), credential, "https://graph.microsoft.com", null);
       result = future.get();
   } catch (ExecutionException e) {
       debug "Exception: " + e; 
@@ -336,7 +343,7 @@ public class AzureAuth {
        storeAuthentication(request, authResult);
        def session = request.getSession();
        def url = session.getAttribute(AZURE_SESSION_REDIRECT);
-       if(url &amp;&amp; url.length()&gt;=0) {
+       if (url &amp;&amp; url.length() &gt;= 0) {
 					debug("Redirecting to final destination after authorization: ${url}")
 					response.sendRedirect(url)
 					session.remove(AZURE_SESSION_REDIRECT)
