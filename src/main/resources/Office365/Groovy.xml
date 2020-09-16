@@ -155,7 +155,7 @@ public class AzureAuth {
 
  def isAuthenticated(request) {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
-  if (azureData==null || azureData.authResult==null || azureData.nbfails&gt;3) 
+  if (azureData==null || azureData.authResult==null || azureData.nbfails &gt; 3)
     return false
   else 
     return true;
@@ -194,7 +194,7 @@ public class AzureAuth {
  def hasTooManyFailedAuthentication(request) {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
   debug("Azure data: ${azureData}")
-  if (azureData!=null &amp;&amp; azureData.nbfails&gt;3) {
+  if (azureData!=null &amp;&amp; azureData.nbfails &gt; 3) {
      debug("Too many fails: ${azureData.nbfails}")
      return true;
   } else { 
@@ -226,15 +226,17 @@ public class AzureAuth {
      request.getSession().setAttribute(AZURE_SESSION_REDIRECT, finalRedirect);
    }
 
-   def currentURL = URLEncoder.encode(REDIRECT_URI, "UTF-8")
-   def redirectUrl = "${authority}/${tenant}/oauth2/authorize?" +
-               "response_type=code%20id_token&amp;" +
-               "scope= Files.ReadWrites%20User.Read%20User.ReadWriteUser.ReadBasic.All" +
-               "%20Files.ReadWrite%20Files.ReadWrite.All%20Files.ReadWrite.AppFolder" +
-               "%20Sites.ReadWrite.All&amp;response_mode=form_post&amp;" +
-               "redirect_uri=${currentURL}&amp;client_id=${azureClientID}&amp;" +
-               "nonce=${UUID.randomUUID()}";
-  return redirectUrl;
+        def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token";
+        def params = new HashMap();
+        params.put("scope", " Files.ReadWrites User.Read User.ReadWriteUser.ReadBasic.All" +
+                " Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder" +
+                " Sites.ReadWrite.All");
+        params.put("response_mode", "form_post");
+        params.put("redirect_uri", REDIRECT_URI);
+        params.put("client_id", azureClientID);
+        params.put("nonce", UUID.randomUUID().toString());
+        params.entrySet().each { redirectUrl += "&amp;${it.key}=${URLEncoder.encode(it.value,'UTF-8')}"};
+        return redirectUrl;
  }
 
  def getAccessToken(authorizationCode, currentUri) {
@@ -344,10 +346,10 @@ public class AzureAuth {
        def session = request.getSession();
        def url = session.getAttribute(AZURE_SESSION_REDIRECT);
        if (url &amp;&amp; url.length() &gt;= 0) {
-					debug("Redirecting to final destination after authorization: ${url}")
-					response.sendRedirect(url)
-					session.remove(AZURE_SESSION_REDIRECT)
-					return true;
+         debug("Redirecting to final destination after authorization: ${url}")
+         response.sendRedirect(url)
+         session.remove(AZURE_SESSION_REDIRECT)
+         return true;
        }
      }
      return true;                  

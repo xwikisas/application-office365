@@ -569,10 +569,10 @@ if (url!=null &amp;&amp; url!="") {
    doc.set("user", xcontext.user)
    doc.save("Inserting Office365 Document")
    def path = request.getPathInfo();
-   if(path!=null &amp;&amp; path.length() &gt; 0) {
-        path = path.substring(path.lastIndexOf('/'));
+   if(path != null &amp;&amp; path.length() &gt; 0) {
+     path = path.substring(path.lastIndexOf('/'));
    } else {
-        path = ".";
+     path = ".";
    }
    response.sendRedirect(path);
   }
