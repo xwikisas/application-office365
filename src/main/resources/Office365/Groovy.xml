@@ -37,7 +37,7 @@
   <title>Office 365 Groovy Code</title>
   <comment/>
   <minorEdit>false</minorEdit>
-  <syntaxId>xwiki/2.1</syntaxId>
+  <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content>import com.microsoft.aad.adal4j.*;
 import java.util.concurrent.*
