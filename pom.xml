@@ -47,6 +47,11 @@
     <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
     <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
     <xwiki.extension.category>application</xwiki.extension.category>
+
+    <!-- Components -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/office365
+    </xwiki.extension.components>
   </properties>
   <dependencies>
     <dependency>
