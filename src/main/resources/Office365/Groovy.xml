@@ -221,7 +221,7 @@ public class AzureAuth {
    try {
      Utils.getComponent(Execution.class).getContext().setProperty("bypassDomainSecurityCheck", true);
    } catch (Exception ex) {
-     debug(ex);
+     debug(ex.toString());
    }
  }
 
