@@ -56,6 +56,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.client.utils.*;
 import com.google.gson.Gson;
 import com.xpn.xwiki.web.Utils;
+import org.xwiki.context.Execution;
 
 
 public class AzureAuth {
