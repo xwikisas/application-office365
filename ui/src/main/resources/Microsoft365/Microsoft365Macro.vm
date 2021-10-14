@@ -1,0 +1,56 @@
+{{velocity}}
+#* @vtlvariable name="ms365" type="com.xwiki.microsoft365.Microsoft365ScriptService" *#
+#* @vtlvariable name="escapetool" type="org.apache.velocity.tools.generic.EscapeTool" *#
+#* @vtlvariable name="macroRun" type="com.xwiki.microsoft365.Microsoft365Connections.MacroRun" *#
+#set($ms365=$services.microsoft365)
+#set($macroRun=$ms365.runMacro($wikimacro))
+#set($l11n=$services.localization)
+$xwiki.ssx.use("Microsoft365.Microsoft365Macro")
+#if("view" != $xcontext.action)
+{{info}}
+  ${l11n.render('microsoft365.macro-is-parametrized-in-view-mode')}
+{{/info}}
+#elseif($macroRun.redirecting)
+Redirecting...
+#elseif($macroRun.authenticationNeeded)
+{{warning}}
+[[${l11n.render('microsoft365.cannotauthenticate')}>>$ms365.oAuthStartUrl]]
+{{/warning}}
+#else
+  #set($nb=$macroRun.number)
+  #if($macroRun.mode=="displayPDF")## TODO: can display pdf!
+    $l11n.render('microsoft365.macro.cannotdisplaypdf')
+    $url
+  #elseif($macroRun.mode=="saveDocumentChoice")
+    $l11n.render('microsoft365.macro.objectSaved')
+  #elseif($macroRun.mode=="displayEmbedIFrame")
+  {{html clean=false}}
+  <p style="font-size: smaller; text-align:right"><a href="$doc.name?writeObject=do&nb=$macroRun.number&erase=true">$l11n.render('microsoft365.macro.changeMacro')</a></p>
+  <iframe src="${macroRun.url}" width="${macroRun.width}" height="${macroRun.height}">
+      iframes are missing; we cannot display
+  </iframe>
+  {{/html}}
+  #elseif($macroRun.mode=="displaySearch")
+  {{html clean=false}}
+  <div style="background-color: #EEEEEE; padding: 1em">
+      <p>$l11n.render('microsoft365.macro.search.description')</p>
+      <form action="" method="get" id="microsoft365-searchBox-${nb}">
+          <p>${l11n.render('microsoft365.macro.search.insert')}
+              <input type="hidden" name="update" value="1"/>
+              <input type="hidden" name="nb" value="${nb}"/>
+              <input type="text" name="searchText" value=""/>
+              <input type="submit" value="${l11n.render('microsoft365.macro.search.search')}"/>
+          </p>
+      </form>
+      <div id="searchResult-${nb}">&nbsp;</div>
+  </div>
+  <script type="text/javascript">
+      window.ms365BoxNumbers = window.ms365BoxNumbers || [];
+      window.ms365BoxNumbers.push(${nb});
+  </script>
+    $xwiki.jsx.use('Microsoft365.JSExtension')
+  {{/html}}
+  #elseif($macroRun.mode=="displayError")
+    $l11n.render('microsoft365.macro.error') {{{ ${driveURL} }}}
+  #end
+#end

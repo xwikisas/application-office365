@@ -1,0 +1,220 @@
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.xwiki.application-microsoft365</groupId>
+        <artifactId>application-microsoft365-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.xwiki.application-microsoft365</groupId>
+    <artifactId>application-microsoft365-ui</artifactId>
+    <packaging>xar</packaging>
+    <name>Microsoft 365 Integration (pro)</name>
+    <description>This extension allows users to integrate with the Microsoft 365 cloud suite (office.com, Word, Excel, PowerPoint).
+    </description>
+    <properties>
+        <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
+          buying a license or getting a trial license, but they cannot edit or delete them. -->
+        <xwiki.extension.licensing.publicDocuments>
+            Microsoft365.WebHome
+        </xwiki.extension.licensing.publicDocuments>
+        <xwiki.extension.licensing.excludedDocuments>
+            Microsoft365.Microsoft65Config
+        </xwiki.extension.licensing.excludedDocuments>
+        <!-- Name to display by the Extension Manager -->
+        <xwiki.extension.name>Microsoft365 Integration (Pro)</xwiki.extension.name>
+        <!-- Don't run CLIRR here since there's no Java code. -->
+        <xwiki.clirr.skip>true</xwiki.clirr.skip>
+        <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
+        <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
+        <xwiki.extension.category>application</xwiki.extension.category>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.xwiki.licensing</groupId>
+            <artifactId>application-licensing-licensor-api</artifactId>
+            <version>${licensing.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.json</groupId>
+                    <artifactId>json</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.xwiki.application-microsoft365</groupId>
+            <artifactId>application-microsoft365-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.xwiki.integration-azure-oauth</groupId>
+            <artifactId>integration-azure-oauth-admin-ui</artifactId>
+            <version>1.1-SNAPSHOT</version>
+            <type>xar</type>
+        </dependency>
+
+        <!--     <dependency>
+              <groupId>org.xwiki.contrib.showhide</groupId>
+              <artifactId>showhide-macro</artifactId>
+              <type>xar</type>
+              <version>2.0</version>
+            </dependency>
+            <dependency>
+              <groupId>com.xwiki.pdfviewer</groupId>
+              <artifactId>macro-pdfviewer-ui</artifactId>
+              <type>xar</type>
+              <version>2.1</version>
+            </dependency> -->
+    </dependencies>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/xwikisas/application-microsoft365/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:git://github.com/xwikisas/application-microsoft365.git</connection>
+        <developerConnection>scm:git:git@github.com:xwikisas/application-microsoft365.git</developerConnection>
+        <url>https://github.com/xwikisas/application-microsoft365/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+    <!-- Even though this repository is already declared in the parent POM, we still explicitly redeclare it for
+         convenience. This makes it simpler to build this project without having to declare this repository in one's own
+         Maven settings.xml file. In the future We may decide to remove this in the future and make it a rule to have the
+         XWiki SAS Nexus repository in one's settings.xml -->
+    <repositories>
+        <repository>
+            <id>public-store-releases</id>
+            <name>XWiki SAS Public Store Repository for Releases</name>
+            <url>https://nexus.xwiki.com/nexus/content/repositories/public-store-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.xwiki.commons</groupId>
+                <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+                <version>11.4</version>
+                <configuration>
+                    <transformations>
+                        <!-- view code -->
+                        <transformation>
+                            <file>Microsoft365/DocumentList.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/DocumentList.vm</content>
+                        </transformation>
+                        <transformation>
+                            <file>Microsoft365/Microsoft365SearchUIExtension.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/Microsoft365SearchUIExtension.vm</content>
+                        </transformation>
+                        <transformation>
+                            <file>Microsoft365/SitesList.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/SitesList.vm</content>
+                        </transformation>
+                        <transformation>
+                            <file>Microsoft365/Microsoft365Macro.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/object[className[text()='XWiki.WikiMacroClass']]/property/code</xpath>
+                            <content>src/main/resources/Microsoft365/Microsoft365Macro.vm</content>
+                        </transformation>
+
+                        <transformation>
+                            <file>Microsoft365/ProviderConfig.xml</file>
+                            <xpath>/xwikidoc/object/property/loginTemplate</xpath>
+                            <action>INSERT_TEXT</action>
+                            <content>src/main/resources/Microsoft365/LoginCode.vm</content>
+                        </transformation>
+
+
+                        <!-- xwiki classes -->
+                        <transformation>
+                            <file>Microsoft365/SynchronizedDocumentClass.xml</file>
+                            <action>INSERT_CHILD</action>
+                            <xpath>/xwikidoc</xpath>
+                            <xml>src/main/resources/Microsoft365/SynchronizedDocumentClass.xwikiclass</xml>
+                        </transformation>
+
+                        <!-- this was an example but would need us to maintain a public account visible
+                        <transformation>
+                          <file>Microsoft365/Microsoft365Macro.xml</file>
+                          <action>INSERT_CHILD</action>
+                          <xpath>/xwikidoc/object[className[text()='Microsoft365/SynchronizedDocumentClass']]</xpath>
+                          <xml>src/main/resources/Microsoft365/SynchronizedDocumentClass.xwikiclass</xml>
+                        </transformation>
+                        -->
+
+
+                        <!-- translations -->
+                        <transformation>
+                            <file>Microsoft365/Translations.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/Translations.properties</content>
+                        </transformation>
+
+                        <!-- translations -->
+                        <transformation>
+                            <file>Microsoft365/JSExtension.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/Translations.properties</content>
+                        </transformation>
+
+                        <!-- logo -->
+                        <transformation>
+                            <file>Microsoft365/WebHome.xml</file>
+                            <xpath>/xwikidoc/attachment[/filename[text()='Microsoft365-logo.svg']]</xpath>
+                            <action>INSERT_ATTACHMENT_CONTENT</action>
+                            <content>src/main/resources/Microsoft365/Microsoft365-logo.svg</content>
+                        </transformation>
+
+                        <!-- js extension -->
+                        <transformation>
+                            <file>Microsoft365/JSExtension.xml</file>
+                            <xpath>/xwikidoc/object[className[text()='XWiki.JavaScriptExtension']]/property/code</xpath>
+                            <action>INSERT_TEXT</action>
+                            <content>src/main/resources/Microsoft365/JSExtension.js</content>
+                        </transformation>
+
+
+                    </transformations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <createChecksum>true</createChecksum>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

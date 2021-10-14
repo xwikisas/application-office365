@@ -1,0 +1,3 @@
+com.xwiki.microsoft365.Microsoft365ScriptService
+com.xwiki.microsoft365.internal.Microsoft365ConnectionsImpl
+com.xwiki.microsoft365.internal.MacroRunner

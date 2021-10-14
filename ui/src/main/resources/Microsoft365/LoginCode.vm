@@ -1,0 +1,5 @@
+{{velocity}}{{html clean=false}}
+<a href="-URL-&provider=-PROVIDER-" class="btn btn-primary col-xs-12"
+   style="background:white; border: 1px solid hsla(0,0%,89%,1); color: #222222; font-family: Segoe UI,SegoeUI,Helvetica Neue,Helvetica,Arial,sans-serif; text-align:left"'
+><img  alt="Logo Microsoft" src="--image-base64--Microsoft365.WebHome@Microsoft365-logo.svg--" style="height:1.2em">&nbsp;&nbsp;$services.localization.render("microsoft365.loginWithMicrosoft365")</a>
+{{/html}}{{/velocity}}

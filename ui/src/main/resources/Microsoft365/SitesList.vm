@@ -1,0 +1,18 @@
+{{velocity}}
+#* @vtlvariable name="ms365" type="com.xwiki.microsoft365.Microsoft365ScriptService" *#
+#set($ms365=$services.microsoft365)
+#if($ms365.missingAuth)
+  {{warning}}
+    ${services.localization.render('office365.cannotauthenticate')}
+  {{/warning}}
+#else
+  Drive url: ${ms365.driveURL}
+  #set($res=$ms365.getGraphApiData())
+  #foreach($item in $res.value)
+    * ${item.name} = $item.id
+  #end
+  #if($request.debug)
+    $ms365.debugInfo
+  #end
+#end
+{{/velocity}}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>Microsoft365</web>
+  <name>Install</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Microsoft365.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <version>1.1</version>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <customClass/>
+  <title>Microsoft365 Installation</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+#if(!$xwiki.hasAdminRights())
+  You are running this script as a non admin. It will have no effect. Login as admin.
+#else
+  This script automatically set the owner of the pages in the Microsoft365 Application. This will allow the priviledged scripts included in them to work.
+#end
+#if($request.confirm=="1")
+  Assigning programming rights to the following pages:
+#else
+  [[Confirm assigning programming rights to the following pages:&gt;&gt;$doc.fullName?confirm=1]]
+#end
+
+#foreach($item in $xwiki.searchDocuments("where doc.web='Microsoft365'"))
+* $item #if($request.confirm=="1") $xwiki.getDocument($item).save() #end
+
+#end
+
+#set($transdoc = $xwiki.getDocument("XWiki.XWikiPreferences"))
+#set($ok = $transdoc.setTitle($transdoc.getTitle()))
+#set($ok = $transdoc.use("XWiki.XWikiPreferences"))
+#set($transprefs = $transdoc.getValue("documentBundles"))
+#if($transprefs.indexOf("Microsoft365.Translations")==-1)
+  #if($request.confirm=="1")
+    #set($transprefs = "${transprefs},Microsoft365.Translations")
+    #set($ok = $transdoc.set("documentBundles", $transprefs))
+    #set($ok = $transdoc.save())
+  #end
+* Added translation bundle to XWiki Preferences
+#end
+{{/velocity}}</content>
+</xwikidoc>

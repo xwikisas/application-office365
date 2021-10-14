@@ -1,0 +1,164 @@
+<?xml version='1.1' encoding='UTF-8'?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+
+<xwikidoc>
+  <web>Microsoft365</web>
+  <name>ProviderConfig</name>
+  <language/>
+  <defaultLanguage/>
+  <parent>Microsoft365.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <title>Provider Config</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <version>1.1</version>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>Configuration for the provision of services for the interface to Microsoft365.&#xd;
+See the objects of this page.</content>
+  <object>
+    <name>Microsoft365.ProviderConfig</name>
+    <number>0</number>
+    <className>IdentityOAuth.OAuthProviderClass</className>
+    <guid>215b5ad2-9270-42ba-9a9f-b26215d1095e</guid>
+    <class>
+      <name>IdentityOAuth.OAuthProviderClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <active>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayFormType>checkbox</displayFormType>
+        <displayType/>
+        <hint/>
+        <name>active</name>
+        <number>9</number>
+        <prettyName>active</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </active>
+      <loginTemplate>
+        <contenttype>---</contenttype>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>---</editor>
+        <hint/>
+        <name>loginTemplate</name>
+        <number>2</number>
+        <picker>1</picker>
+        <prettyName>loginTemplate</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </loginTemplate>
+      <orderHint>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <hint/>
+        <name>orderHint</name>
+        <number>4</number>
+        <numberType>long</numberType>
+        <prettyName>orderHint</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+      </orderHint>
+      <providerHint>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <hint/>
+        <name>providerHint</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>providerHint</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </providerHint>
+      <configurationObjectsPage>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <freeText/>
+        <hint/>
+        <idField/>
+        <largeStorage>0</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>configurationObjectsPage</name>
+        <number>4</number>
+        <picker>1</picker>
+        <prettyName>configurationObjectsPage</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort/>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.PageClass</classType>
+      </configurationObjectsPage>
+    </class>
+    <property>
+      <loginTemplate/><!-- the text of this element is made to be the content of LoginCode.vm
+                            by the maven xar plugin -->
+    </property>
+    <property>
+      <orderHint>10</orderHint>
+    </property>
+    <property>
+      <providerHint>microsoft365</providerHint>
+    </property>
+    <property>
+      <active>1</active>
+    </property>
+    <property>
+      <configurationObjectsPage>Microsoft365.Config</configurationObjectsPage>
+    </property>
+    <property>
+      <providerName>microsoft365</providerName>
+    </property>
+  </object>
+</xwikidoc>
