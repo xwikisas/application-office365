@@ -22,16 +22,16 @@
   <parent>
     <groupId>com.xwiki.parent</groupId>
     <artifactId>xwikisas-parent-platform</artifactId>
-    <version>9.11-5</version>
+    <version>11.10</version>
   </parent>
   <groupId>com.xwiki.office365</groupId>
   <artifactId>application-office365</artifactId>
   <version>1.9-SNAPSHOT</version>
   <packaging>xar</packaging>
   <name>Office365 Integration</name>
-  <description>ISearch OneDrive documents directly from XWiki. Embed Office 365 documents into XWiki pages using their URL. The app can be purchased individually or part of the XWiki Pro package. Try it free.</description>
+  <description>Search OneDrive documents directly from XWiki. Embed Office 365 documents into XWiki pages using their URL. The app can be purchased individually or part of the XWiki Pro package. Try it free.</description>
   <properties>
-    <licensing.version>1.16.1</licensing.version>
+    <licensing.version>1.19</licensing.version>
     <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
       buying a license or getting a trial license, but they cannot edit or delete them. -->
     <xwiki.extension.licensing.publicDocuments>
@@ -44,15 +44,37 @@
     <xwiki.extension.name>Office365 Integration (Pro)</xwiki.extension.name>
     <!-- Don't run CLIRR here since there's no Java code. -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
-    <!-- Don't run enforcer here since there's no Java code to avoid java7 requirement. -->
-    <xwiki.enforcer.skip>true</xwiki.enforcer.skip>
     <xwiki.extension.category>application</xwiki.extension.category>
-
     <!-- Components -->
     <xwiki.extension.components>
       org.xwiki.rendering.macro.Macro/office365
     </xwiki.extension.components>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <!-- Fix "Require upper bound dependencies error" due to dependency on Show Hide Macro. -->
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-rendering-wikimacro-api</artifactId>
+        <version>${platform.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-skin-skinx</artifactId>
+        <version>${platform.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-rendering-macro-velocity</artifactId>
+        <version>${platform.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.xwiki.rendering</groupId>
+        <artifactId>xwiki-rendering-macro-html</artifactId>
+        <version>${rendering.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>com.xwiki.licensing</groupId>
@@ -62,19 +84,35 @@
     <dependency>
       <groupId>com.microsoft.azure</groupId>
       <artifactId>adal4j</artifactId>
-      <version>1.2.0</version>
+      <!-- We can't use a more recent version because it depends on commons-codec 1.14+ while XWiki 11.10 bundles
+        commons-codec 1.13 -->
+      <version>1.6.4</version>
+      <!-- TODO: Drop this when upgrading adal4j version. -->
+      <exclusions>
+        <!-- Javax Mail artifact id changed, the current one is com.sun.mail:jakarta.mail -->
+        <exclusion>
+          <groupId>com.sun.mail</groupId>
+          <artifactId>javax.mail</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- TODO: Drop this when upgrading adal4j version. This replaces the Javax Mail artifact excluded above. -->
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>${jakarta.mail.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xwiki.contrib.showhide</groupId>
       <artifactId>showhide-macro</artifactId>
       <type>xar</type>
-      <version>2.0</version>
+      <version>2.0.1</version>
     </dependency>
     <dependency>
       <groupId>com.xwiki.pdfviewer</groupId>
       <artifactId>macro-pdfviewer-ui</artifactId>
       <type>xar</type>
-      <version>2.1</version>
+      <version>2.3-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <issueManagement>
@@ -101,7 +139,7 @@
       </releases>
       <snapshots>
         <enabled>false</enabled>
-      </snapshots> 
+      </snapshots>
     </repository>
   </repositories>
 </project>
