@@ -44,6 +44,7 @@
     <xwiki.extension.name>Office365 Integration (Pro)</xwiki.extension.name>
     <!-- Don't run CLIRR here since there's no Java code. -->
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
     <xwiki.extension.category>application</xwiki.extension.category>
     <!-- Components -->
     <xwiki.extension.components>
