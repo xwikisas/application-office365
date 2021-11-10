@@ -1,11 +1,13 @@
 {{velocity}}
 #* @vtlvariable name="ms365" type="com.xwiki.microsoft365.Microsoft365ScriptService" *#
+#* @vtlvariable name="xwiki" type="com.xpn.xwiki.api.XWiki" *#
 #* @vtlvariable name="escapetool" type="org.apache.velocity.tools.generic.EscapeTool" *#
 #* @vtlvariable name="macroRun" type="com.xwiki.microsoft365.Microsoft365Connections.MacroRun" *#
 #set($ms365=$services.microsoft365)
 #set($macroRun=$ms365.runMacro($wikimacro))
 #set($l11n=$services.localization)
 $xwiki.ssx.use("Microsoft365.Microsoft365Macro")
+$xwiki.jsx.use('Microsoft365.JSExtension')
 #if("view" != $xcontext.action)
 {{info}}
   ${l11n.render('microsoft365.macro-is-parametrized-in-view-mode')}
@@ -48,9 +50,8 @@ Redirecting...
       window.ms365BoxNumbers = window.ms365BoxNumbers || [];
       window.ms365BoxNumbers.push(${nb});
   </script>
-    $xwiki.jsx.use('Microsoft365.JSExtension')
-  {{/html}}
-  #elseif($macroRun.mode=="displayError")
+  {{/html}}#elseif($macroRun.mode=="displayError")
     $l11n.render('microsoft365.macro.error') {{{ ${driveURL} }}}
   #end
 #end
+{{/velocity}}

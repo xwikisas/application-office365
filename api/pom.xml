@@ -38,7 +38,7 @@
     <dependency>
       <groupId>com.xwiki.integration-azure-oauth</groupId>
       <artifactId>integration-azure-oauth-api</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>${azuread.version}</version>
     </dependency>
 
     <dependency>

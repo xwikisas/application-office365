@@ -31,6 +31,7 @@ import java.util.TreeMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.apache.velocity.tools.generic.EscapeTool;
@@ -39,6 +40,7 @@ import org.xwiki.model.reference.DocumentReference;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xpn.xwiki.XWikiContext;
 import com.xwiki.azureoauth.AzureADIdentityOAuthProvider;
 import com.xwiki.identityoauth.IdentityOAuthException;
 import com.xwiki.microsoft365.Microsoft365Connections;
@@ -59,6 +61,9 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
 
     @Inject
     private MacroRunner macroRunner;
+
+    @Inject
+    private Provider<XWikiContext> contextProvider;
 
     private Map<String, String> sites = new TreeMap<>();
 

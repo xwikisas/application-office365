@@ -35,6 +35,7 @@
   <properties>
     <licensing.version>1.19</licensing.version>
     <xwiki.minversion>11.10</xwiki.minversion>
+    <azuread.version>1.6-SNAPSHOT</azuread.version>
   </properties>
   <issueManagement>
     <system>GitHub</system>

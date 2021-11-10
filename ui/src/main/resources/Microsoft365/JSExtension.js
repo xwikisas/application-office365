@@ -77,11 +77,13 @@ require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
   }
 
   jquery(document).ready(function () {
-    for(let nb of window.ms365BoxNumbers) {
-      jquery("#microsoft365-searchBox-" + nb).submit(function (evt) {
-        evt.preventDefault();
-        doSearchMicrosoft365(nb);
-        return false;
+    if(window.ms365BoxNumbers) {
+      window.ms365BoxNumbers.forEach(function(nb) {
+        jquery("#microsoft365-searchBox-" + nb).submit(function (evt) {
+          evt.preventDefault();
+          doSearchMicrosoft365(nb);
+          return false;
+        });
       });
     }
   });

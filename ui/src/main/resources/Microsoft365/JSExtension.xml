@@ -116,7 +116,7 @@
     <className>XWiki.JavaScriptExtension</className>
     <guid>76a4842a-6fbc-4a50-8599-961b0272183a</guid>
     <property>
-      <cache>short</cache>
+      <cache>no</cache>
     </property>
     <property>
       <code></code>
@@ -125,7 +125,7 @@
       <name>Microsoft365 JavaScript Extension</name>
     </property>
     <property>
-      <parse></parse>
+      <parse>false</parse>
     </property>
     <property>
       <use>onDemand</use>

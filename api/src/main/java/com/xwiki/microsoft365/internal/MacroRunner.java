@@ -166,6 +166,10 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
         } else {
             macroRun.mode = MODE_DISPLAY_EMBED_IFRAME;
             macroRun.url = obj.getStringValue(EMBEDLINK);
+            if (macroRun.url == null || macroRun.url.length() == 0) {
+                macroRun.url = obj.getStringValue(EMBEDLINK + 2);
+            }
+
             // THINKME: rather use this to get embed URLs?
             // msConnections.requestEmbedUrl(obj.getStringValue(ID), obj.getStringValue(SITE));
             // (but it needs a post and requires an MS identity according to
@@ -203,17 +207,16 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
                 obj.set(ID, "", ctx);
                 obj.set(EMBEDLINK, "", ctx);
                 obj.set(EDIT_LINK, "", ctx);
+                obj.set(EMBEDLINK + 2, "", ctx);
+                obj.set(EDIT_LINK + 2, "", ctx);
                 obj.set(SITE, "", ctx);
                 obj.set(VERSION, "", ctx);
                 obj.set(FILENAME, "", ctx);
                 ctx.getWiki().saveDocument(doc, "Removing Microsoft365 Document Embed", ctx);
             } else {
                 obj.set(ID, reqParam.get(ID)[0], ctx);
-                String embedLink = reqParam.get(EMBEDLINK)[0];
-                if (embedLink != null) {
-                    obj.set(EMBEDLINK, embedLink, ctx);
-                }
-                obj.set(EDIT_LINK, reqParam.get(EDIT_LINK)[0], ctx);
+                setParam12IfNotEmpty(obj, EMBEDLINK, reqParam.get(EMBEDLINK)[0], ctx);
+                setParam12IfNotEmpty(obj, EDIT_LINK, reqParam.get(EDIT_LINK)[0], ctx);
 
                 if (reqParam.get(SITE) != null && reqParam.get(SITE).length > 0 && reqParam.get(SITE)[0] != null) {
                     obj.set(SITE, reqParam.get(SITE)[0], ctx);
@@ -230,6 +233,17 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
         } catch (Exception e) {
             e.printStackTrace();
             throw new IdentityOAuthException("Error at saving macro object.", e);
+        }
+    }
+
+    /* This method stores the values in the "2" variants of the fields because the first
+     *  variant (without the 2) may be limited to 255 characters which is often too little
+     *  for URLs to be stored.  */
+    private void setParam12IfNotEmpty(BaseObject obj, String name, String value, XWikiContext ctx)
+    {
+        if (value != null && value.length() > 0) {
+            obj.set(name + 2, value, ctx);
+            obj.set(name, "", ctx);
         }
     }
 
