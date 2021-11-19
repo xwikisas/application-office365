@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 <class>
-  <name>Microsoft365.SynchronizedDocumentClass</name>
+  <name>Microsoft365.EmbeddedDocumentClass</name>
   <customClass/>
   <customMapping/>
   <defaultViewSheet/>
@@ -39,7 +39,7 @@
     <unmodifiable>0</unmodifiable>
     <validationMessage/>
     <validationRegExp/>
-    <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+    <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
   </editLink>
   <embedLink>
     <customDisplay/>
@@ -52,7 +52,7 @@
     <unmodifiable>0</unmodifiable>
     <validationMessage/>
     <validationRegExp/>
-    <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+    <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
   </embedLink>
   <exportLink>
     <customDisplay/>
@@ -102,20 +102,20 @@
     <unmodifiable>0</unmodifiable>
     <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
   </site>
-  <sync>
+  <requireAuth>
     <customDisplay/>
     <defaultValue>0</defaultValue>
     <disabled>0</disabled>
     <displayFormType>radio</displayFormType>
     <displayType/>
-    <name>sync</name>
+    <name>requireAuth</name>
     <number>7</number>
     <prettyName>sync</prettyName>
     <unmodifiable>0</unmodifiable>
     <validationMessage/>
     <validationRegExp/>
     <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
-  </sync>
+  </requireAuth>
   <user>
     <disabled>0</disabled>
     <name>user</name>

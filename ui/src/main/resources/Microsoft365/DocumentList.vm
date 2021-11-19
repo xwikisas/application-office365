@@ -6,6 +6,14 @@
 ##
 #set($ms365=$services.microsoft365)
 #set($results=$ms365.searchDocuments())
+#macro(itemJson $item)
+{ "name": $jsontool.serialize($item.name),
+"filename": $jsontool.serialize($item.name),
+"viewUrl": $jsontool.serialize($item.viewUrl),
+"embedUrl": $jsontool.serialize($item.embedUrl),
+"id": $jsontool.serialize($item.id),
+"version": $jsontool.serialize($item.version)
+}#end
 ##
 ##
 #if($request.format=="json")
@@ -14,19 +22,25 @@
   {"error": "$escapetool.javascript($results.error)",
   "errorMessage": "$escapetool.javascript("$results.errorMessage")"}
   #else
-      #set($s=$results.items.size())
-    {"searchText": $jsontool.serialize($results.searchedText),
-      "items":[
-      #foreach($item in $results.items)##
-        { "name": $jsontool.serialize($item.name),
-          "filename": $jsontool.serialize($item.name),
-          "viewUrl": $jsontool.serialize($item.viewUrl),
-          "embedUrl": $jsontool.serialize($item.embedUrl),
-          "id": $jsontool.serialize($item.id),
-          "version": $jsontool.serialize($item.version)
-      }#if($velocityCount < $s),#end
-      #end
-      ]}#end
+    #set($s=$results.items.size())
+  {"searchText": $jsontool.serialize($results.searchedText), "results":[
+  {"siteName": "",
+  "items":[
+    #foreach($item in $results.items)#itemJson($item)##
+      #if($velocityCount < $results.items.size()),#end
+    #end
+    #set($sites = $ms365.getSiteNames())
+  ]}#if(!$sites.isEmpty()),#end
+    #foreach($site in $sites)
+      #set($results=$ms365.searchDocuments($site))
+    {"siteName": "$site", "items": [
+      #foreach($item in $results.items)#itemJson($item)##
+        #if($velocityCount < $results.items.size()),#end
+      #end ]}
+      #if($velocityCount < $sites.size()),#end
+    #end
+  ]}
+  #end
 #else
 {{translation key="microsoft365.documentlist.description"/}}
   #if($ms365.missingAuth)

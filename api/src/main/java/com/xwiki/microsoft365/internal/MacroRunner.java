@@ -137,10 +137,7 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
             String filename = obj == null ? null : obj.getStringValue(FILENAME).trim();
 
             // from here we deliver content to be displayed
-            if (filename == null || filename.length() == 0) {
-                // predpare for display of the edit form
-                macroRun.mode = MODE_DISPLAY_SEARCH;
-            } else if (VIEW.equals(action)) {
+            if (filename != null && filename.length() > 0 && VIEW.equals(action)) {
                 prepareDisplayEmbed(macroRun, obj);
             }
         } catch (Exception e) {
@@ -166,9 +163,6 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
         } else {
             macroRun.mode = MODE_DISPLAY_EMBED_IFRAME;
             macroRun.url = obj.getStringValue(EMBEDLINK);
-            if (macroRun.url == null || macroRun.url.length() == 0) {
-                macroRun.url = obj.getStringValue(EMBEDLINK + 2);
-            }
 
             // THINKME: rather use this to get embed URLs?
             // msConnections.requestEmbedUrl(obj.getStringValue(ID), obj.getStringValue(SITE));
@@ -207,16 +201,14 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
                 obj.set(ID, "", ctx);
                 obj.set(EMBEDLINK, "", ctx);
                 obj.set(EDIT_LINK, "", ctx);
-                obj.set(EMBEDLINK + 2, "", ctx);
-                obj.set(EDIT_LINK + 2, "", ctx);
                 obj.set(SITE, "", ctx);
                 obj.set(VERSION, "", ctx);
                 obj.set(FILENAME, "", ctx);
                 ctx.getWiki().saveDocument(doc, "Removing Microsoft365 Document Embed", ctx);
             } else {
                 obj.set(ID, reqParam.get(ID)[0], ctx);
-                setParam12IfNotEmpty(obj, EMBEDLINK, reqParam.get(EMBEDLINK)[0], ctx);
-                setParam12IfNotEmpty(obj, EDIT_LINK, reqParam.get(EDIT_LINK)[0], ctx);
+                setParamIfNotEmpty(obj, EMBEDLINK, reqParam.get(EMBEDLINK)[0], ctx);
+                setParamIfNotEmpty(obj, EDIT_LINK, reqParam.get(EDIT_LINK)[0], ctx);
 
                 if (reqParam.get(SITE) != null && reqParam.get(SITE).length > 0 && reqParam.get(SITE)[0] != null) {
                     obj.set(SITE, reqParam.get(SITE)[0], ctx);
@@ -236,14 +228,10 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
         }
     }
 
-    /* This method stores the values in the "2" variants of the fields because the first
-     *  variant (without the 2) may be limited to 255 characters which is often too little
-     *  for URLs to be stored.  */
-    private void setParam12IfNotEmpty(BaseObject obj, String name, String value, XWikiContext ctx)
+    private void setParamIfNotEmpty(BaseObject obj, String name, String value, XWikiContext ctx)
     {
         if (value != null && value.length() > 0) {
-            obj.set(name + 2, value, ctx);
-            obj.set(name, "", ctx);
+            obj.set(name, value, ctx);
         }
     }
 
@@ -284,34 +272,38 @@ public final class MacroRunner implements Initializable, Microsoft365Constants
                 logger.warn(" -- param " + param + " ; " + macroParams.get(param)
                         + " (class " + macroParams.get(param).getClass() + ")");
             }
-            this.width = (String) macroParams.get("width");
-            this.height = (String) macroParams.get("height");
-            this.url = (String) macroParams.get("url");
-            this.authenticationNeeded = msConnections.isMissingAuth();
+            width = (String) macroParams.get("width");
+            height = (String) macroParams.get("height");
+            url = (String) macroParams.get("url");
+            authenticationNeeded = msConnections.isMissingAuth();
 
-            if (this.authenticationNeeded) {
-                this.url = msConnections.getOAuthStartUrl();
+            if (this.url == null) {
+                if (authenticationNeeded) {
+                    mode = MODE_AUTHENTICATION_NEEDED;
+                } else {
+                    mode = MODE_DISPLAY_SEARCH;
+                }
+            } else {
+                if (Boolean.TRUE.equals(macroParams.get("requireAuth"))) {
+                    mode = MODE_AUTHENTICATION_NEEDED;
+                } else if (url.toLowerCase().endsWith(".pdf")) {
+                    mode = MODE_DISPLAY_PDF;
+                } else {
+                    mode = MODE_DISPLAY_EMBED_IFRAME;
+                }
+            }
+
+            if (authenticationNeeded) {
+                url = msConnections.getOAuthStartUrl();
                 if (Boolean.parseBoolean((String) macroParams.get("authentication"))) {
                     try {
-                        this.redirecting = true;
+                        redirecting = true;
                         contextProvider.get().getResponse().sendRedirect(this.url);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    this.redirecting = false;
-                }
-            }
-
-            if (this.authenticationNeeded) {
-                mode = "authenticationNeeded";
-            } else if (this.url == null) {
-                mode = "displaySearch";
-            } else {
-                if (url.toLowerCase().endsWith(".pdf")) {
-                    mode = "displayPDF";
-                } else {
-                    mode = "displayEmbedIFrame";
+                    redirecting = false;
                 }
             }
         }

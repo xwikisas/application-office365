@@ -37,7 +37,14 @@ require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
         r.innerHTML = "<p><b>" + results.error + "</b><br/>" + results.errorMessage + "</p>";
       } else {
         let counter = 0, s = "";
-        if (results.items.length === 0) {
+        // only keep sites with no results
+        let nonEmptyResults = [];
+        for(let r of results.results) {
+          console.log("site: " + r.siteName)
+          if(r.items && r.items.length>0)
+            nonEmptyResults.push(r);
+        }
+        if (nonEmptyResults.length === 0) {
           s+= "<li><b>${escapetool.javascript($l11n.render('microsoft365.search.noResults'))}</b></li>";
         } else {
           let matchesHint = document.createElement("p");
@@ -46,27 +53,27 @@ require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
                   .replace("_my_query_here_", searchText);
           s += matchesHint.outerHTML;
           s += "<ul>";
-          results.items.forEach((function (item) {
-            // TODO: wire actions of preview and choice
-            console.log(item.name);
-            const previewFieldId = 'previewpane-' + number + '-' + counter;
-            const saveURL = xwikiMeta.page + "?" +
-                "writeObject=do" +
-                "&nb=" + number +
-                "&editLink=" + escape(item.viewUrl) +
-                "&embedLink=" + escape(item.embedUrl) +
-                "&id=" + escape(item.id) +
-                (item.si? "site=" + escape(item.si): "") +
-                "&version=" + escape(item.version) +
-                "&fileName=" + escape(item.name);
-            // id, embedLink, editLink, site, version, filename,
-            s+= "<li><a href='" + saveURL + "'>" + item.name +
-                " (${services.localization.render('microsoft365.embed')}) </a>&nbsp;" +
-                '(<a href="#" onclick="showDoc(\'' + item.embedUrl + '\',\'' + previewFieldId +
-                '\'); return false;">$services.localization.render("microsoft365.preview")</a>)' +
-                '<span id="'+ previewFieldId + '">&nbsp;</span>';
-            counter++;
-          }));
+          for(let result of nonEmptyResults) {
+            result.items.forEach((function (item) {
+              console.log(item.name);
+              const previewFieldId = 'previewpane-' + number + '-' + counter;
+              const saveURL = xwikiMeta.page + "?" +
+                  "writeObject=do" +
+                  "&nb=" + number +
+                  "&editLink=" + escape(item.viewUrl) +
+                  "&embedLink=" + escape(item.embedUrl) +
+                  "&id=" + escape(item.id) +
+                  (item.si? "site=" + escape(item.si): "") +
+                  "&version=" + escape(item.version) +
+                  "&fileName=" + escape(item.name);
+              // id, embedLink, editLink, site, version, filename,
+              s+= "<li><a href='" + saveURL + "'>" + item.name +
+                  " (${services.localization.render('microsoft365.embed')}) </a>&nbsp;" +
+                  '(<a href="#" onclick="showDoc(\'' + item.embedUrl + '\',\'' + previewFieldId +
+                  '\'); return false;">$services.localization.render("microsoft365.preview")</a>)' +
+                  '<span id="'+ previewFieldId + '">&nbsp;</span>';
+              counter++;
+            }));          }
           s+= "</ul>";
           r.innerHTML = s;
         }

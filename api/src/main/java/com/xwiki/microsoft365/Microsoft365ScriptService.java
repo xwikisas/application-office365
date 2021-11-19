@@ -117,8 +117,16 @@ public class Microsoft365ScriptService implements ScriptService, Initializable
      *
      * @return The list of URLs of the sharepoint sites added to the configuration.
      */
-    public List<String> getSites()
+    public List<String> getSiteNames()
     {
-        return connections.getSites();
+        return connections.getSiteNames();
+    }
+
+    /**
+     * Retrieves the list of accessible Sharepoint sites for the user.
+     * @return the list of Strings <id>:<name>.
+     */
+    public List<String> getAvailableSites() {
+        return connections.getAvailableSites();
     }
 }

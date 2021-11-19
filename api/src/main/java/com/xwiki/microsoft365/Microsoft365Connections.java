@@ -69,7 +69,13 @@ public interface Microsoft365Connections
      *
      * @return The list of URLs of the sharepoint sites added to the configuration.
      */
-    List<String> getSites();
+    List<String> getSiteNames();
+
+    /**
+     * Retrieves the list of accessible Sharepoint sites for the user.
+     * @return the list of Strings <id>:<name>.
+     */
+    List<String> getAvailableSites();
 
     /**
      * Methods to drive the rendering of the macro.

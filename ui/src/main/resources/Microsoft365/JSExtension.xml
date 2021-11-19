@@ -125,7 +125,7 @@
       <name>Microsoft365 JavaScript Extension</name>
     </property>
     <property>
-      <parse>false</parse>
+      <parse>true</parse>
     </property>
     <property>
       <use>onDemand</use>

@@ -67,17 +67,23 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
 
     private Map<String, String> sites = new TreeMap<>();
 
+    private List<String> siteNames = new ArrayList<>();
+
     @Override
     public void initialize(Map<String, String> config)
     {
         // let objects regarding simple AzureAD§ config be read
         super.initialize(config);
         // grab the office and sharepoint specific information
-        String sitesConfig = config.get(SITES);
+        String sitesConfig = config.get("sharepointSites");
         if (sitesConfig == null) {
             sitesConfig = "";
         }
         sites = parseSites(sitesConfig);
+        siteNames = new ArrayList<>(sites.size());
+        for (Object s : sites.keySet()) {
+            siteNames.add(s.toString());
+        }
         ms365WebPreferences = documentResolver.resolve("xwiki:Microsoft365.WebPreferences");
     }
 
@@ -96,14 +102,15 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
      */
     Map<String, String> parseSites(String sitesLinesConfig)
     {
-        String[] sitesLines = sitesLinesConfig.split("\\n|\\r");
+        String[] sitesLines = sitesLinesConfig.trim().split("\\n|\\r");
         Map<String, String> parsed = new TreeMap<>();
         for (String siteLine : sitesLines) {
             if (siteLine == null || siteLine.trim().length() == 0) {
                 continue;
             }
-            String[] pair = siteLine.split("=|\\s");
-            parsed.put(pair[0], pair[1]);
+            String trimmed = siteLine.trim();
+            int p = trimmed.lastIndexOf(" ");
+            parsed.put(trimmed.substring(0, p).trim(), trimmed.substring(p).trim());
         }
         return parsed;
     }
@@ -179,12 +186,23 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
         return contextProvider.get().getRequest().get(paramName);
     }
 
+    @Override public List<String> getAvailableSites()
+    {
+        Map results = super.makeApiCall("https://graph.microsoft.com/v1.0/sites?search=site");
+        if (results.containsKey(VALUE)) {
+            return (List) results.get(VALUE);
+        } else {
+            // probably an error
+            return Arrays.asList(results.toString());
+        }
+    }
+
     @Override
     public SearchResult searchDocuments()
     {
         try {
             String site = readParam(SITE);
-            if (site != null && sites.containsKey(site)) {
+            if (site != null && !sites.containsKey(site)) {
                 throw new RuntimeException("No such site " + QUOTE + site + QUOTE);
             }
 
@@ -200,7 +218,7 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
             debugMsg("Searching for " + QUOTE + text + QUOTE);
 
             Map searchResultMap = super.makeApiCall(baseURL + "search(q='" + escapeTool.url(text) + "')");
-            List results = (List) searchResultMap.get("value");
+            List results = (List) searchResultMap.get(VALUE);
 
             throwOnPossibleError((Map) searchResultMap.get("error"));
             List<SearchResultItem> searchResults = new ArrayList<>(results.size());
@@ -243,9 +261,9 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
     }
 
     @Override
-    public List<String> getSites()
+    public List<String> getSiteNames()
     {
-        return Arrays.asList((String[]) sites.keySet().toArray());
+        return siteNames;
     }
 
     String getDriveURL(String site)
@@ -253,7 +271,7 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
         String baseURL = "https://graph.microsoft.com/v1.0/me/drive/";
         if (site != null && site.length() > 0) {
             String siteId = sites.get(site);
-            baseURL = "https://graph.microsoft.com/v1.0/sites/${siteId}/drive/";
+            baseURL = "https://graph.microsoft.com/v1.0/sites/" + siteId + "/drive/";
         }
         return baseURL;
     }

@@ -30,11 +30,12 @@ interface Microsoft365Constants
     String APOSTROPHE = "'";
     String PROVIDERNAME_MS365 = "microsoft365";
     String SPACE_NAME = "Microsoft365";
-    String EMBED_DOC_CLASSNAME = "SynchronizedDocumentClass";
+    String EMBED_DOC_CLASSNAME = "EmbeddedDocumentClass";
     String WIKI_NAME = "xwiki";
     String FILENAME = "fileName";
     String MODE_DISPLAY_SEARCH = "displaySearch";
     String MODE_DISPLAY_PDF = "displayPDF";
+    String MODE_AUTHENTICATION_NEEDED = "authenticationNeeded";
     String ID = "id";
     String MODE_DISPLAY_EMBED_IFRAME = "displayEmbedIFrame";
     String EMBEDLINK = "embedLink";
@@ -47,5 +48,6 @@ interface Microsoft365Constants
     String MACRO_NUM = "macroNum";
     String GETURL = "getUrl";
     String PREVIEW = "/preview";
+    String VALUE = "value";
 
 }

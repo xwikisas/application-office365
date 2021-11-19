@@ -157,10 +157,10 @@
 
                         <!-- xwiki classes -->
                         <transformation>
-                            <file>Microsoft365/SynchronizedDocumentClass.xml</file>
+                            <file>Microsoft365/EmbeddedDocumentClass.xml</file>
                             <action>INSERT_CHILD</action>
                             <xpath>/xwikidoc</xpath>
-                            <xml>src/main/resources/Microsoft365/SynchronizedDocumentClass.xwikiclass</xml>
+                            <xml>src/main/resources/Microsoft365/EmbeddedDocumentClass.xwikiclass</xml>
                         </transformation>
 
                         <!-- this was an example but would need us to maintain a public account visible
@@ -168,7 +168,7 @@
                           <file>Microsoft365/Microsoft365Macro.xml</file>
                           <action>INSERT_CHILD</action>
                           <xpath>/xwikidoc/object[className[text()='Microsoft365/SynchronizedDocumentClass']]</xpath>
-                          <xml>src/main/resources/Microsoft365/SynchronizedDocumentClass.xwikiclass</xml>
+                          <xml>src/main/resources/Microsoft365/EmbeddedDocumentClass.xwikiclass</xml>
                         </transformation>
                         -->
 

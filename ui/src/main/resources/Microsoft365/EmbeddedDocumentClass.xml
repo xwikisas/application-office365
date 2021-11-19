@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="Microsoft365.SynchronizedDocumentClass" locale="">
+<xwikidoc version="1.3" reference="Microsoft365.EmbeddedDocumentClass" locale="">
   <web>Microsoft365</web>
-  <name>SynchronizedDocumentClass</name>
+  <name>EmbeddedDocumentClass</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -37,5 +37,5 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
   <content/>
-  <!-- class is copied from SynchronizedDocumentClass.xwikiclass -->
+  <!-- class is copied from EmbeddedDocumentClass.xwikiclass -->
 </xwikidoc>

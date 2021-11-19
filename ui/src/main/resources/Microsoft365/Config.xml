@@ -173,7 +173,7 @@
       <redirectUrl></redirectUrl>
     </property>
     <property>
-      <scope>openid User.Read User.ReadBasic.All Files.Read.All</scope>
+      <scope>openid User.Read User.ReadBasic.All Files.ReadWrite.All  Sites.Read.All </scope>
     </property>
     <property>
       <secret></secret>

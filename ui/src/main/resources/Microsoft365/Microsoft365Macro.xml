@@ -211,7 +211,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
       <defaultCategory>content</defaultCategory>
     </property>
     <property>
-      <description>Displays a Microsoft 365 office or pdf document</description>
+      <description>Displays a Microsoft 365 office or pdf document (this macro configured when viewing the page).</description>
     </property>
     <property>
       <id>microsoft365</id>

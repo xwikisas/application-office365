@@ -14,7 +14,7 @@ $xwiki.jsx.use('Microsoft365.JSExtension')
 {{/info}}
 #elseif($macroRun.redirecting)
 Redirecting...
-#elseif($macroRun.authenticationNeeded)
+#elseif($macroRun.mode == "authenticationNeeded")
 {{warning}}
 [[${l11n.render('microsoft365.cannotauthenticate')}>>$ms365.oAuthStartUrl]]
 {{/warning}}

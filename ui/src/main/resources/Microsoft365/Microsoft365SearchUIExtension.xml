@@ -169,7 +169,7 @@
       <extensionPointId>org.xwiki.platform.search.widget</extensionPointId>
     </property>
     <property>
-      <name>org.xwiki.contrib.microsoft365.widget.search</name>
+      <name>com.xwiki.microsoft365.widget.search</name>
     </property>
     <property>
       <parameters/>
