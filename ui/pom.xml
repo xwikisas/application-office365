@@ -180,8 +180,20 @@
                             <xpath>/xwikidoc/content</xpath>
                             <content>src/main/resources/Microsoft365/Translations.properties</content>
                         </transformation>
+                        <transformation>
+                            <file>Microsoft365/Translations.de.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/Translations.de.properties</content>
+                        </transformation>
+                        <transformation>
+                            <file>Microsoft365/Translations.fr.xml</file>
+                            <action>INSERT_TEXT</action>
+                            <xpath>/xwikidoc/content</xpath>
+                            <content>src/main/resources/Microsoft365/Translations.fr.properties</content>
+                        </transformation>
 
-                        <!-- translations -->
+                        <!-- JSX -->
                         <transformation>
                             <file>Microsoft365/JSExtension.xml</file>
                             <action>INSERT_TEXT</action>
