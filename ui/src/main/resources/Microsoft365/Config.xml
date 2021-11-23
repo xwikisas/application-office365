@@ -173,7 +173,7 @@
       <redirectUrl></redirectUrl>
     </property>
     <property>
-      <scope>openid User.Read User.ReadBasic.All Files.ReadWrite.All  Sites.Read.All </scope>
+      <scope>openid User.Read User.ReadBasic.All Files.ReadWrite.All Sites.Read.All</scope>
     </property>
     <property>
       <secret></secret>
@@ -376,8 +376,8 @@
         <picker>0</picker>
         <prettyName>propertiesToShow</prettyName>
         <relationalStorage>1</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator></separator>
+        <separators>,|</separators>
         <size>20</size>
         <sort>none</sort>
         <unmodifiable>0</unmodifiable>

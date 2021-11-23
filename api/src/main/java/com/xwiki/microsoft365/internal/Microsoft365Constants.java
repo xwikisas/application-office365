@@ -23,7 +23,7 @@ interface Microsoft365Constants
 {
     String WEB_URL = "webUrl";
     String SITE = "site";
-    String SITES = "sites";
+    String SHAREPOINT_SITES = "sharepointSites";
     String SEARCH_TEXT = "searchText";
     String DEBUG_MESSAGES = "ms365-debug-messages";
     String QUOTE = "\"";
@@ -49,5 +49,4 @@ interface Microsoft365Constants
     String GETURL = "getUrl";
     String PREVIEW = "/preview";
     String VALUE = "value";
-
 }

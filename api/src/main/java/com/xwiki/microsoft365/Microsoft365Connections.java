@@ -73,6 +73,7 @@ public interface Microsoft365Connections
 
     /**
      * Retrieves the list of accessible Sharepoint sites for the user.
+     *
      * @return the list of Strings <id>:<name>.
      */
     List<String> getAvailableSites();
@@ -83,8 +84,7 @@ public interface Microsoft365Connections
     interface MacroRun
     {
         /**
-         * @return A string among displayPDF, displayEmbedIFrame, displaySearch,
-         * displaySearchResults, and displayError.
+         * @return A string among displayPDF, displayEmbedIFrame, displaySearch, displaySearchResults, and displayError.
          */
         String getMode();
 
@@ -138,7 +138,6 @@ public interface Microsoft365Connections
          * @param n the number assigned to the macro
          */
         void setNumber(int n);
-
     }
 
     /**
@@ -150,7 +149,6 @@ public interface Microsoft365Connections
          * @return The name (title) of the document.
          */
         String getName();
-
 
         /**
          * @return The URL to trigger an embed of the document.
@@ -176,7 +174,6 @@ public interface Microsoft365Connections
          * @return the expected filename.
          */
         String getFilename();
-
     }
 
     /**
@@ -184,13 +181,16 @@ public interface Microsoft365Connections
      */
     class SearchResult
     {
-
         private List<SearchResultItem> items;
+
         private String error;
+
         private String message;
+
         private String searchedText;
 
-        public SearchResult(List<SearchResultItem> items, String searchedText,  Exception ex) {
+        public SearchResult(List<SearchResultItem> items, String searchedText, Exception ex)
+        {
             this.items = items;
             if (ex != null) {
                 this.error = ex.getMessage();
@@ -205,31 +205,33 @@ public interface Microsoft365Connections
         }
 
         /**
-         * @return A non-null string if an error occurred.
-         * In this case {@link #getErrorMessage()} should also return
-         * a non-mepty string.
+         * @return A non-null string if an error occurred. In this case {@link #getErrorMessage()} should also return a
+         * non-mepty string.
          */
-        public String getError() {
+        public String getError()
+        {
             return error;
         }
 
         /**
          * @return The details of the error.
          */
-        public String getErrorMessage() {
+        public String getErrorMessage()
+        {
             return message;
         }
 
-        public List<SearchResultItem> getItems() {
+        public List<SearchResultItem> getItems()
+        {
             return items;
         }
 
         /**
          * @return The text that was searched (as reported by the server).
          */
-        public String getSearchedText() {
+        public String getSearchedText()
+        {
             return searchedText;
         }
-
     }
 }

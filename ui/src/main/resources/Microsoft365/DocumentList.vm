@@ -19,18 +19,18 @@
 #if($request.format=="json")
   $response.setContentType('application/json')
   #if($results.error)
-  {"error": "$escapetool.javascript($results.error)",
-  "errorMessage": "$escapetool.javascript("$results.errorMessage")"}
+    {"error": "$escapetool.javascript($results.error)",
+    "errorMessage": "$escapetool.javascript("$results.errorMessage")"}
   #else
     #set($s=$results.items.size())
-  {"searchText": $jsontool.serialize($results.searchedText), "results":[
-  {"siteName": "",
-  "items":[
-    #foreach($item in $results.items)#itemJson($item)##
-      #if($velocityCount < $results.items.size()),#end
-    #end
-    #set($sites = $ms365.getSiteNames())
-  ]}#if(!$sites.isEmpty()),#end
+    {"searchText": $jsontool.serialize($results.searchedText), "results":[
+    {"siteName": "",
+    "items":[
+      #foreach($item in $results.items)#itemJson($item)##
+        #if($velocityCount < $results.items.size()),#end
+      #end
+      #set($sites = $ms365.getSiteNames())
+    ]}#if(!$sites.isEmpty()),#end
     #foreach($site in $sites)
       #set($results=$ms365.searchDocuments($site))
     {"siteName": "$site", "items": [
@@ -42,22 +42,22 @@
   ]}
   #end
 #else
-{{translation key="microsoft365.documentlist.description"/}}
+  {{translation key="microsoft365.documentlist.description"/}}
   #if($ms365.missingAuth)
-  {{warning}}
-  [[${services.localization.render('microsoft365.cannotauthenticate')}>>$ms365.oAuthStartUrl]]
-  {{/warning}}
+    {{warning}}
+    [[${services.localization.render('microsoft365.cannotauthenticate')}>>$ms365.oAuthStartUrl]]
+    {{/warning}}
   #else
     #set($t=$request.searchText)
     #if($t)#else#set($t="")#end
-  {{html clean=false}}
-  <form action="" method="get" id="microsoft365-searchBox">
-    ${services.localization.render('microsoft365.documentlist.searchterm')}: <input type="text" name="searchText"
-                                                                                    value="${escapetool.xml($t)}"/>
-      <input type="submit"
-             value="${escapetool.xml($services.localization.render('microsoft365.documentlist.search'))}"/>
-  </form>
-  {{/html}}
+    {{html clean=false}}
+    <form action="" method="get" id="microsoft365-searchBox">
+      ${services.localization.render('microsoft365.documentlist.searchterm')}: ##
+        <input type="text" name="searchText" value="${escapetool.xml($t)}"/>
+        <input type="submit"
+               value="${escapetool.xml($services.localization.render('microsoft365.documentlist.search'))}"/>
+    </form>
+    {{/html}}
     ## RESULTS
     #if($request.debug)
     Debug info: $ms365.debugInfo
@@ -74,13 +74,13 @@
     <ul id="searchResults">
       ## (in case of using a get parameter, normally outdated as this is done in javascript)
       #foreach($item in $results.items)
-          <li><a href="$escapetool.xml(${item.viewUrl})">${item.name} ($services.localization.render(
-            "microsoft365.view"))</a>
-              (<a href="#"
-                  onclick="showDoc('${escapetool.javascript($item.embedUrl)}','previewpane-${counter}'); return false;"##
-              >$services.localization.render("microsoft365.preview")</a>)<span
-                      id="previewpane-${counter}">&nbsp;</span>##
-            #set($counter=$counter+1)</li>
+        <li><a href="$escapetool.xml(${item.viewUrl})">${item.name} ($services.localization.render(
+          "microsoft365.view"))</a>
+            (<a href="#"
+                onclick="showDoc('${escapetool.javascript($item.embedUrl)}','previewpane-${counter}'); return false;"##
+            >$services.localization.render("microsoft365.preview")</a>)<span
+                id="previewpane-${counter}">&nbsp;</span>##
+          #set($counter=$counter+1)</li>
       #end
     </ul>
     {{/html}}
@@ -91,51 +91,51 @@
 <script type="text/javascript">
     function showDoc(url, paneId)
     {
-        const t = document.getElementById(paneId);
-        if (t.docShown) {
-            t.innerHTML = "";
-            t.docShown = false;
-        } else {
-            t.innerHTML = "<br><iframe src=" + url + " width='100%' height='1000'></iframe>";
-            t.docShown = true;
-        }
+      const t = document.getElementById(paneId);
+      if (t.docShown) {
+        t.innerHTML = "";
+        t.docShown = false;
+      } else {
+        t.innerHTML = "<br><iframe src=" + url + " width='100%' height='1000'></iframe>";
+        t.docShown = true;
+      }
     }
 
     require(['jquery'], function (jquery) {
-        function doSearchMicrosoft365()
-        {
-            let form = jquery("#microsoft365-searchBox");
-            form[0].disable();
-            let searchText = form.find("input[name='searchText']")[0].value;
-            let url = XWiki.currentDocument.getURL("get", "searchText=" + escape(searchText)
-                    + "&format=json&outputSyntax=plain");
-            jquery.getJSON(url, function (results) {
-                let r = jquery('#searchResults');
-                r.empty();
-                if (results.error) {
-                    // TODO escape things
-                    results.append("<li><b>" + results.error + "</b><br/>" + results.errorMessage + "</li>");
-                } else {
-                    let counter = 0;
-                    results.items.forEach((function (item) {
-                        r.append("<li><a href='" + item.viewUrl + "'>" + item.name +
-                                " ($services.localization.render("microsoft365.view")) </a>&nbsp;" +
-                                '(<a href="#" onclick="showDoc(\'' + item.embedUrl + '\',\'previewpane-' + counter +
-                                '\'); return false;">$services.localization.render("microsoft365.preview")</a>)' +
-                                '<span id="previewpane-' + counter + '">&nbsp;</span>');
-                        counter++;
-                    }));
-                }
-                form[0].enable();
-            });
-        }
-
-        jquery(document).ready(function () {
-            jquery("#microsoft365-searchBox").submit(function () {
-                doSearchMicrosoft365();
-                return false;
-            });
+      function doSearchMicrosoft365()
+      {
+        let form = jquery("#microsoft365-searchBox");
+        form[0].disable();
+        let searchText = form.find("input[name='searchText']")[0].value;
+        let url = XWiki.currentDocument.getURL("get", "searchText=" + escape(searchText)
+                + "&format=json&outputSyntax=plain");
+        jquery.getJSON(url, function (results) {
+          let r = jquery('#searchResults');
+          r.empty();
+          if (results.error) {
+            // TODO escape things
+            results.append("<li><b>" + results.error + "</b><br/>" + results.errorMessage + "</li>");
+          } else {
+            let counter = 0;
+            results.items.forEach((function (item) {
+              r.append("<li><a href='" + item.viewUrl + "'>" + item.name +
+                " ($services.localization.render("microsoft365.view")) </a>&nbsp;" +
+                '(<a href="#" onclick="showDoc(\'' + item.embedUrl + '\',\'previewpane-' + counter +
+                '\'); return false;">$services.localization.render("microsoft365.preview")</a>)' +
+                '<span id="previewpane-' + counter + '">&nbsp;</span>');
+              counter++;
+            }));
+          }
+          form[0].enable();
         });
+      }
+
+      jquery(document).ready(function () {
+        jquery("#microsoft365-searchBox").submit(function () {
+          doSearchMicrosoft365();
+          return false;
+        });
+      });
     });
 </script>
 {{/html}}

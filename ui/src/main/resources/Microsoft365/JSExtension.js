@@ -10,6 +10,12 @@ function showDoc(url, paneId)
   }
 }
 
+function htmlEscape(s) {
+  let v = document.createElement("span");
+  v.innerText = s;
+  return v.innerHTML;
+}
+
 require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
   window.jquery = jquery;
 
@@ -25,16 +31,17 @@ require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
 
     let searchText = form.find("input[name^='searchText']")[0].value;
     let url = new XWiki.Document(XWiki.Model.resolve('xwiki:Microsoft365.DocumentList', XWiki.EntityType.DOCUMENT))
-        .getURL("get",
-            "searchText=_the_Text_to_Search_&format=json&outputSyntax=plain")
-        .replace("_the_Text_to_Search_", escape(searchText));
+                .getURL("get", "searchText=_the_Text_to_Search_&format=json&outputSyntax=plain")
+                .replace("_the_Text_to_Search_", escape(searchText));
     jquery.getJSON(url, function (results) {
-      window.results = results;
       let r = document.getElementById('searchResult-' + number);
-      window.r = r;
       if (results.error) {
-        // TODO escape things
-        r.innerHTML = "<p><b>" + results.error + "</b><br/>" + results.errorMessage + "</p>";
+        let p1 = document.createElement("p"), p2 = document.createElement("p"),
+          b = document.createElement("b");
+        p1.appendChild(b);
+        b.innerText = results.error;
+        p2.innerText = results.errorMessage;
+        r.appendChild(r);
       } else {
         let counter = 0, s = "";
         // only keep sites with no results
@@ -66,8 +73,7 @@ require(['jquery','xwiki-meta'], function (jquery, xwikiMeta) {
                   (item.si? "site=" + escape(item.si): "") +
                   "&version=" + escape(item.version) +
                   "&fileName=" + escape(item.name);
-              // id, embedLink, editLink, site, version, filename,
-              s+= "<li><a href='" + saveURL + "'>" + item.name +
+              s+= "<li><a href='" + saveURL + "'>" + htmlEscape(item.name) +
                   " (${services.localization.render('microsoft365.embed')}) </a>&nbsp;" +
                   '(<a href="#" onclick="showDoc(\'' + item.embedUrl + '\',\'' + previewFieldId +
                   '\'); return false;">$services.localization.render("microsoft365.preview")</a>)' +

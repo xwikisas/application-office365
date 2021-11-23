@@ -35,20 +35,20 @@ Redirecting...
   #elseif($macroRun.mode=="displaySearch")
   {{html clean=false}}
   <div style="background-color: #EEEEEE; padding: 1em">
-      <p>$l11n.render('microsoft365.macro.search.description')</p>
-      <form action="" method="get" id="microsoft365-searchBox-${nb}">
-          <p>${l11n.render('microsoft365.macro.search.insert')}
-              <input type="hidden" name="update" value="1"/>
-              <input type="hidden" name="nb" value="${nb}"/>
-              <input type="text" name="searchText" value=""/>
-              <input type="submit" value="${l11n.render('microsoft365.macro.search.search')}"/>
-          </p>
-      </form>
-      <div id="searchResult-${nb}">&nbsp;</div>
+    <p>$l11n.render('microsoft365.macro.search.description')</p>
+    <form action="" method="get" id="microsoft365-searchBox-${nb}">
+      <p>${l11n.render('microsoft365.macro.search.insert')}
+        <input type="hidden" name="update" value="1"/>
+        <input type="hidden" name="nb" value="${nb}"/>
+        <input type="text" name="searchText" value=""/>
+        <input type="submit" value="${l11n.render('microsoft365.macro.search.search')}"/>
+      </p>
+    </form>
+    <div id="searchResult-${nb}">&nbsp;</div>
   </div>
   <script type="text/javascript">
-      window.ms365BoxNumbers = window.ms365BoxNumbers || [];
-      window.ms365BoxNumbers.push(${nb});
+    window.ms365BoxNumbers = window.ms365BoxNumbers || [];
+    window.ms365BoxNumbers.push(${nb});
   </script>
   {{/html}}#elseif($macroRun.mode=="displayError")
     $l11n.render('microsoft365.macro.error') {{{ ${driveURL} }}}

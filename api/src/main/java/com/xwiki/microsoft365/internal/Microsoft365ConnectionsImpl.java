@@ -75,7 +75,7 @@ public class Microsoft365ConnectionsImpl extends AzureADIdentityOAuthProvider
         // let objects regarding simple AzureAD§ config be read
         super.initialize(config);
         // grab the office and sharepoint specific information
-        String sitesConfig = config.get("sharepointSites");
+        String sitesConfig = config.get(SHAREPOINT_SITES);
         if (sitesConfig == null) {
             sitesConfig = "";
         }

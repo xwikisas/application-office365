@@ -74,10 +74,11 @@ public class Microsoft365ScriptService implements ScriptService, Initializable
         return connections.isMissingAuth();
     }
 
-     /**
+    /**
      * @return the URL to request to authorize.
      */
-    public String getOAuthStartUrl() {
+    public String getOAuthStartUrl()
+    {
         return connections.getOAuthStartUrl();
     }
 
@@ -124,9 +125,11 @@ public class Microsoft365ScriptService implements ScriptService, Initializable
 
     /**
      * Retrieves the list of accessible Sharepoint sites for the user.
+     *
      * @return the list of Strings <id>:<name>.
      */
-    public List<String> getAvailableSites() {
+    public List<String> getAvailableSites()
+    {
         return connections.getAvailableSites();
     }
 }
