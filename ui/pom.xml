@@ -17,13 +17,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.xwiki.application-microsoft365</groupId>
         <artifactId>application-microsoft365-parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-rc1</version>
     </parent>
     <groupId>com.xwiki.application-microsoft365</groupId>
     <artifactId>application-microsoft365-ui</artifactId>
@@ -63,12 +62,12 @@
         <dependency>
             <groupId>com.xwiki.application-microsoft365</groupId>
             <artifactId>application-microsoft365-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0-rc1</version>
         </dependency>
         <dependency>
             <groupId>com.xwiki.integration-azure-oauth</groupId>
             <artifactId>integration-azure-oauth-admin-ui</artifactId>
-            <version>${azuread.version}</version>
+            <version>1.5.2-rc1</version>
             <type>xar</type>
         </dependency>
 
@@ -93,7 +92,7 @@
         <connection>scm:git:git://github.com/xwikisas/application-microsoft365.git</connection>
         <developerConnection>scm:git:git@github.com:xwikisas/application-microsoft365.git</developerConnection>
         <url>https://github.com/xwikisas/application-microsoft365/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>application-microsoft365-parent-1.0-rc1</tag>
     </scm>
     <!-- Even though this repository is already declared in the parent POM, we still explicitly redeclare it for
          convenience. This makes it simpler to build this project without having to declare this repository in one's own
