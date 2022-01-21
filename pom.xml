@@ -113,7 +113,7 @@
       <groupId>com.xwiki.pdfviewer</groupId>
       <artifactId>macro-pdfviewer-ui</artifactId>
       <type>xar</type>
-      <version>2.3</version>
+      <version>2.3.2</version>
     </dependency>
   </dependencies>
   <issueManagement>
