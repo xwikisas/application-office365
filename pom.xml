@@ -31,7 +31,7 @@
   <name>Office365 Integration</name>
   <description>Search OneDrive documents directly from XWiki. Embed Office 365 documents into XWiki pages using their URL. The app can be purchased individually or part of the XWiki Pro package. Try it free.</description>
   <properties>
-    <licensing.version>1.21.1</licensing.version>
+    <licensing.version>1.22</licensing.version>
     <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
       buying a license or getting a trial license, but they cannot edit or delete them. -->
     <xwiki.extension.licensing.publicDocuments>
