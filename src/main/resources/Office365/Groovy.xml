@@ -336,7 +336,7 @@ public class AzureAuth {
    def paramMap = request.getParameterMap()
    def params = new HashMap();
    for (key in paramMap.keySet()) {
-    params.put(key, paramMap.get(key)[0])
+    params.put(key, [paramMap.get(key)[0]])
    }
    def  authResponse = AuthenticationResponseParser.parse(new URI(requestURL), params);
    if (isAuthenticationSuccessful(authResponse)) {
