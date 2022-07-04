@@ -68,7 +68,7 @@ ${services.localization.render('office365.documentlist.searchterm')}: &lt;input 
  def res = azureAuth.getGraphApiData(driveURL)
  azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
  if (res.error) {
-   println azureAuth.renderErrorFromResponse(res, services.localization.render('office365.macro.search.error'));
+   println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
  }
  def counter = 0;
  for (item in res.value) {

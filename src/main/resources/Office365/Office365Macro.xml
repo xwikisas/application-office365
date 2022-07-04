@@ -580,7 +580,7 @@ def showDriveItems(site, query) {
    azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
    if (res!=null) {
     if (res.error) {
-      println azureAuth.renderErrorFromResponse(res, services.localization.render('office365.macro.search.error'));
+      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
     }
     for (item in res.value) {
      def docName = item.name;
@@ -679,11 +679,12 @@ if (url!=null &amp;&amp; url!="") {
     azureAuth.authenticate()
     def res = azureAuth.getGraphApiData(docURL)
     if (res.error) {
-      println azureAuth.renderErrorFromResponse(res, services.localization.render('office365.macro.search.error'));
+      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
     } else {
-      embedLink = res.get("@microsoft.graph.downloadUrl")
-      def pdfViewer = """\n{{pdfviewer file="${embedLink}" width="${width}" height="${heighft}" /}}\n""";
-      println services.rendering.escape(pdfViewer, doc.getSyntax());
+      embedLink = services.rendering.escape(res.get("@microsoft.graph.downloadUrl"))
+      def escapedWidth = services.rendering.escape(width);
+      def escapedHeight = services.rendering.escape(height);
+      println """\n{{pdfviewer file="${embedLink}" width="${escapedWidth}" height="${escapedHeight}" /}}\n"""
     }
    } else {
     println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""   

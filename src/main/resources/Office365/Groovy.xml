@@ -91,6 +91,7 @@ public class AzureAuth {
  def xcontext;
  def doc;
  def renderingService;
+ def localizationService;
  def request;
  def response;
 
@@ -122,7 +123,7 @@ public class AzureAuth {
 
  def renderErrorFromResponse(res, message) {
   def errorMsg = res.error.message;
-  def displayMsg = """${message} ${errorMsg}""";
+  def displayMsg = """${localizationService.render(message)} ${errorMsg}""";
   return """{{error}}${renderingService.escape(displayMsg, doc.getSyntax())}{{/error}}""";
  }
 
@@ -153,6 +154,7 @@ public class AzureAuth {
    this.response = xcontext.response;
    this.doc = doc;
    this.renderingService = Utils.getComponent(ScriptService.class, "rendering");
+   this.localizationService = Utils.getComponent(ScriptService.class, "localization");
 
    this.tenant = getConfig("tenant");
    this.azureClientID = getConfig("clientid");
