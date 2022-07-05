@@ -54,7 +54,9 @@ ${services.localization.render('office365.cannotauthenticate')}
    println "Drive url: ${driveURL}"
  def res = azureAuth.getGraphApiData(driveURL)
  azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
- 
+ if (res.error) {
+   println azureAuth.renderErrorFromResponse(res, 'office365.searchsite.error');
+ }
  for (item in res.value) {
    println """${item.name}=${item.id}"""
   }

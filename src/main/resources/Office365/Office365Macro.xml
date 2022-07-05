@@ -579,6 +579,9 @@ def showDriveItems(site, query) {
    def res = azureAuth.getGraphApiData(driveURL)
    azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
    if (res!=null) {
+    if (res.error) {
+      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
+    }
     for (item in res.value) {
      def docName = item.name;
      def editLink = item.webUrl;
@@ -675,9 +678,14 @@ if (url!=null &amp;&amp; url!="") {
     def docURL = """${driveURL}items/${doc.getValue("id")}"""
     azureAuth.authenticate()
     def res = azureAuth.getGraphApiData(docURL)
-    embedLink = res.get("@microsoft.graph.downloadUrl")
-    println """\n{{pdfviewer file="${embedLink}" width="${width}" height="${height}" /}}\n"""
-    // println services.localization.render('office365.macro.cannotdisplaypdf');
+    if (res.error) {
+      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
+    } else {
+      embedLink = services.rendering.escape(res.get("@microsoft.graph.downloadUrl"))
+      def escapedWidth = services.rendering.escape(width);
+      def escapedHeight = services.rendering.escape(height);
+      println """\n{{pdfviewer file="${embedLink}" width="${escapedWidth}" height="${escapedHeight}" /}}\n"""
+    }
    } else {
     println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""   
    }

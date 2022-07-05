@@ -54,6 +54,7 @@ import org.apache.http.client.utils.*;
 import com.google.gson.Gson;
 import com.xpn.xwiki.web.Utils;
 import org.xwiki.context.Execution;
+import org.xwiki.script.service.ScriptService;
 
 
 public class AzureAuth {
@@ -89,6 +90,8 @@ public class AzureAuth {
  def xwiki;
  def xcontext;
  def doc;
+ def renderingService;
+ def localizationService;
  def request;
  def response;
 
@@ -118,6 +121,12 @@ public class AzureAuth {
   debugStr += msg + "\n";
  }
 
+ def renderErrorFromResponse(res, message) {
+  def errorMsg = res.error.message;
+  def displayMsg = """${localizationService.render(message)} ${errorMsg}""";
+  return """{{error}}${renderingService.escape(displayMsg, doc.getSyntax())}{{/error}}""";
+ }
+
  def showDebug() {
   if (request.debug || forceDebug)
     return "== DEBUG ==\n\n {{{ ${debugStr} }}}"
@@ -144,6 +153,8 @@ public class AzureAuth {
    this.request = xcontext.request;
    this.response = xcontext.response;
    this.doc = doc;
+   this.renderingService = Utils.getComponent(ScriptService.class, "rendering");
+   this.localizationService = Utils.getComponent(ScriptService.class, "localization");
 
    this.tenant = getConfig("tenant");
    this.azureClientID = getConfig("clientid");
@@ -336,7 +347,7 @@ public class AzureAuth {
    def paramMap = request.getParameterMap()
    def params = new HashMap();
    for (key in paramMap.keySet()) {
-    params.put(key, paramMap.get(key)[0])
+    params.put(key, [paramMap.get(key)[0]])
    }
    def  authResponse = AuthenticationResponseParser.parse(new URI(requestURL), params);
    if (isAuthenticationSuccessful(authResponse)) {
