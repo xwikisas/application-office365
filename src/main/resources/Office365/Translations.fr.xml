@@ -35,7 +35,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>admin.office365=Office365
 office365.config.heading=Configuration de l'intégration Office365
 office365.config.explanation=XWiki peut-être intégré avec Office365, ce qui permet de visualiser des fichiers Office stockés sur Office 365 dans des documents XWiki, ainsi que de voir des résultats de recherche de Office365 OneDrive sur la page de recherche d'XWiki. Voir [[Office365.WebHome]] pour les instructions de configuration. Voir [[Office365.SitesList]] pour la liste des site sharepoint sites utilisable dans la configuration.
