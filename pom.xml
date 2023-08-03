@@ -61,14 +61,6 @@
       <groupId>com.microsoft.azure</groupId>
       <artifactId>adal4j</artifactId>
       <version>1.6.7</version>
-      <exclusions>
-        <!-- Exclude json-smart because the declared range is lower than the managed one in some cases. See
-          https://github.com/xwikisas/application-office365/issues/25. -->
-        <exclusion>
-          <groupId>net.minidev</groupId>
-          <artifactId>json-smart</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.xwiki.contrib.showhide</groupId>
