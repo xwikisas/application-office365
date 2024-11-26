@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.3" reference="Office365.Office365Macro" locale="">
+<xwikidoc version="1.5" reference="Office365.Office365Macro" locale="">
   <web>Office365</web>
   <name>Office365Macro</name>
   <language/>
@@ -274,6 +274,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <name>code</name>
         <number>2</number>
         <prettyName>Code</prettyName>
+        <restricted>0</restricted>
         <rows>20</rows>
         <size>50</size>
         <unmodifiable>0</unmodifiable>
@@ -383,7 +384,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayFormType>select</displayFormType>
         <displayType/>
         <name>async_cached</name>
-        <number>12</number>
+        <number>13</number>
         <prettyName>Cached</prettyName>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
@@ -396,14 +397,14 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <largeStorage>0</largeStorage>
         <multiSelect>1</multiSelect>
         <name>async_context</name>
-        <number>13</number>
+        <number>14</number>
         <prettyName>Context elements</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
+        <separator>, </separator>
         <separators>|, </separators>
         <size>5</size>
         <unmodifiable>0</unmodifiable>
-        <values>doc.reference=Document|icon.theme=Icon theme|locale=Language|rendering.defaultsyntax=Default syntax|rendering.restricted=Restricted|rendering.targetsyntax=Target syntax|request.base=Request base URL|request.parameters=Request parameters|request.url=Request URL|request.wiki=Request wiki|user=User|wiki=Wiki</values>
+        <values>action=Action|doc.reference=Document|icon.theme=Icon theme|locale=Language|rendering.defaultsyntax=Default syntax|rendering.restricted=Restricted|rendering.targetsyntax=Target syntax|request.base=Request base URL|request.cookies|request.headers|request.parameters=Request parameters|request.remoteAddr|request.url=Request URL|request.wiki=Request wiki|user=User|wiki=Wiki</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </async_context>
       <async_enabled>
@@ -412,7 +413,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <displayFormType>select</displayFormType>
         <displayType/>
         <name>async_enabled</name>
-        <number>11</number>
+        <number>12</number>
         <prettyName>Asynchronous rendering</prettyName>
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
@@ -423,6 +424,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <name>code</name>
         <number>10</number>
         <prettyName>Macro code</prettyName>
+        <restricted>0</restricted>
         <rows>20</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -435,6 +437,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <name>contentDescription</name>
         <number>9</number>
         <prettyName>Content description (Not applicable for "No content" type)</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -478,15 +481,24 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <values>Optional|Mandatory|No content</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </contentType>
-      <defaultCategory>
+      <defaultCategories>
+        <cache>0</cache>
         <disabled>0</disabled>
-        <name>defaultCategory</name>
+        <displayType>input</displayType>
+        <freeText>forbidden</freeText>
+        <largeStorage>0</largeStorage>
+        <multiSelect>1</multiSelect>
+        <name>defaultCategories</name>
         <number>4</number>
-        <prettyName>Default category</prettyName>
-        <size>30</size>
+        <prettyName>Default categories</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </defaultCategory>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </defaultCategories>
       <description>
         <contenttype>PureText</contenttype>
         <disabled>0</disabled>
@@ -494,6 +506,7 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <name>description</name>
         <number>3</number>
         <prettyName>Macro description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -517,6 +530,16 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </name>
+      <priority>
+        <disabled>0</disabled>
+        <name>priority</name>
+        <number>11</number>
+        <numberType>integer</numberType>
+        <prettyName>Priority</prettyName>
+        <size>10</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+      </priority>
       <supportsInlineMode>
         <disabled>0</disabled>
         <displayFormType>select</displayFormType>
@@ -736,7 +759,9 @@ ${services.localization.render('office365.macro.search.insert')}
       <contentType>Optional</contentType>
     </property>
     <property>
-      <defaultCategory>content</defaultCategory>
+      <defaultCategories>
+        <value>content</value>
+      </defaultCategories>
     </property>
     <property>
       <description>Displays an Office 365 office or pdf document</description>
@@ -746,6 +771,9 @@ ${services.localization.render('office365.macro.search.insert')}
     </property>
     <property>
       <name>Office365 Viewer</name>
+    </property>
+    <property>
+      <priority/>
     </property>
     <property>
       <supportsInlineMode>0</supportsInlineMode>
@@ -782,6 +810,7 @@ ${services.localization.render('office365.macro.search.insert')}
         <name>description</name>
         <number>2</number>
         <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -860,6 +889,7 @@ ${services.localization.render('office365.macro.search.insert')}
         <name>description</name>
         <number>2</number>
         <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -938,6 +968,7 @@ ${services.localization.render('office365.macro.search.insert')}
         <name>description</name>
         <number>2</number>
         <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -1016,6 +1047,7 @@ ${services.localization.render('office365.macro.search.insert')}
         <name>description</name>
         <number>2</number>
         <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
@@ -1094,6 +1126,7 @@ ${services.localization.render('office365.macro.search.insert')}
         <name>description</name>
         <number>2</number>
         <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
         <rows>5</rows>
         <size>40</size>
         <unmodifiable>0</unmodifiable>
