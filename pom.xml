@@ -22,7 +22,7 @@
   <parent>
     <groupId>com.xwiki.parent</groupId>
     <artifactId>xwikisas-parent-platform</artifactId>
-    <version>14.10-1</version>
+    <version>15.10</version>
   </parent>
   <groupId>com.xwiki.office365</groupId>
   <artifactId>application-office365</artifactId>
