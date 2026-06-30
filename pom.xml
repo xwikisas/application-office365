@@ -98,7 +98,6 @@
       <groupId>com.microsoft.azure</groupId>
       <artifactId>adal4j</artifactId>
     </dependency>
-    <!-- This should be removed once #26 is fixed. -->
     <dependency>
       <groupId>net.minidev</groupId>
       <artifactId>json-smart</artifactId>
@@ -115,6 +114,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- End remove: This should be removed once #26 is fixed. -->
     <dependency>
       <groupId>org.xwiki.contrib.showhide</groupId>
       <artifactId>showhide-macro</artifactId>
