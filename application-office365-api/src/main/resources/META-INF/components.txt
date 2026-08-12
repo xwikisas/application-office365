@@ -1,0 +1,2 @@
+com.xwiki.office365.configuration.AzureConfiguration
+com.xwiki.office365.configuration.AzureConfigurationSource

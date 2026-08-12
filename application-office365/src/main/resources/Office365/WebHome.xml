@@ -27,7 +27,7 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <parent>xwiki:Main.WebHome</parent>
+  <parent>xwiki:com.xwiki.office365.MainE.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
@@ -154,7 +154,7 @@ To be able to use the office365 macro and search for documents on your Office365
     <property>
       <content>{{velocity}}
 #set ($extraParams = '')
-#if ($doc.space != 'Main')
+#if ($doc.space != 'com.xwiki.office365.Main')
   #set ($escapedDocumentReference = $services.rendering.escape($services.model.serialize($doc.documentReference,
     'default'), 'xwiki/2.1'))
   #set ($extraParams = "root='document:$escapedDocumentReference'")
@@ -166,7 +166,7 @@ To be able to use the office365 macro and search for documents on your Office365
       <position>1,1</position>
     </property>
     <property>
-      <title>#if ($doc.space == 'Main')$services.localization.render('platform.dashboard.wiki.pages')#{else}$services.localization.render('platform.dashboard.space.documents', [$doc.plainTitle])#end</title>
+      <title>#if ($doc.space == 'com.xwiki.office365.Main')$services.localization.render('platform.dashboard.wiki.pages')#{else}$services.localization.render('platform.dashboard.space.documents', [$doc.plainTitle])#end</title>
     </property>
   </object>
   <object>
@@ -225,7 +225,7 @@ To be able to use the office365 macro and search for documents on your Office365
     <property>
       <content>{{velocity}}
 #set($tagSpace = $NULL)
-#if ($doc.space != "Main")
+#if ($doc.space != "com.xwiki.office365.Main")
   #set($tagSpace = $services.rendering.escape($doc.space, 'xwiki/2.1'))
 #end
 
@@ -295,7 +295,7 @@ To be able to use the office365 macro and search for documents on your Office365
     <property>
       <content>{{velocity}}
 #set($aSpace = $NULL)
-#if ($doc.space != "Main")
+#if ($doc.space != "com.xwiki.office365.Main")
   #set ($aSpace = $services.rendering.escape($doc.space, 'xwiki/2.1'))
 #end
 
@@ -306,7 +306,7 @@ To be able to use the office365 macro and search for documents on your Office365
       <position>2,1</position>
     </property>
     <property>
-      <title>#if ($doc.space != 'Main')$services.localization.render('platform.dashboard.space.activity', [$doc.plainTitle])#{else}$services.localization.render('platform.dashboard.wiki.activity')#end</title>
+      <title>#if ($doc.space != 'com.xwiki.office365.Main')$services.localization.render('platform.dashboard.space.activity', [$doc.plainTitle])#{else}$services.localization.render('platform.dashboard.wiki.activity')#end</title>
     </property>
   </object>
   <object>
