@@ -295,7 +295,7 @@ To be able to use the office365 macro and search for documents on your Office365
     <property>
       <content>{{velocity}}
 #set($aSpace = $NULL)
-#if ($doc.space != "com.xwiki.office365.Main")
+#if ($doc.space != "Main")
   #set ($aSpace = $services.rendering.escape($doc.space, 'xwiki/2.1'))
 #end
 
