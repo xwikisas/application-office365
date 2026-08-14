@@ -17,18 +17,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xwiki.office365;
-
-import org.xwiki.script.service.ScriptService;
+package com.xwiki.office365.groovy;
 
 /**
- * FIXME: Placeholder.
- * 
- * @since 1.14.0
+ * Contains string constants for azure scopes.
+ *
  * @version $Id$
+ * @since 1.14.0
  */
-public class Office365ScriptService implements ScriptService
+public final class AzureScopes
 {
-    // Make the GraphAPI search available in Groovy, so the existing Azure endpoint (Office365.Oauth) may continue to
-    // work.
+    static final String FILES_READWRITE = "Files.ReadWrite";
+
+    static final String USER_READ = "User.Read";
+
+    static final String USER_READWRITE = "User.ReadWrite";
+
+    static final String USER_READBASIC_ALL = "User.ReadBasic.All";
+
+    static final String FILES_READWRITE_ALL = "Files.ReadWrite.All";
+
+    static final String FILES_READWRITE_APPFOLDER = "Files.ReadWrite.AppFolder";
+
+    static final String SITES_READWRITE_ALL = "Sites.ReadWrite.All";
+
+    private AzureScopes()
+    {
+        /* This utility class should not be instantiated */
+    }
 }

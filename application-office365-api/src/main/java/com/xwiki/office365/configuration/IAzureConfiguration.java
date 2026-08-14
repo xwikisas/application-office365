@@ -19,6 +19,8 @@
  */
 package com.xwiki.office365.configuration;
 
+import java.util.Map;
+
 import org.xwiki.component.annotation.Role;
 import org.xwiki.stability.Unstable;
 
@@ -63,4 +65,11 @@ public interface IAzureConfiguration
      * @return the authority.
      */
     String getAuthority();
+
+    /**
+     * Return the authority.
+     *
+     * @return the authority.
+     */
+    Map<String, String> getSites();
 }

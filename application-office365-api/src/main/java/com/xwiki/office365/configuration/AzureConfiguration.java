@@ -19,6 +19,9 @@
  */
 package com.xwiki.office365.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -30,8 +33,8 @@ import org.xwiki.stability.Unstable;
 /**
  * Old AzureAD configuration properties from Identity OAuth integration.
  *
- * @since 1.14.0
  * @version $Id$
+ * @since 1.14.0
  */
 @Component
 @Singleton
@@ -69,6 +72,35 @@ public class AzureConfiguration implements IAzureConfiguration
     @Override
     public String getAuthority()
     {
-        return "https://login.microsoftonline.com";
+        return "https://login.microsoftonline.com/" + getTenantID();
+    }
+
+    @Override
+    public Map<String, String> getSites()
+    {
+        return parseMapConfig(configurationSource.getProperty("sites"));
+    }
+
+    /**
+     * Parse key=value configuration into a map.
+     *
+     * @param text Configuration text with newline-separated key=value pairs
+     * @return Parsed map
+     */
+    private Map<String, String> parseMapConfig(String text)
+    {
+        Map<String, String> map = new HashMap<>();
+        if (text == null || text.trim().isEmpty()) {
+            return map;
+        }
+
+        String[] lines = text.split("\n");
+        for (String line : lines) {
+            String[] values = line.split("=");
+            if (values.length == 2) {
+                map.put(values[0].trim(), values[1].trim());
+            }
+        }
+        return map;
     }
 }
