@@ -81,6 +81,12 @@ public class AzureConfiguration implements IAzureConfiguration
         return parseMapConfig(configurationSource.getProperty("sites"));
     }
 
+    @Override
+    public boolean isSearchExtensionActive()
+    {
+        return configurationSource.getProperty("activateSearchExtension");
+    }
+
     /**
      * Parse key=value configuration into a map.
      *

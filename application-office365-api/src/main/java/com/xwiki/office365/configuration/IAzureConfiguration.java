@@ -72,4 +72,10 @@ public interface IAzureConfiguration
      * @return the authority.
      */
     Map<String, String> getSites();
+
+    /**
+     * If the search extension should be active.
+     * @return the property
+     */
+    boolean isSearchExtensionActive();
 }

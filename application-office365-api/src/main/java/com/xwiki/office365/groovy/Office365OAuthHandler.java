@@ -49,18 +49,6 @@ public class Office365OAuthHandler
     private AzureAuthClient authClient;
 
     /**
-     * Initialize the handler with request and response objects.
-     *
-     * @param request HTTP request
-     * @param response HTTP response
-     * @param currentDocFullName Current document full name
-     */
-    public void initialize(HttpServletRequest request, HttpServletResponse response, String currentDocFullName)
-    {
-        authClient.initialize(request, response, currentDocFullName);
-    }
-
-    /**
      * Perform authentication.
      *
      * @return true if authentication is successful
