@@ -1,0 +1,92 @@
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.xwiki.office365</groupId>
+    <artifactId>application-office365-parent</artifactId>
+    <version>1.13.3-SNAPSHOT</version>
+  </parent>
+  <artifactId>application-office365</artifactId>
+  <packaging>xar</packaging>
+  <name>Office365 Integration</name>
+  <description>Search OneDrive documents directly from XWiki. Embed Office 365 documents into XWiki pages using their URL. The app can be purchased individually or part of the XWiki Pro package. Try it free.</description>
+  <properties>
+    <!-- The list of documents that have an implicit unlimited free license. The users can view these documents without
+      buying a license or getting a trial license, but they cannot edit or delete them. -->
+    <xwiki.extension.licensing.publicDocuments>
+      Office365.WebHome
+    </xwiki.extension.licensing.publicDocuments>
+    <xwiki.extension.licensing.excludedDocuments>
+      Office365.Office365Config
+    </xwiki.extension.licensing.excludedDocuments>
+    <!-- Don't run CLIRR here since there's no Java code. -->
+    <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <xwiki.revapi.skip>true</xwiki.revapi.skip>
+    <!-- Components -->
+    <xwiki.extension.components>
+      org.xwiki.rendering.macro.Macro/office365
+    </xwiki.extension.components>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.xwiki.office365</groupId>
+      <artifactId>application-office365-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xwiki.licensing</groupId>
+      <artifactId>application-licensing-licensor-api</artifactId>
+      <version>${licensing.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.contrib.showhide</groupId>
+      <artifactId>showhide-macro</artifactId>
+      <type>xar</type>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.xwiki.pdfviewer</groupId>
+      <artifactId>macro-pdfviewer-ui</artifactId>
+      <type>xar</type>
+      <version>2.7.2</version>
+    </dependency>
+    <!-- FIXME: This might be needed only if we want to handle the login process on our side. TBD if needed -->
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>azure__msal-browser</artifactId>
+    <version>3.19.0</version>
+</dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <configuration>
+          <visibleTechnicalPages>
+            <visibleTechnicalPage>.*/Office365/WebHome\.xml</visibleTechnicalPage>
+            <visibleTechnicalPage>.*/Office365/SitesList\.xml</visibleTechnicalPage>
+          </visibleTechnicalPages>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

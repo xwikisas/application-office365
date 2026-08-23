@@ -247,7 +247,7 @@ public class AzureAuth {
 
         def redirectUrl = "${authority}/${tenant}/oauth2/authorize?response_type=code%20id_token";
         def params = new HashMap();
-        params.put("scope", " Files.ReadWrites User.Read User.ReadWriteUser.ReadBasic.All" +
+        params.put("scope", " Files.ReadWrite User.Read User.ReadWriteUser.ReadBasic.All" +
                 " Files.ReadWrite Files.ReadWrite.All Files.ReadWrite.AppFolder" +
                 " Sites.ReadWrite.All");
         params.put("response_mode", "form_post");
