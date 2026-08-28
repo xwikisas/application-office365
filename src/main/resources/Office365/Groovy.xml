@@ -324,6 +324,47 @@ public class AzureAuth {
    return getHTTPData(url, "Bearer " + authResult.getAccessToken())
  }
 
+ def getDriveURL(site) {
+   def baseURL = "https://graph.microsoft.com/v1.0/me/drive/";
+   if (site != null &amp;&amp; site != "") {
+     def siteId = this.sites.get(site);
+     baseURL = "https://graph.microsoft.com/v1.0/sites/${siteId}/drive/"
+   }
+   this.debug(baseURL);
+   return baseURL;
+ }
+
+def defaultSitesList() {
+  // Make sure the personal drive is always included in search results.
+  // TODO: Should Admins be able to remove the personal drive of the user from search results?
+  // Adding `=placeholder` line in sites parameter will have the effect of including the personal drive in the search results.
+  def sites = this.sites.keySet().toArray();
+  if (sites.contains("")) {
+    return [] + this.sites.keySet();
+  } else {
+    return [""] + this.sites.keySet();
+  }
+}
+
+ /**
+  * Search for document paths containing the specified text across all defined sites.
+  * 
+  * @param text - the queried text
+  * @param sites - a list of sites to check. If null, all sites are checked
+  * @return Map&lt;site-id,search-results&gt;
+  */
+ def searchSitesForText(text="", sites=this.defaultSitesList()) {
+  def results = [:];
+  def escapetool = new org.xwiki.velocity.tools.EscapeTool()
+  for (site in sites) {
+    def driveURL = this.getDriveURL(site) + "search(q='${escapetool.url(text)}')";
+    def res = this.getGraphApiData(driveURL);
+    this.debug("{{html}}{{{ ${driveURL} ${res} }}}{{/html}}")
+    results.put(site, res);
+  }
+  return results;
+ }
+
  def authenticate() {
   // this allows to clear auth before retrying
   if (request.clearAuth) {

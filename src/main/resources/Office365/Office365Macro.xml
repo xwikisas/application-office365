@@ -580,6 +580,11 @@ This examples uses an XWiki URL. The document might not be allowed to view witho
     </property>
     <property>
       <code>{{groovy}}
+ if (!services.licensing.licensor.hasLicensureForEntity(services.model.createDocumentReference('', 'Office365', 'Office365Macro'))) {
+  println """{{missingLicenseMessage extensionName="office365.extension.name"/}}"""
+  return;
+ }
+
  escapetool = new org.xwiki.velocity.tools.EscapeTool();
  azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
  azureAuth.setXWiki(xwiki, xcontext, doc)
@@ -595,7 +600,7 @@ validateUrl(url);
 
 def validateUrl(url) {
   try {
-    if (url == null || stringtools.isEmpty(url)) {
+    if (url == null || url.isEmpty()) {
       return;
     }
     def validatedUrl = new URI(url)
@@ -607,19 +612,7 @@ def validateUrl(url) {
   }
 }
 
-def getDriveURL(site) {
-   def baseURL = "https://graph.microsoft.com/v1.0/me/drive/";
-   if (site!="") {
-     def siteId = azureAuth.sites.get(site);
-     baseURL = "https://graph.microsoft.com/v1.0/sites/${siteId}/drive/"
-   }
-   return baseURL;
-}
-
-def showDriveItems(site, query) {
-   def driveURL = getDriveURL(site) + "search(q='${escapetool.url(query)}')"
-   def res = azureAuth.getGraphApiData(driveURL)
-   azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
+def showDriveItems(res, site) {
    if (res!=null) {
     if (res.error) {
       println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
@@ -629,11 +622,11 @@ def showDriveItems(site, query) {
      def editLink = item.webUrl;
      def embedLink = item.webUrl.replaceAll("action=default", "action=embedview");
      def docId = item.id
-     def queryString = "embed=1&amp;nb=${nb}&amp;id=${escapetool.url(docId)}&amp;filename=${escapetool.url(docName)}&amp;embedLink=${escapetool.url(embedLink)}&amp;editLink=${escapetool.url(editLink)}&amp;site=${site}"
+     def queryString = "embed=1&amp;nb=${nb}&amp;id=${escapetool.url(docId)}&amp;filename=${escapetool.url(docName)}&amp;embedLink=${escapetool.url(embedLink)}&amp;editLink=${escapetool.url(editLink)}&amp;site=${escapetool.url(site)}"
      println """** ${services.rendering.escape(docName, doc.getSyntax())}: [[${services.rendering.escape(services.localization.render('office365.macro.search.embed'), doc.getSyntax())}&gt;&gt;||queryString="${services.rendering.escape(queryString, doc.getSyntax())}"]]"""
     }
    } else {
-     println "${services.rendering.escape(services.localization.render('office365.macro.search.error'), doc.getSyntax())} ((( ${services.rendering.escape(driveURL, doc.getSyntax())} )))";
+     println "${services.rendering.escape(services.localization.render('office365.macro.search.error'), doc.getSyntax())} ((( ${services.rendering.escape(site, doc.getSyntax())} )))";
    }
 }
 
@@ -693,17 +686,13 @@ if (url!=null &amp;&amp; url!="") {
    doc.set("fileName", request.filename)
    doc.set("user", xcontext.user)
    doc.save("Inserting Office365 Document")
-   def path = request.getPathInfo();
-   if(path != null &amp;&amp; path.length() &gt; 0) {
-     path = path.substring(path.lastIndexOf('/'));
-   } else {
-     path = ".";
-   }
+   def path = request.getRequestURI();
    response.sendRedirect(path);
   }
  }
 
  if (obj!=null &amp;&amp; !force) {
+   def pageSyntax = doc.getSyntax();
    doc.use(obj);
    def embedLink = doc.getValue("embedLink")
    def editLink = doc.getValue("editLink")
@@ -716,18 +705,20 @@ if (url!=null &amp;&amp; url!="") {
    println ")))"
    // in case of a PDF we need to proxy retrieving the document and use PDF Viewer instead
    if (embedLink.contains(".pdf")&amp;&amp;!request.force) {
-    def driveURL = getDriveURL(doc.getValue("site"));
+    def driveURL = azureAuth.getDriveURL(doc.getValue("site"));
     def docURL = """${driveURL}items/${doc.getValue("id")}"""
     azureAuth.authenticate()
     def res = azureAuth.getGraphApiData(docURL)
     if (res.error) {
       println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
     } else {
-      embedLink = res.get("@microsoft.graph.downloadUrl");
-      println """\n{{pdfviewer file="${embedLink}" width="${width}" height="${height}" /}}\n"""
+      embedLink = services.rendering.escape(res.get("@microsoft.graph.downloadUrl"), pageSyntax)
+      def escapedWidth = services.rendering.escape(width, pageSyntax);
+      def escapedHeight = services.rendering.escape(height, pageSyntax);
+      println """\n{{pdfviewer file="${embedLink}" width="${escapedWidth}" height="${escapedHeight}" /}}\n"""
     }
    } else {
-    println """{{html clean=false}}&lt;iframe src="${embedLink}" width="${width}" height="${height}"&gt;&lt;/iframe&gt;{{/html}}"""
+    println """{{html clean=false}}&lt;iframe src="${escapetool.xml(embedLink)}" width="${escapetool.xml(width)}" height="${escapetool.xml(height)}"&gt;&lt;/iframe&gt;{{/html}}"""
    }
  } else {
     def tquery = ""
@@ -751,14 +742,16 @@ ${escapetool.xml(services.localization.render('office365.macro.search.insert'))}
 """
 
   if (query &amp;&amp; embednb==nb) {
-   azureAuth.authenticate()
-   println "* ${services.rendering.escape(services.localization.render('office365.macro.personaldrive'), doc.getSyntax())}"
-   showDriveItems("", query);
-   for (site in azureAuth.sites.keySet()) {
-     println "* ${services.rendering.escape(services.localization.render('office365.macro.sharepointsite'), doc.getSyntax())}: ${services.rendering.escape(site, doc.getSyntax())}"
-     showDriveItems(site, query);
-   }
-
+    azureAuth.authenticate()
+    def searchResults = azureAuth.searchSitesForText(query);
+    for (site in searchResults.keySet()) {
+      if (site == "") {
+        println "* ${services.rendering.escape(services.localization.render('office365.macro.personaldrive'), doc.getSyntax())}"
+      } else {
+        println "* ${services.rendering.escape(services.localization.render('office365.macro.sharepointsite'), doc.getSyntax())}: ${services.rendering.escape(site, doc.getSyntax())}"
+      }
+      showDriveItems(searchResults.get(site), site);
+    }
   }
  }
  println azureAuth.showDebug()
