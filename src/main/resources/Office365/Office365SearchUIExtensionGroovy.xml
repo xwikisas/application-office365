@@ -49,27 +49,33 @@ if (request.text) {
 
  if (!azureAuth.authenticate()) {
  } else {
-
-println """(% class="search-widget search-facets col-xs-12 col-sm-12" style="padding: 5px; margin-bottom: 10px;" %)
-(((
-"""
-
- def driveURL = "https://graph.microsoft.com/v1.0/me/drive/search(q='${escapetool.url(request.text)}')"
- // println "Drive url: ${driveURL}"
- def res = azureAuth.getGraphApiData(driveURL)
- azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
+ def searchResults = azureAuth.searchSitesForText(request.text);
+ def foundDocumentCount = 0;
+ def errorFlag = false;
+ for (res in searchResults.values()) {
+   if (res != null &amp;&amp; res.value != null) {
+     foundDocumentCount += res.value.size();
+   } else {
+     errorFlag = true;
+   }
+ }
  def otitle = services.localization.render('office365.uiextension.nomatchingdocs', [ request.text ]);
+ if (foundDocumentCount&gt;0)
+  otitle = services.localization.render('office365.uiextension.matchingdocs', [ foundDocumentCount, request.text ]);
+ println """(% class="search-widget search-facets col-xs-12 col-sm-12" style="padding: 5px; margin-bottom: 10px;" %)
+(((
+{{showhide showmessage="${services.rendering.escape(otitle, doc.getSyntax())}"
+  hidemessage="${services.rendering.escape(otitle, doc.getSyntax())}" }}"""
 
-
- if (res==null || res.value==null)
-   otitle = services.localization.render('office365.uiextension.error', [ request.text ]);
- else if (res.value.size()&gt;0)
-   otitle = services.localization.render('office365.uiextension.matchingdocs', [ res.value.size(), request.text ]);
-
- println """{{showhide showmessage="${services.rendering.escape(otitle, doc.getSyntax())}" hidemessage="${services.rendering.escape(otitle, doc.getSyntax())}" }}"""
- if (res!=null) {
-  for (item in res.value) {
-   println """* [[${services.rendering.escape(item.name, doc.getSyntax())}&gt;&gt;${services.rendering.escape(item.webUrl, doc.getSyntax())}||target="_blank"]]"""
+ if (errorFlag) {
+  println services.rendering.escape(services.localization.render('office365.uiextension.error', [ request.text ]), doc.getSyntax());
+ }
+ for (site in searchResults.keySet()) {
+  def res = searchResults.get(site);
+  if (res != null &amp;&amp; res.value != null) {
+    for (item in res.value) {
+      println """* ${services.rendering.escape(site, doc.getSyntax())} / [[${services.rendering.escape(services.rendering.escape(item.name, doc.getSyntax()), doc.getSyntax())}&gt;&gt;${services.rendering.escape(item.webUrl, doc.getSyntax())}||target="_blank"]]"""
+    }
   }
  }
  println "{{/showhide}}"

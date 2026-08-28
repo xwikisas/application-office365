@@ -50,43 +50,46 @@ ${services.localization.render('office365.cannotauthenticate')}
 {{/warning}}
 """
 } else {
- def escapetool = new org.xwiki.velocity.tools.EscapeTool()
- def text = "xwiki";
- if (request.text)
-  text = request.text;
- println """
+  def escapetool = new org.xwiki.velocity.tools.EscapeTool()
+  def text = "xwiki";
+  if (request.text)
+    text = request.text;
+  println """
 {{html clean="false"}}
 &lt;form action="" method="get"&gt;
 ${services.localization.render('office365.documentlist.searchterm')}: &lt;input type="text" name="text" value="${escapetool.xml(text)}" /&gt; &lt;input type="submit" value="${escapetool.xml(services.localization.render('office365.documentlist.search'))}" /&gt;
 &lt;/form&gt;
 {{/html}}
 """
- 
- def driveURL = "https://graph.microsoft.com/v1.0/me/drive/search(q='${escapetool.url(text)}')"
- if (request.debug)
-   println "Drive url: ${driveURL}"
- def res = azureAuth.getGraphApiData(driveURL)
- azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
- if (res.error) {
-   println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
- }
- def counter = 0;
- for (item in res.value) {
-   counter++;
-   println """* [[${counter}&gt;&gt;||queryString="counter=${counter}"]] - ${item.name} - [[edit&gt;&gt;url:${item.webUrl}]]"""
-   if ("${counter}"==request.counter) {
-println """
+  def searchResults = azureAuth.searchSitesForText(text);
+  def counter = 0;
+  for (site in searchResults.keySet()) {
+    def res = searchResults.get(site);
+    if (res.error) {
+      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
+      continue;
+    }
+    for (item in res.value) {
+      counter++;
+      //println """${item}"""
+      println """* [[${counter}&gt;&gt;||queryString="counter=${counter}"]] - ${item.name} - [[edit&gt;&gt;url:${item.webUrl}]] (Site: ${site})"""
+      if ("${counter}"==request.counter) {
+        // FIXME: Attempt to embed the right iframe for pdf/videos
+        //def driveURL = azureAuth.getDriveURL(site) + "/items/${escapetool.url(item.id)}/preview')";
+        //def ress = azureAuth.getGraphApiData(driveURL); ${ress}
+        println """
 {{html clean=false}}
 &lt;iframe src="${item.webUrl.replaceAll("action=default","action=embedview")}" width="100%" height="1000"&gt;
 &lt;/iframe&gt;
 {{/html}}
-  """
+"""
+      }
+    }
   }
- }
-} 
-
-println azureAuth.getAuthentication(request)
-println azureAuth.showDebug()
+}
+azureAuth.getAuthentication(request)
+if (request.debug)
+  println azureAuth.showDebug()
 
 {{/groovy}}</content>
 </xwikidoc>
