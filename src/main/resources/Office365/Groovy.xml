@@ -128,14 +128,14 @@ public class AzureAuth {
  }
 
  def showDebug() {
-  if (request.debug || forceDebug)
-    return "== DEBUG ==\n\n {{{ ${debugStr} }}}"
+  if ((request.debug || forceDebug) &amp;&amp; hasAdmin)
+    return "== DEBUG ==\n\n ((( ${services.rendering.escape(debugStr, doc.getSyntax())} )))"
   else
     return "";
  }
 
  def getMap(text) {
-  def map = new HashMap(); 
+  def map = new HashMap();
   if (text==null||text.trim()=="")
    return map;
   def list = text.split("\n")
@@ -143,7 +143,7 @@ public class AzureAuth {
    def values = item.split("=")
    if (values.length==2)
      map.put(values[0].trim(), values[1].trim())
-  } 
+  }
   return map;
  }
 
@@ -168,13 +168,13 @@ public class AzureAuth {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
   if (azureData==null || azureData.authResult==null || azureData.nbfails &gt; 3)
     return false
-  else 
+  else
     return true;
  }
 
  def getAuthentication(request) {
   def azureData = request.getSession().getAttribute(AZURE_DATA_FIELD);
-  if (azureData==null || azureData.authResult==null) 
+  if (azureData==null || azureData.authResult==null)
     return null
   else
     return azureData.authResult;
@@ -208,7 +208,7 @@ public class AzureAuth {
   if (azureData!=null &amp;&amp; azureData.nbfails &gt; 3) {
      debug("Too many fails: ${azureData.nbfails}")
      return true;
-  } else { 
+  } else {
      return false;
   }
  }
@@ -217,7 +217,7 @@ public class AzureAuth {
  def containsAuthenticationData(request) {
    def map = request.getParameterMap();
    return request.getMethod().equalsIgnoreCase("POST") &amp;&amp; (request.getParameterMap().containsKey(AZURE_PARAM_ERROR)
-           || request.getParameterMap().containsKey(AZURE_PARAM_ID_TOKEN) 
+           || request.getParameterMap().containsKey(AZURE_PARAM_ID_TOKEN)
            || request.getParameterMap().containsKey(AZURE_PARAM_CODE));
  }
 
@@ -267,11 +267,11 @@ public class AzureAuth {
   try {
       service = Executors.newFixedThreadPool(1);
       authContext = new AuthenticationContext(authority + "/" + tenant, true, service);
-      def future = authContext.acquireTokenByAuthorizationCode(authCode, 
+      def future = authContext.acquireTokenByAuthorizationCode(authCode,
         new URI(currentUri), credential, "https://graph.microsoft.com", null);
       result = future.get();
   } catch (ExecutionException e) {
-      debug "Exception: " + e; 
+      debug "Exception: " + e;
       return null;
   } finally {
             service.shutdown();
@@ -331,10 +331,10 @@ public class AzureAuth {
   }
 
   if (hasTooManyFailedAuthentication(request)) {
-     debug("Too many auth failures. Stopping"); 
+     debug("Too many auth failures. Stopping");
      return false;
   }
-  
+
   def requestURL = xwiki.getRequestURL()
   if (isAuthenticated(request)) {
    debug("Step 3: We are authenticated");
