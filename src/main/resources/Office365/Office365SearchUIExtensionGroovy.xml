@@ -66,16 +66,16 @@ println """(% class="search-widget search-facets col-xs-12 col-sm-12" style="pad
  else if (res.value.size()&gt;0)
    otitle = services.localization.render('office365.uiextension.matchingdocs', [ res.value.size(), request.text ]);
 
- println """{{showhide showmessage="${otitle}" hidemessage="${otitle}" }}""" 
+ println """{{showhide showmessage="${services.rendering.escape(otitle, doc.getSyntax())}" hidemessage="${services.rendering.escape(otitle, doc.getSyntax())}" }}"""
  if (res!=null) {
   for (item in res.value) {
-   println """* [[${item.name}&gt;&gt;${item.webUrl}||target="_blank"]]"""
+   println """* [[${services.rendering.escape(item.name, doc.getSyntax())}&gt;&gt;${services.rendering.escape(item.webUrl, doc.getSyntax())}||target="_blank"]]"""
   }
  }
  println "{{/showhide}}"
  println ")))"
  }
- if (request.debug)
+ if (request.debug &amp;&amp; hasAdmin)
    println "DEBUG: {{{ ${azureAuth.debugStr} }}}"
 }
 }
