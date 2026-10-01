@@ -40,7 +40,7 @@
 println ""
 
 def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
-azureAuth.setXWiki(xwiki, xcontext, doc)
+azureAuth.setXWiki(context)
 
 if (!azureAuth.authenticate()) {
   println """
@@ -53,7 +53,7 @@ ${services.localization.render('office365.cannotauthenticate')}
  if (request.debug)
    println "Drive url: ${driveURL}"
  def res = azureAuth.getGraphApiData(driveURL)
- azureAuth.debug("{{html}}{{{ ${res} }}}{{/html}}")
+ azureAuth.debug("{{{ ${res} }}}")
  if (res.error) {
    println azureAuth.renderErrorFromResponse(res, 'office365.searchsite.error');
  }

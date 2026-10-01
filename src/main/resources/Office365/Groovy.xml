@@ -63,6 +63,7 @@ public class AzureAuth {
  def apiVersion = "1.0"
 
  def forceDebug = false;
+ def hasAdmin;
 
  def tenant;
  def azureClientID;
@@ -87,6 +88,7 @@ public class AzureAuth {
 
  def debugStr = ""
 
+ def context;
  def xwiki;
  def xcontext;
  def doc;
@@ -94,6 +96,7 @@ public class AzureAuth {
  def localizationService;
  def request;
  def response;
+ def escapetool;
 
  def authFailed = false;
 
@@ -129,7 +132,7 @@ public class AzureAuth {
 
  def showDebug() {
   if ((request.debug || forceDebug) &amp;&amp; hasAdmin)
-    return "== DEBUG ==\n\n ((( ${services.rendering.escape(debugStr, doc.getSyntax())} )))"
+    return "== DEBUG ==\n\n ((( ${renderingService.escape(debugStr, doc.getSyntax())} )))"
   else
     return "";
  }
@@ -147,14 +150,22 @@ public class AzureAuth {
   return map;
  }
 
- def setXWiki(xwiki, xcontext, doc) {
-   this.xwiki = xwiki;
-   this.xcontext = xcontext;
+ /**
+  * This is a pseudo-constructor method, which should be the first thing called before using an object of this class.
+  * This method obtains some data from the script context, which would be inaccessible otherwise from the groovy class
+  * definition.
+  */
+ def setXWiki(context) {
+   this.context = context;
+   this.xwiki = context.getAttribute("xwiki");
+   this.xcontext = context.getAttribute("xcontext");
    this.request = xcontext.request;
    this.response = xcontext.response;
-   this.doc = doc;
+   this.doc = context.getAttribute("doc");
    this.renderingService = Utils.getComponent(ScriptService.class, "rendering");
    this.localizationService = Utils.getComponent(ScriptService.class, "localization");
+   this.hasAdmin = context.getAttribute("hasAdmin");
+   this.escapetool = new org.xwiki.velocity.tools.EscapeTool();
 
    this.tenant = getConfig("tenant");
    this.azureClientID = getConfig("clientid");
@@ -324,6 +335,46 @@ public class AzureAuth {
    return getHTTPData(url, "Bearer " + authResult.getAccessToken())
  }
 
+ def getDriveURL(site) {
+   def baseURL = "https://graph.microsoft.com/v1.0/me/drive/";
+   if (site != null &amp;&amp; site != "") {
+     def siteId = this.sites.get(site);
+     baseURL = "https://graph.microsoft.com/v1.0/sites/${siteId}/drive/"
+   }
+   this.debug(baseURL);
+   return baseURL;
+ }
+
+def defaultSitesList() {
+  // Make sure the personal drive is always included in search results.
+  // TODO: Should Admins be able to remove the personal drive of the user from search results?
+  // Adding `=placeholder` line in sites parameter will have the effect of including the personal drive in the search results.
+  def sites = this.sites.keySet().toArray();
+  if (sites.contains("")) {
+    return [] + this.sites.keySet();
+  } else {
+    return [""] + this.sites.keySet();
+  }
+}
+
+ /**
+  * Search for document paths containing the specified text across all defined sites.
+  * 
+  * @param text - the queried text
+  * @param sites - a list of sites to check. If null, all sites are checked
+  * @return Map&lt;site-id,search-results&gt;
+  */
+ def searchSitesForText(text="", sites=this.defaultSitesList()) {
+  def results = [:];
+  for (site in sites) {
+    def driveURL = this.getDriveURL(site) + "search(q='${this.escapetool.url(text)}')";
+    def res = this.getGraphApiData(driveURL);
+    this.debug("{{{ ${driveURL} ${res} }}}")
+    results.put(site, res);
+  }
+  return results;
+ }
+
  def authenticate() {
   // this allows to clear auth before retrying
   if (request.clearAuth) {
@@ -372,7 +423,7 @@ public class AzureAuth {
          return true;
        }
      }
-     return true;                  
+     return true;
    } else {
      debug("Step 2b: Auth failed");
      storeFailedAuthentication(request);
