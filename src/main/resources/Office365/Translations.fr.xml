@@ -43,24 +43,28 @@ Office365.Office365ConfigClass_tenant=Domaine (Tenant)
 Office365.Office365ConfigClass_clientid=ID Client OAuth
 Office365.Office365ConfigClass_secret=Clé secrete OAuth
 Office365.Office365ConfigClass_activateSearchExtension=Activer l'extension de recherche
+Office365.Office365ConfigClass_sites=Sites Sharepoint
+Office365.Office365ConfigClass_sites.hint=Précisez quels sites Office365 devraient être inclus dans les résultats de recherche. Collez les informations de la page "Office365.SiteList" pour activer tous les sites SharePoint. Vous pouvez supprimer un site spécifique de la fonctionnalité de recherche en supprimant sa ligne dans ce champ.
 office365.uiextension.nomatchingdocs=Aucun document Office365 pour la requête "{0}"
 office365.uiextension.matchingdocs={0} documents Office365 pour la requête "{1}"
 office365.uiextension.error=Une erreur est survenue lors de la recherche Office365 "{0}"
 office365.documentlist.title=Office365 - liste des documents
-office365.documentlist.description=Cet exemple montre les résultats d'une recherche sur Office365 OneDrive:
-office365.documentlist.searchterm=Recherche
+office365.documentlist.description=Cet exemple montre les résultats d'une recherche sur le drive Office365 :
+office365.documentlist.searchterm=Termes de recherche
 office365.documentlist.search=Chercher
+office365.searchsite.error=Erreur lors de la requête des sites Sharepoint :
 office365.cannotauthenticate=Problème d'authentification sur Office 365 - [[Nettoyer l'authentification&gt;&gt;||queryString="clearAuth=1"]]
 office365.macro.cannotdisplaypdf=Cette macro ne peut pas afficher les documents pdf
-office365.macro.search.description=Pour insérer ou changer le document Office365 qui sera intégré, vous devez rechercher ce document et choisir d'intégrer ce document. Utilisez le champ de recherche ci-contre:
-office365.macro.search.insert=Intégrer un document Office365: 
+office365.macro.search.description=Pour insérer ou changer le document Office365 qui sera intégré, vous devez rechercher ce document et choisir quel document intégrer. Utilisez le champ de recherche ci-contre pour trouver votre document.
+office365.macro.search.insert=Intégrer un document Office365 : 
 office365.macro.search.search=Recherche
 office365.macro.search.embed=intégrer ce document
-office365.macro.search.error=Erreur lors de la recherche Office 365:
+office365.macro.search.error=Erreur lors de la recherche Office 365 :
 office365.macro.requireauth=Cette macro nécessite une authentification sur Office365
 office365.macro.change=Changer
 office365.macro.view=Voir
 office365.macro.personaldrive=Drive Personel
 office365.macro.sharepointsite=Site Sharepoint
-office365.extension.name=Application Office365 (Pro)</content>
+office365.extension.name=Application Office365 (Pro)
+</content>
 </xwikidoc>
