@@ -1,0 +1,4 @@
+com.xwiki.office365.configuration.AzureConfiguration
+com.xwiki.office365.configuration.AzureConfigurationSource
+com.xwiki.office365.Office365ScriptService
+com.xwiki.office365.groovy.AzureAuthClient
