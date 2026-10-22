@@ -1,6 +1,6 @@
 # Office365 Integration (Pro)
 
-Integration of Office365 in XWiki. This macro connects XWiki to Office365, allowing to display office documents from OneDrive inside XWiki. It allows to search for OneDrive documents on the XWiki search page.
+Integration of Microsoft 365 in XWiki. This macro connects XWiki to Microsoft 365, allowing to display office documents from OneDrive inside XWiki. It allows to search for OneDrive documents on the XWiki search page.
 
 * Project Lead: N/A
 * [Documentation](https://store.xwiki.com/xwiki/bin/view/Extension/Office365Integration)

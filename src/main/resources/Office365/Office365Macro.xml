@@ -31,7 +31,7 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Office 365 Macro</title>
+  <title>Microsoft 365 Macro</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -42,20 +42,20 @@
 
 = Introduction =
 
-This macro displays an Office 365 document using the Office 365 platform. To use this macro you need to configure the Office365 accesses in the administration.
+This macro displays a Microsoft 365 document using the Microsoft 365 platform. To use this macro you need to configure the Microsoft 365 accesses in the administration.
 
-This macro can be used either to embed by URL or by searching the document in Office 365 and storing the associated data in the document.
+This macro can be used either to embed by URL or by searching the document in Microsoft 365 and storing the associated data in the document.
 
-The viewer using is the Office 365 viewer for office documents. For PDFs we cannot use the Office 365 viewer because of a limitation on Office 365 which does not allow to embed their viewer for PDFs. We use the XWiki PDF Viewer if it is installed in XWiki, otherwise we do not display anything.
+The viewer using is the Microsoft 365 viewer for office documents. For PDFs we cannot use the Microsoft 365 viewer because of a limitation on Microsoft 365 which does not allow to embed their viewer for PDFs. We use the XWiki PDF Viewer if it is installed in XWiki, otherwise we do not display anything.
 
 = Macro Syntax =
 
 {{code}}
-This is the syntax to search document in Office 365. You will be shown a search box to search for a document. You can select which document to embed. 
+This is the syntax to search document in Microsoft 365. You will be shown a search box to search for a document. You can select which document to embed. 
 
 {{office365 /}}
 
-This is the syntax to embed by URL. You just need to copy paste the URL that is in your browser bar when you are viewing or editing an Office 365 document:
+This is the syntax to embed by URL. You just need to copy paste the URL that is in your browser bar when you are viewing or editing a Microsoft 365 document:
 
 {{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
 {{/code}}
@@ -74,7 +74,7 @@ Embedding by URL cannot work for PDF documents. However PDF documents can be emb
 
 == Embed via URL Example ==
 
-This examples uses an XWiki URL. The document might not be allowed to view without an Office 365 account.
+This examples uses an XWiki URL. The document might not be allowed to view without a Microsoft 365 account.
 
 {{office365 url="https://xwikidev-my.sharepoint.com/personal/office365_xwikidev_onmicrosoft_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BD5A1847B-742D-42EB-980F-4964A21E4F05%7D&amp;file=XWikiKeyMessages2017.pptx&amp;action=default" /}}
 #else
@@ -685,7 +685,7 @@ if (url!=null &amp;&amp; url!="") {
    doc.set("version", request.version)
    doc.set("fileName", request.filename)
    doc.set("user", xcontext.user)
-   doc.save("Inserting Office365 Document")
+   doc.save("Inserting Microsoft 365 Document")
    def path = request.getRequestURI();
    response.sendRedirect(path);
   }
@@ -774,13 +774,13 @@ ${escapetool.xml(services.localization.render('office365.macro.search.insert'))}
       </defaultCategories>
     </property>
     <property>
-      <description>Displays an Office 365 office or pdf document</description>
+      <description>Displays a Microsoft 365 office or pdf document</description>
     </property>
     <property>
       <id>office365</id>
     </property>
     <property>
-      <name>Office365 Viewer</name>
+      <name>Microsoft 365 Viewer</name>
     </property>
     <property>
       <priority/>
@@ -870,7 +870,7 @@ ${escapetool.xml(services.localization.render('office365.macro.search.insert'))}
       <defaultValue/>
     </property>
     <property>
-      <description>URL of an Office 365 Document</description>
+      <description>URL of a Microsoft 365 Document</description>
     </property>
     <property>
       <mandatory>0</mandatory>
@@ -960,7 +960,7 @@ ${escapetool.xml(services.localization.render('office365.macro.search.insert'))}
       <defaultValue/>
     </property>
     <property>
-      <description>Object Number to store the Office 365 Document information</description>
+      <description>Object Number to store the Microsoft 365 Document information</description>
     </property>
     <property>
       <mandatory/>
@@ -1230,7 +1230,7 @@ ${escapetool.xml(services.localization.render('office365.macro.search.insert'))}
       <defaultValue>0</defaultValue>
     </property>
     <property>
-      <description>Force authentication on Office365</description>
+      <description>Force authentication on Microsoft 365</description>
     </property>
     <property>
       <mandatory>0</mandatory>

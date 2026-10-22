@@ -36,28 +36,28 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>admin.office365=Office365
-office365.config.heading=Configuration de l'intégration Office365
-office365.config.explanation=XWiki peut-être intégré avec Office365, ce qui permet de visualiser des fichiers Office stockés sur Office 365 dans des documents XWiki, ainsi que de voir des résultats de recherche de Office365 OneDrive sur la page de recherche d'XWiki. Voir [[Office365.WebHome]] pour les instructions de configuration. Voir [[Office365.SitesList]] pour la liste des site sharepoint sites utilisable dans la configuration.
+  <content>admin.office365=Microsoft 365
+office365.config.heading=Configuration de l'intégration Microsoft 365
+office365.config.explanation=XWiki peut-être intégré avec Microsoft 365, ce qui permet de visualiser des fichiers Office stockés sur Microsoft 365 dans des documents XWiki, ainsi que de voir des résultats de recherche de Office365 OneDrive sur la page de recherche d'XWiki. Voir [[Office365.WebHome]] pour les instructions de configuration. Voir [[Office365.SitesList]] pour la liste des site sharepoint sites utilisable dans la configuration.
 Office365.Office365ConfigClass_tenant=Domaine (Tenant)
 Office365.Office365ConfigClass_clientid=ID Client OAuth
 Office365.Office365ConfigClass_secret=Clé secrete OAuth
 Office365.Office365ConfigClass_activateSearchExtension=Activer l'extension de recherche
-office365.uiextension.nomatchingdocs=Aucun document Office365 pour la requête "{0}"
-office365.uiextension.matchingdocs={0} documents Office365 pour la requête "{1}"
-office365.uiextension.error=Une erreur est survenue lors de la recherche Office365 "{0}"
-office365.documentlist.title=Office365 - liste des documents
-office365.documentlist.description=Cet exemple montre les résultats d'une recherche sur Office365 OneDrive:
+office365.uiextension.nomatchingdocs=Aucun document Microsoft 365 pour la requête "{0}"
+office365.uiextension.matchingdocs={0} documents Microsoft 365 pour la requête "{1}"
+office365.uiextension.error=Une erreur est survenue lors de la recherche Microsoft 365 "{0}"
+office365.documentlist.title=Microsoft 365 - liste des documents
+office365.documentlist.description=Cet exemple montre les résultats d'une recherche sur OneDrive :
 office365.documentlist.searchterm=Recherche
 office365.documentlist.search=Chercher
-office365.cannotauthenticate=Problème d'authentification sur Office 365 - [[Nettoyer l'authentification&gt;&gt;||queryString="clearAuth=1"]]
+office365.cannotauthenticate=Problème d'authentification sur Microsoft 365 - [[Nettoyer l'authentification&gt;&gt;||queryString="clearAuth=1"]]
 office365.macro.cannotdisplaypdf=Cette macro ne peut pas afficher les documents pdf
-office365.macro.search.description=Pour insérer ou changer le document Office365 qui sera intégré, vous devez rechercher ce document et choisir d'intégrer ce document. Utilisez le champ de recherche ci-contre:
-office365.macro.search.insert=Intégrer un document Office365: 
+office365.macro.search.description=Pour insérer ou changer le document Microsoft 365 qui sera intégré, vous devez rechercher ce document et choisir d'intégrer ce document. Utilisez le champ de recherche ci-contre:
+office365.macro.search.insert=Intégrer un document Microsoft 365 : 
 office365.macro.search.search=Recherche
 office365.macro.search.embed=intégrer ce document
-office365.macro.search.error=Erreur lors de la recherche Office 365:
-office365.macro.requireauth=Cette macro nécessite une authentification sur Office365
+office365.macro.search.error=Erreur lors de la recherche Microsoft 365 :
+office365.macro.requireauth=Cette macro nécessite une authentification sur Microsoft 365
 office365.macro.change=Changer
 office365.macro.view=Voir
 office365.macro.personaldrive=Drive Personel

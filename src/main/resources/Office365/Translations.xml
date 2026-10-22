@@ -36,31 +36,31 @@
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
-  <content>admin.office365=Office365
-office365.config.heading=Office365 Integration Configuration
-office365.config.explanation=XWiki can be integrated with Office365, which allows you to view Office Attachments in XWiki documents view Office365 OneDrive search results in the XWiki search. See [[Office365.WebHome]] for the configuration instructions. See [[Office365.SitesList]] to view the list of sharepoint sites usable in the configuration.
+  <content>admin.office365=Microsoft 365
+office365.config.heading=Microsoft 365 Integration Configuration
+office365.config.explanation=XWiki can be integrated with Microsoft 365, which allows you to view Office Attachments in XWiki documents view OneDrive search results in the XWiki search. See [[Office365.WebHome]] for the configuration instructions. See [[Office365.SitesList]] to view the list of sharepoint sites usable in the configuration.
 Office365.Office365ConfigClass_tenant=Tenant Name
 Office365.Office365ConfigClass_clientid=Client ID
 Office365.Office365ConfigClass_secret=Secret Key
 Office365.Office365ConfigClass_activateSearchExtension=Activate Search UI Extension
 Office365.Office365ConfigClass_sites=Sharepoint Sites
-Office365.Office365ConfigClass_sites.hint=Specify which sites the Office365 extension should include in the search results. Paste the information from the "Office365.SitesList" page to enable all SharePoint sites. You can remove a specific site from the search functionality by removing its corresponding line in this text field.
-office365.uiextension.nomatchingdocs=No Office365 documents matching query "{0}"
-office365.uiextension.matchingdocs={0} Office365 documents matching query "{1}"
-office365.uiextension.error=Error searching for Office365 documents for query "{0}"
-office365.documentlist.title=Office365 - document list
-office365.documentlist.description=This sample shows a search result on Office365 drive:
+Office365.Office365ConfigClass_sites.hint=Specify which sites the Microsoft 365 extension should include in the search results. Paste the information from the "Office365.SitesList" page to enable all SharePoint sites. You can remove a specific site from the search functionality by removing its corresponding line in this text field.
+office365.uiextension.nomatchingdocs=No Microsoft 365 documents matching query "{0}"
+office365.uiextension.matchingdocs={0} Microsoft 365 documents matching query "{1}"
+office365.uiextension.error=Error searching for Microsoft 365 documents for query "{0}"
+office365.documentlist.title=Microsoft 365 - document list
+office365.documentlist.description=This sample shows a search result on OneDrive:
 office365.documentlist.searchterm=Search Term
 office365.documentlist.search=Search
 office365.searchsite.error=Error retrieving the SharePoint sites:
-office365.cannotauthenticate=Could not authenticate on Office 365 - [[Clear authentication&gt;&gt;||queryString="clearAuth=1"]]
+office365.cannotauthenticate=Could not authenticate on Microsoft 365 - [[Clear authentication&gt;&gt;||queryString="clearAuth=1"]]
 office365.macro.cannotdisplaypdf=This macro cannot display a pdf document
-office365.macro.search.description=To insert or change the current Office365 document being embedded, you need to search for it and choose which document to embed. Use the following form to find your document.
-office365.macro.search.insert=Insert an Office365 Document: 
+office365.macro.search.description=To insert or change the current Microsoft 365 document being embedded, you need to search for it and choose which document to embed. Use the following form to find your document.
+office365.macro.search.insert=Insert a Microsoft 365 Document: 
 office365.macro.search.search=Search
 office365.macro.search.embed=embed this document
-office365.macro.search.error=Error searching Office 365:
-office365.macro.requireauth=This macro might require authentication on Office365
+office365.macro.search.error=Error searching Microsoft 365:
+office365.macro.requireauth=This macro might require authentication on Microsoft 365
 office365.macro.change=Change
 office365.macro.view=View
 office365.macro.personaldrive=Personal Drive

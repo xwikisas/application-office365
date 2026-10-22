@@ -31,7 +31,7 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Office365</title>
+  <title>Microsoft 365</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -44,18 +44,18 @@
 #if (!$services.licensing.licensor.hasLicensureForEntity($office365MacroReference))
   {{missingLicenseMessage extensionName="office365.extension.name"/}}
 #else
-This space contains the code for the Office 365 Integration of XWiki. This extensions currently allows to:
+This space contains the code for the Microsoft 365 Integration of XWiki. This extensions currently allows to:
 
-* embed Office365 documents from your drive or Sharepoint in an XWiki page, by URL or by searching the document in your drive (it does not search in sharepoint for now)
-* display Office365 drive results using an XWiki UI extension under the XWiki search results in the XWiki SOLR search engine
+* embed Microsoft 365 documents from your drive or Sharepoint in an XWiki page, by URL or by searching the document in your drive (it does not search in sharepoint for now)
+* display OneDrive results using an XWiki UI extension under the XWiki search results in the XWiki SOLR search engine
 
-To try out this integration you can check the [[Office365 Macro&gt;&gt;Office365Macro]] which can be used with a url and does not need any configuration.
+To try out this integration you can check the [[Microsoft 365 Macro&gt;&gt;Office365Macro]] which can be used with a url and does not need any configuration.
 
 To configure the extension to be able to use the other features, you will need to get OAuth2 credentials:
 
-== Create Office 365 OAuth Credentials
+== Create Microsoft 365 OAuth Credentials
 
-You will need to create credentials on Office 365/Azure AD. This can be done in the [[Azure Portal&gt;&gt;https://portal.azure.com/]], by registering a new application through the **App registrations** service. It might be necessary to be an admin in the organization.
+You will need to create credentials on Microsoft 365/Azure AD. This can be done in the [[Azure Portal&gt;&gt;https://portal.azure.com/]], by registering a new application through the **App registrations** service. It might be necessary to be an admin in the organization.
 
 It is necessary to get an Application ID (clientid), create a password (secret) 
 and set the redirect URI ({{{ http://[your domain]]/xwiki/bin/view/Office365/OAuth (or https) }}})
@@ -71,7 +71,7 @@ image:permissions.png
 You will need to enter your credentials and your tenant ID (either  yourorg.onmicrosoft.com or the full ID) in the [[XWiki Administration&gt;&gt;XWiki.XWikiPreferences||queryString="editor=globaladmin&amp;section=office365"]]
 
 
-To be able to use the office365 macro and search for documents on your Office365 drive to embed in pages
+To be able to use the office365 macro and search for documents on your OneDrive to embed in pages
 
 == Pages in this space ==
 
