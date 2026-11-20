@@ -38,18 +38,15 @@
   <hidden>true</hidden>
   <content>{{groovy}}
 def escapetool = new org.xwiki.velocity.tools.EscapeTool()
-def configPage = "Office365.Office365Config"
-def activateSearch = xwiki.getDocument(configPage).getValue("activateSearchExtension")
-if (activateSearch==null)
- activateSearch = xwiki.getDocument("xwiki:${configPage}").getValue("activateSearchExtension")
-if (activateSearch==1) {
+if (services.office365.isSearchExtensionActive()) {
 if (request.text) {
- def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
- azureAuth.setXWiki(context)
 
- if (!azureAuth.authenticate()) {
+ if (!services.office365.authenticate()) {
+  if (services.office365.authenticationError) {
+    println '\n{{include reference="Office365.AuthenticationWarning"/}}\n'
+  }
  } else {
- def searchResults = azureAuth.searchSitesForText(request.text);
+ def searchResults = services.office365.searchSitesForText(request.text);
  def foundDocumentCount = 0;
  def errorFlag = false;
  for (res in searchResults.values()) {
@@ -81,8 +78,6 @@ if (request.text) {
  println "{{/showhide}}"
  println ")))"
  }
- if (request.debug &amp;&amp; hasAdmin)
-   println "DEBUG: {{{ ${azureAuth.debugStr} }}}"
 }
 }
 {{/groovy}}</content>

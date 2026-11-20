@@ -50,7 +50,8 @@ office365.documentlist.title=Microsoft 365 - liste des documents
 office365.documentlist.description=Cet exemple montre les résultats d'une recherche sur OneDrive :
 office365.documentlist.searchterm=Recherche
 office365.documentlist.search=Chercher
-office365.cannotauthenticate=Problème d'authentification sur Microsoft 365 - [[Nettoyer l'authentification&gt;&gt;||queryString="clearAuth=1"]]
+office365.cannotauthenticate=Problème d'authentification sur Microsoft 365
+office365.clearauthentication=Nettoyer l'authentification
 office365.macro.cannotdisplaypdf=Cette macro ne peut pas afficher les documents pdf
 office365.macro.search.description=Pour insérer ou changer le document Microsoft 365 qui sera intégré, vous devez rechercher ce document et choisir d'intégrer ce document. Utilisez le champ de recherche ci-contre:
 office365.macro.search.insert=Intégrer un document Microsoft 365 : 

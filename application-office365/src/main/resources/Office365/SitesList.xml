@@ -39,32 +39,17 @@
   <content>{{groovy}}
 println ""
 
-def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
-azureAuth.setXWiki(context)
-
-if (!azureAuth.authenticate()) {
-  println """
-{{warning}}
-${services.localization.render('office365.cannotauthenticate')}
-{{/warning}}
-"""
+if (!services.office365.authenticate()) {
+  println '\n{{include reference="Office365.AuthenticationWarning"/}}\n'
 } else {
   def driveURL = "https://graph.microsoft.com/v1.0/sites?search=site"
- if (request.debug)
-   println "Drive url: ${driveURL}"
- def res = azureAuth.getGraphApiData(driveURL)
- azureAuth.debug("{{{ ${res} }}}")
+ def res = services.office365.getGraphApiData(driveURL)
  if (res.error) {
-   println azureAuth.renderErrorFromResponse(res, 'office365.searchsite.error');
+   println "{{error}}${services.rendering.escape(services.localization.render('office365.searchsite.error') + ' ' + res.error.message, doc.getSyntax())}{{/error}}"
  }
  for (item in res.value) {
-   println """${item.name}=${item.id}"""
+   println services.rendering.escape("${item.name}=${item.id}", doc.getSyntax())
   }
 } 
-
-if (request.debug) {
- println azureAuth.getAuthentication(request)
- println azureAuth.showDebug()
-}
 {{/groovy}}</content>
 </xwikidoc>
