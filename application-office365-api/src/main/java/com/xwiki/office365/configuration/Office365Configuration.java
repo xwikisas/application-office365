@@ -26,7 +26,8 @@ import org.xwiki.stability.Unstable;
 
 /**
  * Configuration of the Office365 integration, stored in the {@code Office365.Office365Config} page. Values defined in
- * the current wiki take precedence; empty values fall back on the configuration of the main wiki.
+ * the current wiki take precedence; empty values fall back on the configuration of the main wiki, then on the
+ * {@code office365.<property>} entries of {@code xwiki.properties} (e.g. {@code office365.secret}).
  *
  * @version $Id$
  * @since 1.14.0

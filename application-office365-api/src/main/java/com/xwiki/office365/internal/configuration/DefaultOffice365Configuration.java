@@ -34,7 +34,9 @@ import com.xwiki.office365.configuration.Office365Configuration;
 
 /**
  * Reads the configuration from the {@code Office365.Office365Config} page of the current wiki, falling back on the
- * main wiki when a value is not set.
+ * main wiki when a value is not set. The tenant, client id and secret can also be set with the
+ * {@code office365.tenant}, {@code office365.clientid} and {@code office365.secret} properties of
+ * {@code xwiki.properties}, used as a last fallback.
  *
  * @version $Id$
  * @since 1.14.0
@@ -43,9 +45,15 @@ import com.xwiki.office365.configuration.Office365Configuration;
 @Singleton
 public class DefaultOffice365Configuration implements Office365Configuration
 {
+    private static final String PROPERTIES_PREFIX = "office365.";
+
     @Inject
     @Named("office365")
     private ConfigurationSource wikiConfiguration;
+
+    @Inject
+    @Named("xwikiproperties")
+    private ConfigurationSource xwikiProperties;
 
     @Override
     public String getTenant()
@@ -86,6 +94,7 @@ public class DefaultOffice365Configuration implements Office365Configuration
 
     private String getValue(String name)
     {
-        return this.wikiConfiguration.getProperty(name, "").trim();
+        return this.wikiConfiguration.getProperty(name,
+            this.xwikiProperties.getProperty(PROPERTIES_PREFIX + name, "")).trim();
     }
 }
