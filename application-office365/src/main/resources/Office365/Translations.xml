@@ -53,7 +53,8 @@ office365.documentlist.description=This sample shows a search result on OneDrive
 office365.documentlist.searchterm=Search Term
 office365.documentlist.search=Search
 office365.searchsite.error=Error retrieving the SharePoint sites:
-office365.cannotauthenticate=Could not authenticate on Microsoft 365 - [[Clear authentication&gt;&gt;||queryString="clearAuth=1"]]
+office365.cannotauthenticate=Could not authenticate on Microsoft 365
+office365.clearauthentication=Clear authentication
 office365.macro.cannotdisplaypdf=This macro cannot display a pdf document
 office365.macro.search.description=To insert or change the current Microsoft 365 document being embedded, you need to search for it and choose which document to embed. Use the following form to find your document.
 office365.macro.search.insert=Insert a Microsoft 365 Document: 

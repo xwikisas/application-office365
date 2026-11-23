@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="Office365.SitesList" locale="">
+<xwikidoc version="1.5" reference="Office365.AuthenticationWarning" locale="">
   <web>Office365</web>
-  <name>SitesList</name>
+  <name>AuthenticationWarning</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,40 +31,21 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Sharepoint Site List</title>
+  <title>Microsoft 365 Authentication Warning</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
-  <content>{{groovy}}
-println ""
-
-def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
-azureAuth.setXWiki(context)
-
-if (!azureAuth.authenticate()) {
-  println """
+  <hidden>true</hidden>
+  <content>{{velocity}}
+## Explain why the authentication on Microsoft 365 failed, with a link to clear the authentication.
+#set ($office365AuthError = $services.office365.authenticationError)
 {{warning}}
-${services.localization.render('office365.cannotauthenticate')}
-{{/warning}}
-"""
-} else {
-  def driveURL = "https://graph.microsoft.com/v1.0/sites?search=site"
- if (request.debug)
-   println "Drive url: ${driveURL}"
- def res = azureAuth.getGraphApiData(driveURL)
- azureAuth.debug("{{{ ${res} }}}")
- if (res.error) {
-   println azureAuth.renderErrorFromResponse(res, 'office365.searchsite.error');
- }
- for (item in res.value) {
-   println """${item.name}=${item.id}"""
-  }
-} 
+$services.rendering.escape($services.localization.render('office365.cannotauthenticate'), $doc.getSyntax()) - ##
+[[$services.rendering.escape($services.localization.render('office365.clearauthentication'), $doc.getSyntax())&gt;&gt;doc:Office365.OAuth||queryString="clearAuth=1"]]
+#if ($office365AuthError)
 
-if (request.debug) {
- println azureAuth.getAuthentication(request)
- println azureAuth.showDebug()
-}
-{{/groovy}}</content>
+$services.rendering.escape($office365AuthError, $doc.getSyntax())
+#end
+{{/warning}}
+{{/velocity}}</content>
 </xwikidoc>

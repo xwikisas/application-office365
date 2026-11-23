@@ -1,0 +1,5 @@
+com.xwiki.office365.internal.auth.Office365Authenticator
+com.xwiki.office365.internal.configuration.DefaultOffice365Configuration
+com.xwiki.office365.internal.configuration.Office365ConfigurationSource
+com.xwiki.office365.internal.graph.GraphApiClient
+com.xwiki.office365.script.Office365ScriptService

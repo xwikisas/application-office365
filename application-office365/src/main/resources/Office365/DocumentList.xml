@@ -40,14 +40,9 @@
 println services.localization.render('office365.documentlist.description')
 println ""
 
-def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
-azureAuth.setXWiki(context)
-
-if (!azureAuth.authenticate()) {
+if (!services.office365.authenticate()) {
   println """
-{{warning}}
-${services.localization.render('office365.cannotauthenticate')}
-{{/warning}}
+{{include reference="Office365.AuthenticationWarning"/}}
 """
 } else {
   def escapetool = new org.xwiki.velocity.tools.EscapeTool()
@@ -61,12 +56,12 @@ ${services.localization.render('office365.documentlist.searchterm')}: &lt;input 
 &lt;/form&gt;
 {{/html}}
 """
-  def searchResults = azureAuth.searchSitesForText(text);
+  def searchResults = services.office365.searchSitesForText(text);
   def counter = 0;
   for (site in searchResults.keySet()) {
     def res = searchResults.get(site);
     if (res.error) {
-      println azureAuth.renderErrorFromResponse(res, 'office365.macro.search.error');
+      println "{{error}}${services.rendering.escape(services.localization.render('office365.macro.search.error') + ' ' + (res.error.message ?: ''), doc.getSyntax())}{{/error}}";
       continue;
     }
     for (item in res.value) {
@@ -85,9 +80,6 @@ ${services.localization.render('office365.documentlist.searchterm')}: &lt;input 
     }
   }
 }
-azureAuth.getAuthentication(request)
-if (request.debug)
-  println azureAuth.showDebug()
 
 {{/groovy}}</content>
 </xwikidoc>

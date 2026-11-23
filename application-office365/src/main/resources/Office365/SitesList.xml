@@ -20,9 +20,9 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc version="1.5" reference="Office365.OAuth" locale="">
+<xwikidoc version="1.5" reference="Office365.SitesList" locale="">
   <web>Office365</web>
-  <name>OAuth</name>
+  <name>SitesList</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -31,28 +31,25 @@
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Office OAuth Redirection Page</title>
+  <title>Sharepoint Site List</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <content>{{groovy}}
+println ""
 
-def azureAuth = xwiki.parseGroovyFromPage("Office365.Groovy")
-azureAuth.setXWiki(context)
-
-if (!azureAuth.authenticate()) {
-  println """
-{{warning}}
-${services.rendering.escape(services.localization.render('office365.cannotauthenticate'), doc.getSyntax())}
-{{/warning}}
-"""
+if (!services.office365.authenticate()) {
+  println '\n{{include reference="Office365.AuthenticationWarning"/}}\n'
 } else {
-  println "Auth success"
+  def driveURL = "https://graph.microsoft.com/v1.0/sites?search=site"
+ def res = services.office365.getGraphApiData(driveURL)
+ if (res.error) {
+   println "{{error}}${services.rendering.escape(services.localization.render('office365.searchsite.error') + ' ' + res.error.message, doc.getSyntax())}{{/error}}"
+ }
+ for (item in res.value) {
+   println services.rendering.escape("${item.name}=${item.id}", doc.getSyntax())
+  }
 } 
-
-println "State: ${services.rendering.escape(request.state, doc.getSyntax())}"
-println azureAuth.showDebug()
-
 {{/groovy}}</content>
 </xwikidoc>
