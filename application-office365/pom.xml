@@ -120,7 +120,7 @@
       <groupId>org.xwiki.contrib.showhide</groupId>
       <artifactId>showhide-macro</artifactId>
       <type>xar</type>
-      <version>2.2</version>
+      <version>${showhide.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xwiki.pdfviewer</groupId>

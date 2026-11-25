@@ -32,6 +32,7 @@
   <description>The parent POM of the Office365 Integration.</description>
   <properties>
     <licensing.version>1.32.4</licensing.version>
+    <showhide.version>2.2</showhide.version>
   </properties>
   <modules>
     <module>application-office365</module>

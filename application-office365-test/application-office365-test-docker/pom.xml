@@ -46,8 +46,18 @@
           <groupId>com.xwiki.licensing</groupId>
           <artifactId>application-licensing-licensor-api</artifactId>
         </exclusion>
-        <!-- Old XWiki core modules (e.g. 11.10 ones brought by showhide-macro) clash with the ones of the tested
-             XWiki version. They're core extensions, so they're already provided by the XWiki instance. -->
+      </exclusions>
+    </dependency>
+    <!-- showhide-macro brings old (11.10) XWiki core modules that clash with the ones of the tested XWiki version.
+         Declaring it here makes Maven use this declaration, without them; they're core extensions, so the XWiki
+         instance provides them anyway. -->
+    <dependency>
+      <groupId>org.xwiki.contrib.showhide</groupId>
+      <artifactId>showhide-macro</artifactId>
+      <version>${showhide.version}</version>
+      <type>xar</type>
+      <scope>runtime</scope>
+      <exclusions>
         <exclusion>
           <groupId>org.xwiki.commons</groupId>
           <artifactId>*</artifactId>
@@ -67,6 +77,19 @@
       <groupId>com.xwiki.licensing</groupId>
       <artifactId>application-licensing-test-api</artifactId>
       <version>${licensing.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Bundled with XWiki but not with the minimal XWiki instance of the tests. -->
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-rendering-macro-groovy</artifactId>
+      <version>${platform.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.rendering</groupId>
+      <artifactId>xwiki-rendering-macro-message</artifactId>
+      <version>${rendering.version}</version>
       <scope>runtime</scope>
     </dependency>
     <!-- Test dependencies -->

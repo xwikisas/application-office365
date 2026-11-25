@@ -33,8 +33,14 @@ import org.xwiki.test.docker.junit5.UITest;
 class AllIT
 {
     @Nested
-    @DisplayName("Office365 UI")
-    class NestedOffice365IT extends Office365IT
+    @DisplayName("Office365 macro")
+    class NestedOffice365MacroIT extends Office365MacroIT
+    {
+    }
+
+    @Nested
+    @DisplayName("Authentication")
+    class NestedOffice365AuthenticationIT extends Office365AuthenticationIT
     {
     }
 }

@@ -17,31 +17,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.xwiki.office365.test.ui;
+package com.xwiki.office365.test.po;
 
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.test.docker.junit5.UITest;
-import org.xwiki.test.ui.TestUtils;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.openqa.selenium.By;
+import org.xwiki.test.ui.po.BaseElement;
 
 /**
- * Functional tests for the Office365 Integration.
+ * The warning displayed by the Office365 pages when the authentication on Microsoft 365 failed.
  *
  * @version $Id$
- * @since 1.14.0
  */
-@UITest
-class Office365IT
+public class AuthenticationWarningElement extends BaseElement
 {
-    // Placeholder: only checks that the application XAR got installed.
-    @Test
-    @Order(1)
-    void applicationIsInstalled(TestUtils setup) throws Exception
+    private static final By WARNING = By.cssSelector("#xwikicontent .warningmessage");
+
+    /**
+     * @return the text of the warning
+     */
+    public String getText()
     {
-        setup.loginAsSuperAdmin();
-        assertTrue(setup.rest().exists(new DocumentReference("xwiki", "Office365", "WebHome")));
+        return getDriver().findElement(WARNING).getText();
     }
 }
